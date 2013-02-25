@@ -1,62 +1,131 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <head>
+        <title>o.js - Javascript utility belt for objects and prototypes.</title>
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
-    <title>o.js by bluefeet</title>
-  </head>
+        <style>
+            body {
+                background-color: #fff;
+                color: #000;
+                margin: 0px;
+                padding: 40px;
+                font-family: sans-serif;
+            }
 
-  <body>
+            h1 {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
 
-    <header>
-      <div class="container">
-        <h1>o.js</h1>
-        <h2>The Javascript utility belt for objects and prototypes.</h2>
+<h1>o.js</h1>
 
-        <section id="downloads">
-          <a href="https://github.com/bluefeet/o-js/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/bluefeet/o-js/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/bluefeet/o-js" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+Javascript utility belt for objects and prototypes.
 
-    <div class="container">
-      <section id="main_content">
-        <h3>Welcome to GitHub Pages.</h3>
+<h1>Synopsis</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<code><pre>
+var obj = {
+    getName: o.reader('name'),
+    setName: o.writer('name'),
+    hasName: o.predicate('name'),
+    clearName: o.clearer('name'),
+    age: o.accessor('_age')
+};
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+obj.setName('Tiberius');
+if (obj.hasName()) console.log( obj.getName() );
+obj.clearName();
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+obj.age( 23 );
+console.log( obj.age() );
+</pre></code>
 
-<h3>Designer Templates</h3>
+<h1>Description</h1>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+This library provides utilities for building rich objects and prototypes.  The
+interface is meant to be simple and flexible.  No framework is provided, instead
+a toolbelt full of utilities is provided to make this happen.  This way you
+can use this library the way you see fit.
 
-<h3>Rather Drive Stick?</h3>
+<h1>Properties</h1>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+Properties have definitions which describe how the property should behave.
+A definition is just an object containing flags and value.  Not all property
+functions handle all definitions.
 
-<h3>Authors and Contributors</h3>
+<h2>definition.default = value || function</h2>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+Specifies the default value for the property when a reader is called.  If
+no value has been set for the property then the default will be used to
+writer the value before it is returned.  If the default is a function then
+the function will called, with the context set to the property's context,
+and the return value will be used to set the property.  This way property
+values may be constructed only on an as-needed basis.
 
-<h3>Support or Contact</h3>
+<h2>definition.reader = o.reader(...)</h2>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
 
-    
-  </body>
+
+<h2>o.reader( key, [definition] )</h2>
+
+<code><pre>
+var def = {
+    // Specify a default value for this property as a plain value,
+    default: 42,
+    // or as a function:
+    default: function () { return 42; },
+
+    // Specify a writer to use when a default is used.
+    Optional, a writer will be 
+    writer: o.writer('name'),
+};
+</pre></code>
+
+Creates a reader function that will return the value of the key.
+
+<h2>o.writer( key, [definition] )</h2>
+
+Creates a function that will write the passed in value to the key.
+
+<h2>o.accessor( key, [definition] )</h2>
+
+This creates a function that is a writer if a value is passed, and
+a reader if a value is not passed.  Any definition flags that reader
+and writer supports may be specified.
+
+<h2>o.predicate( key )</h2>
+
+Creates a a function that will return true if the property has been
+set.
+
+<h2>o.clearer( key )</h2>
+
+Creates a function that will clear the key.
+
+<h1>Function</h1>
+
+<h2>o.before( originalFunc, beforeFunc )</h2>
+
+
+
+<h2>o.after( originalFunc, afterFunc )</h2>
+
+<h2>o.around( originalFunc, aroundFunc )</h2>
+
+<h1>Constructor</h1>
+
+<h2>o.extend( constructor, parent )</h2>
+
+<h1>Utilities</h1>
+
+<h2>o.ucfirst( str )</h2>
+
+<h2>o.noConflict()</h2>
+
+    </body>
 </html>
