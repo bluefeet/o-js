@@ -20,10 +20,6 @@ var _ = require('./underscore.js');
         return o;
     };
 
-    o.ucfirst = function (str) {
-        return str.charAt(0).toUpperCase() + str.substr(1);
-    };
-
     o.before = function (original, func) {
         return function () {
             func.call( this );
@@ -51,7 +47,7 @@ var _ = require('./underscore.js');
         };
     };
 
-    o.extend = function (constructor, parent) {
+    o.extend = function (parent, constructor) {
         var child = o.around(
             parent,
             constructor
