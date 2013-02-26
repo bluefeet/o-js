@@ -1,6 +1,6 @@
-o-js
+o.js
 ====
 
-The Javascript utility belt for objects and prototypes.
+Javascript utility belt for rich objects and prototypes. Ooooh!
 
 Please visit the website for more information: http://o-js.com
