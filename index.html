@@ -77,11 +77,6 @@
                 margin-top: 0px;
                 margin-bottom: 0px;
             }
-
-            div.copyright {
-                text-align: right;
-                margin-top: 64px;
-            }
         </style>
     </head>
     <body><div class="page">
@@ -139,7 +134,7 @@ Javascript utility belt for rich objects and prototypes.  Ooooh!
 
     <li><a href="#Support">Support</a></li>
     <li><a href="#Contributing">Contributing</a></li>
-    <li><a href="#Legal">Legal</a></li>
+    <li><a href="#License">License</a></li>
 </ul>
 
 
@@ -522,7 +517,7 @@ prototype of the <code>parent</code> is merged with the prototype of the
 <code>constructor</code> and used as the prototype for the new constructor
 that is returned.  An example is worth a 1,000 words:
 </p>
-<code><pre>var Parent = function (foo) {
+<pre><code>var Parent = function (foo) {
     this.foo = foo;
 };
 Parent.prototype = {
@@ -566,7 +561,7 @@ in the root namespace will be set, and the current <code>o</code> will be return
 &lt;script src="o.js">&lt;/script>
 &lt;script>
     var oJS = o.noConflict();
-    // Now use oJS. onstead of o.
+    // Now use oJS. instead of o.
     console.log( o ); // 'Hello World'
 &lt;/script>
 </code></pre>
@@ -587,10 +582,22 @@ our respository on GitHub</a> and send a pull request.
 </p>
 
 
-<h2><a name="Legal"></a>Legal</h2>
+<h2><a name="License"></a>License</h2>
 
-<p>&copy; Aran Deltac</p>
-<p>o.js may be freely distributed under the MIT license.</p>
+<p><span style="color:#0776BA; font-weight:bold">o.js</span> may be freely distributed under the MIT license.</p>
+<p>Copyright &copy; 2013 Aran Deltac</p>
+
+<script>
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1586001-11']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
 
     </div></body>
 </html>
