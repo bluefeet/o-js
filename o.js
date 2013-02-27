@@ -1,5 +1,3 @@
-var _ = require('./underscore.js');
-
 (function() {
     var root = this;
     var previous = root.o;
@@ -53,11 +51,13 @@ var _ = require('./underscore.js');
             constructor
         );
 
-        var proto = _.clone( parent.prototype || {} );
-        _.extend(
-            proto,
-            (constructor.prototype || {})
-        );
+        var proto = {};
+        for (var key in parent.prototype) {
+            proto[key] = parent.prototype[key];
+        }
+        for (var key in constructor.prototype) {
+            proto[key] = constructor.prototype[key];
+        }
 
         child.prototype = proto;
 
@@ -66,7 +66,7 @@ var _ = require('./underscore.js');
 
     o.predicate = function (key) {
         return function () {
-            return _.has( this, key );
+            return Object.prototype.hasOwnProperty.call(this, key);
         };
     };
 
