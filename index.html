@@ -62,6 +62,7 @@
                 border: dashed 2px #ddd;
                 padding: 16px;
                 color: #777;
+                overflow: auto;
             }
 
             a {
@@ -76,6 +77,11 @@
             ul ul {
                 margin-top: 0px;
                 margin-bottom: 0px;
+            }
+
+            @media screen and (max-width: 320px) {
+                body { padding:20px; font-size:15px }
+                h1 { font-size:48px; text-align:center }
             }
         </style>
     </head>
