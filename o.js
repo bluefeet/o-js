@@ -102,6 +102,7 @@
 
     o.writer = function (key, def) {
         def = def || {};
+        if (def.option) { def.isa = def.isa || 'boolean' }
 
         return function (value) {
             if (def.option && value === undefined) { value = true }
