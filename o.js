@@ -77,6 +77,7 @@ var _ = require('./underscore.js');
     };
 
     o.reader = function (key, def) {
+        def = def || {};
         var writer = def.writer || o.writer( key, def );
         var predicate = def.predicate || o.predicate( key );
 
@@ -100,6 +101,8 @@ var _ = require('./underscore.js');
     };
 
     o.writer = function (key, def) {
+        def = def || {};
+
         return function (value) {
             if (def.option && value === undefined) { value = true }
             if (def.coerce) { value = def.coerce.call( this, value ) }
@@ -112,6 +115,7 @@ var _ = require('./underscore.js');
     };
 
     o.accessor = function (key, def) {
+        def = def || {};
         var writer = def.writer || o.writer( key, def );
         var reader = def.reader || o.reader( key, def );
 
