@@ -54,3 +54,10 @@ try { o.reader('test', {required:true}).call({test:3284}) }
 catch (e) { requiredPassed = false }
 ok( requiredPassed, 'reader: required ignored when set' );
 
+var proxyObj = {
+    stuff: [],
+    addStuff: o.proxy('stuff', 'push')
+};
+proxyObj.addStuff( 32 );
+is( proxyObj.stuff.pop(), 32, 'proxy: array push' );
+

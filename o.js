@@ -127,4 +127,10 @@
             return reader.call( this );
         };
     };
+
+    o.proxy = function (key, method) {
+        return function () {
+            return this[key][method].apply( this[key], arguments );
+        };
+    };
 }).call(this);
