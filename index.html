@@ -264,6 +264,22 @@ console.log( obj.name() ); // undefined
 </code></pre>
 
 
+<h3><a name="Properties-proxy"></a>proxy</h3>
+
+<h4>o.proxy( key, methodName )</h4>
+<p>
+Creates a proxy function that calls a method on a property.
+</p>
+<pre><code>var obj = {
+    fruits: [],
+    addFruit: o.proxy('fruits', 'push')
+};
+
+obj.addFruit('apple');
+console.log( obj.fruits.pop() ); // apple
+</code></pre>
+
+
 <h2><a name="PropertyDefinition"></a>Property Definition</h2>
 
 <p>
