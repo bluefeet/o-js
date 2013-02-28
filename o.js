@@ -1,9 +1,10 @@
 (function() {
     var root = this;
-    var previous = root.o;
-
+    var previousO = root.o;
     var o = {};
 
+    // The method in which we export o, that works whether in the browser or
+    // Node.js, including noConflict, was graciously copied from underscore.js.
     if (typeof exports !== 'undefined') {
         if (typeof module !== 'undefined' && module.exports) {
             exports = module.exports = o;
@@ -14,7 +15,7 @@
     }
 
     o.noConflict = function () {
-        root.o = previous;
+        root.o = previousO;
         return o;
     };
 
