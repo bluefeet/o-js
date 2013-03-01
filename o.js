@@ -19,64 +19,6 @@
         return o;
     };
 
-    o.before = function (original, func) {
-        return function () {
-            func.call( this );
-            return original.apply( this, arguments );
-        };
-    };
-
-    o.after = function (original, func) {
-        return function () {
-            var ret = original.apply( this, arguments );
-            func.call( this );
-            return ret;
-        };
-    };
-
-    o.around = function (original, func) {
-        return function () {
-            var self = this;
-            var args = Array.prototype.slice.call(arguments);
-            var wrapper = function () {
-                original.apply( self, arguments );
-            };
-            args.unshift( wrapper );
-            func.apply( self, args );
-        };
-    };
-
-    o.extend = function (parent, constructor) {
-        var child = o.around(
-            parent,
-            constructor
-        );
-
-        var proto = {};
-        for (var key in parent.prototype) {
-            proto[key] = parent.prototype[key];
-        }
-        for (var key in constructor.prototype) {
-            proto[key] = constructor.prototype[key];
-        }
-
-        child.prototype = proto;
-
-        return child;
-    };
-
-    o.predicate = function (key) {
-        return function () {
-            return Object.prototype.hasOwnProperty.call(this, key);
-        };
-    };
-
-    o.clearer = function (key) {
-        return function () {
-            delete this[key];
-        };
-    };
-
     o.reader = function (key, def) {
         def = def || {};
         var writer = def.writer || o.writer( key, def );
@@ -129,9 +71,67 @@
         };
     };
 
+    o.predicate = function (key) {
+        return function () {
+            return Object.prototype.hasOwnProperty.call(this, key);
+        };
+    };
+
+    o.clearer = function (key) {
+        return function () {
+            delete this[key];
+        };
+    };
+
+    o.before = function (original, func) {
+        return function () {
+            func.call( this );
+            return original.apply( this, arguments );
+        };
+    };
+
+    o.after = function (original, func) {
+        return function () {
+            var ret = original.apply( this, arguments );
+            func.call( this );
+            return ret;
+        };
+    };
+
+    o.around = function (original, func) {
+        return function () {
+            var self = this;
+            var args = Array.prototype.slice.call(arguments);
+            var wrapper = function () {
+                original.apply( self, arguments );
+            };
+            args.unshift( wrapper );
+            func.apply( self, args );
+        };
+    };
+
     o.proxy = function (key, method) {
         return function () {
             return this[key][method].apply( this[key], arguments );
         };
+    };
+
+    o.extend = function (parent, constructor) {
+        var child = o.around(
+            parent,
+            constructor
+        );
+
+        var proto = {};
+        for (var key in parent.prototype) {
+            proto[key] = parent.prototype[key];
+        }
+        for (var key in constructor.prototype) {
+            proto[key] = constructor.prototype[key];
+        }
+
+        child.prototype = proto;
+
+        return child;
     };
 }).call(this);
