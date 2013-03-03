@@ -49,7 +49,7 @@
 
         return function (value) {
             if (def.option && value === undefined) { value = true }
-            if (def.coerce) { value = def.coerce.call( this, value ) }
+            if (def.filter) { value = def.filter.call( this, value ) }
             if (def.isa && !def.isa.call( this, value )) { throw new Error('...') }
 
             this[key] = value;
