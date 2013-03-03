@@ -26,16 +26,16 @@
 
         return function () {
             if (!predicate.call( this )) {
-                if (def.default !== undefined) {
+                if (def.required) {
+                    throw new Error('...');
+                }
+                else if (def.default !== undefined) {
                     var value = def.default;
                     if (typeof value === 'function') { 
                         value = value.call( this );
                     }
 
                     writer.call( this, value );
-                }
-                else if (def.required) {
-                    throw new Error('...');
                 }
             }
 
