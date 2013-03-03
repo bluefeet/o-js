@@ -113,7 +113,7 @@ Javascript utility belt for rich objects and prototypes.  Ooooh!
     <li><a href="#PropertyDefinition">Property Definition</a></li>
     <!-- <ul>
         <li><a href="#PropertyDefinition-isa">isa</a></li>
-        <li><a href="#PropertyDefinition-coerce">coerce</a></li>
+        <li><a href="#PropertyDefinition-filter">filter</a></li>
         <li><a href="#PropertyDefinition-default">default</a></li>
         <li><a href="#PropertyDefinition-required">required</a></li>
         <li><a href="#PropertyDefinition-chain">chain</a></li>
@@ -312,13 +312,13 @@ value as a single argument.  The return value of the function must be
 </p>
 
 
-<h3><a name="PropertyDefinition-coerce"></a>coerce</h3>
+<h3><a name="PropertyDefinition-filter"></a>filter</h3>
 
-<h4>definition.coerce = function (value) { ... }</h4>
+<h4>definition.filter = function (value) { ... }</h4>
 <p>
-Before a value is written the coercion function will be called with the
-value being set.  The value that the coercion function returns will be
-written instead.  The coercion function is called before the <code>isa</code>
+Before a value is written the filter function will be called with the
+value being set.  The value that this function returns will be
+written instead.  This function is called before the <code>isa</code>
 check.
 </p>
 
