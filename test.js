@@ -23,6 +23,25 @@ function is (value, expected, msg) {
     else { fail(msg) }
 }
 
+function throws_ok (func, msg) {
+    var threw = false;
+    try { func() }
+    catch (e) { threw = true }
+    ok( threw, msg );
+}
+
+function runs_ok (func, msg) {
+    var good = true;
+    try { func() }
+    catch (e) { good = false }
+    ok( good, msg );
+}
+
+throws_ok(
+    function () { o.reader('test', {required:true}).call({}) },
+    'reader: required caused exception'
+);
+
 var predicateCount = 0;
 var testPredicate = o.after( o.predicate('test'), function () { predicateCount++ } );
 

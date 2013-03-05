@@ -88,7 +88,7 @@
 
     o.predicate = function (key) {
         return function () {
-            return Object.prototype.hasOwnProperty.call(this, key);
+            return o.has( this, key );
         };
     };
 
@@ -137,16 +137,52 @@
             constructor
         );
 
-        var proto = {};
-        for (var key in parent.prototype) {
-            proto[key] = parent.prototype[key];
-        }
-        for (var key in constructor.prototype) {
-            proto[key] = constructor.prototype[key];
-        }
+        var proto = o.merge(
+            {},
+            parent.prototype,
+            constructor.prototype
+        );
 
         child.prototype = proto;
 
         return child;
+    };
+
+    o.merge = function () {
+        var fromObjs = Array.prototype.slice.call(arguments);
+        var toObj = fromObjs.shift();
+
+        while (fromObjs.length) {
+            var obj = fromObjs.shift();
+            for (var key in obj) {
+                if (o.has(obj, key)) toObj[key] = obj[key];
+            }
+        }
+
+        return toObj;
+    };
+
+    o.clone = function (obj) {
+        var newObj = {};
+        newObj = o.setPrototype( newObj, obj.constructor.prototype );
+        newObj.constructor = obj.constructor;
+        o.merge( newObj, obj );
+        return newObj;
+    };
+
+    o.setPrototype = function (obj, proto) {
+        var Constructor = function (obj) {
+            o.merge( this, obj );
+        };
+        Constructor.prototype = proto;
+
+        var newObj = new Constructor( obj );
+        newObj.constructor = obj.constructor;
+
+        return newObj;
+    };
+
+    o.has = function (obj, key) {
+        return Object.prototype.hasOwnProperty.call( obj, key );
     };
 }).call(this);
