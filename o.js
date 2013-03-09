@@ -163,22 +163,9 @@
     };
 
     o.clone = function (obj) {
-        var newObj = {};
-        newObj = o.setPrototype( newObj, obj.constructor.prototype );
+        var newObj = o.merge( {}, obj );
+        newObj.__proto__ = obj.__proto__;
         newObj.constructor = obj.constructor;
-        o.merge( newObj, obj );
-        return newObj;
-    };
-
-    o.setPrototype = function (obj, proto) {
-        var Constructor = function (obj) {
-            o.merge( this, obj );
-        };
-        Constructor.prototype = proto;
-
-        var newObj = new Constructor( obj );
-        newObj.constructor = obj.constructor;
-
         return newObj;
     };
 
