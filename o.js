@@ -97,6 +97,12 @@
         };
     };
 
+    o.proxy = function (key, method) {
+        return function () {
+            return this[key][method].apply( this[key], arguments );
+        };
+    };
+
     o.before = function (original, func) {
         return function () {
             func.call( this );
@@ -121,12 +127,6 @@
             };
             args.unshift( wrapper );
             func.apply( self, args );
-        };
-    };
-
-    o.proxy = function (key, method) {
-        return function () {
-            return this[key][method].apply( this[key], arguments );
         };
     };
 
