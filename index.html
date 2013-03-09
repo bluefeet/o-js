@@ -13,141 +13,126 @@
                 background-color: #fff;
                 color: #000;
                 margin: 0px;
-                font-family: sans-serif;
+                font-family: Arial, sans-serif;
                 font-size: 17px;
             }
 
             div.page {
-                padding: 40px 0px;
+                padding-bottom: 40px;
                 max-width: 900px;
                 margin: 0px auto;
             }
 
-            p, pre, ul, h4 {
-                margin: 12px 24px;
+            div.page-content {
+                padding: 15px;
             }
 
-            h1 {
-                color: #0776BA;
-                font-size: 400%;
-                font-weight: bold;
-                margin: 32px 0px 24px 24px;
+            div.logo {
+                text-align: center;
             }
 
-            h1:first-child {
-                margin-top: 0px;
+            div.logo h1 {
+                color: #005B8C;
+                font-size: 900%;
+                margin: 70px 30px;
+            }
+
+            div.logo p {
+                color: #555;
+                font-size: 130%;
+                margin: 40px 30px;
             }
 
             h2 {
-                margin: 48px 0px 16px 0px;
-                background-color: #eee;
-                padding: 4px 16px;
-                font-size: 155%;
+                color: #333;
+                font-size: 200%;
+                margin: 20px 0px;
             }
 
-            h3 {
-                margin: 36px 0px 16px 0px;
-                border-bottom: solid 1px #ccc;
-                font-size: 115%;
-                padding: 0px 8px;
+            div.tips {
+                padding: 15px 0px 0px 15px;
             }
 
-            h4 {
-                font-family: monospace;
-                font-style: italic;
-                font-size: 120%;
-                font-weight: normal;
-                color: #76ABCC;
+            div.tip {
+                float: left;
+                width: 33.3%;
             }
 
-            pre {
-                border: dashed 2px #ddd;
-                padding: 16px;
-                color: #777;
-                overflow: auto;
+            div.tip div.tip_content {
+                margin: 0px 15px 15px 0px;
             }
+
+            div.tip h2 {
+                margin-top: 0px;
+                margin-bottom: 10px;
+            }
+
+            div.clear { clear: both }
 
             a {
                 text-decoration: none;
                 color: #007DC9;
             }
 
-            a:hover {
-                text-decoration: underline;
+            @media screen and (max-width: 900px) {
+                div.page { padding:0px }
+                div.logo { border-radius:0px }
             }
 
-            ul ul {
-                margin-top: 0px;
-                margin-bottom: 0px;
+            @media screen and (max-width: 700px) {
+                div.tip { float:none; width:100% }
+                div.tip h2 { margin: 20px 0px; }
+                div.tips { padding: 0px; }
             }
 
             @media screen and (max-width: 480px) {
+                div.logo h1 { font-size:600%; margin:40px 15px; }
+                div.logo p { font-size:110%; margin:10px 15px; }
                 body { font-size:15px }
-                div.page { padding: 20px 0px }
-                h1 { text-align:center; margin:0px }
+            }
+
+            pre {
+                border-radius: 9px;
+                background-color: #eee;
+                padding: 15px;
+                overflow: auto;
             }
         </style>
     </head>
     <body><div class="page">
 
 
-<h1>o.js</h1>
+<div class="logo">
+    <h1>o.js</h1>
+    <p>Javascript utility belt for rich objects and prototypes.  Ooooh!</p>
+</div>
+<div class="page-content">
 
-<p>
-Javascript utility belt for rich objects and prototypes.  Ooooh!
-</p>
-
-<ul>
-    <li><a href="#Synopsis">Synopsis</a></li>
-    <li><a href="#Description">Description</a></li>
-
-    <li><a href="#Properties">Properties</a></li>
-    <!-- <ul>
-        <li><a href="#Properties-reader">reader</a></li>
-        <li><a href="#Properties-writer">writer</a></li>
-        <li><a href="#Properties-accessor">accessor</a></li>
-        <li><a href="#Properties-predicate">predicate</a></li>
-        <li><a href="#Properties-clearer">clearer</a></li>
-    </ul> -->
-
-    <li><a href="#PropertyDefinition">Property Definition</a></li>
-    <!-- <ul>
-        <li><a href="#PropertyDefinition-isa">isa</a></li>
-        <li><a href="#PropertyDefinition-filter">filter</a></li>
-        <li><a href="#PropertyDefinition-default">default</a></li>
-        <li><a href="#PropertyDefinition-required">required</a></li>
-        <li><a href="#PropertyDefinition-chain">chain</a></li>
-        <li><a href="#PropertyDefinition-option">option</a></li>
-        <li><a href="#PropertyDefinition-reader">reader</a></li>
-        <li><a href="#PropertyDefinition-writer">writer</a></li>
-        <li><a href="#PropertyDefinition-predicate">predicate</a></li>
-    </ul> -->
-
-    <li><a href="#Methods">Methods</a></li>
-    <!-- <ul>
-        <li><a href="#Methods-before">before</a></li>
-        <li><a href="#Methods-after">after</a></li>
-        <li><a href="#Methods-around">around</a></li>
-        <li><a href="#Methods-chain">chain</a></li>
-    </ul> -->
-
-    <li><a href="#Constructors">Constructors</a></li>
-    <!-- <ul>
-        <li><a href="#Constructors-extend">extend</a></li>
-    </ul> -->
-
-    <li><a href="#Utilities">Utilities</a></li>
-    <!-- <ul>
-        <li><a href="#Utilities-noConflict">noConflict</a></li>
-    </ul> -->
-
-    <li><a href="#Support">Support</a></li>
-    <li><a href="#Contributing">Contributing</a></li>
-    <li><a href="#License">License</a></li>
-</ul>
+<div class="tips">
+    <div class="tip"><div class="tip-content">
+        <h2>Why o.js?</h2>
+        <p>JavaScript already has built-in support for objects and inheritance, but it
+        is very lean and only provides the most basic functionality.  This library aims to fill
+        in missing the pieces.</p>
+    </div></div>
+    <div class="tip"><div class="tip-content">
+        <h2>Flexible</h2>
+        <p>There are several libraries already that provide rich OO frameworks for JavaScript.
+        This library does not provide a framework, and does not impose standard OO.  Use it as
+        you see fit!</p>
+    </div></div>
+    <div class="tip"><div class="tip-content">
+        <h2>Simplicity</h2>
+        <p>One of the tenants of great software design is "do one thing, and do it well".  We
+        follow this phylosophy by providing well thought-out bite-sized features which work
+        independently and compliment each other when used together.</p>
+    </div></div>
+    <div class="clear"></div>
+</div>
 
 
-<h2><a name="Synopsis"></a>Synopsis</h2>
+
+<h2>An Example</h2>
 
 <pre><code>var obj = {
     getName: o.reader('name'),
@@ -165,457 +150,45 @@ obj.age( 23 );
 console.log( obj.age() );
 </code></pre>
 
+<h2>Experimental</h2>
 
-<h2><a name="Description"></a>Description</h2>
+<p><strong>o.js</strong> is under heavy development and is still quite new.  The
+API <em>will</em> change, and what works now may change later.  Please expiriment
+and provide <a href="https://github.com/bluefeet/o-js/issues">feedback, enhancements,
+and bug fixes</a>!<p>
 
-<p>
-This library provides utilities for building rich objects and prototypes.  The
-interface is meant to be simple and flexible.  No framework is provided, instead
-a toolbelt full of utilities is provided to make this happen.  This way you
-can use this library the way you see fit.
-</p>
+<h2>Download</h2>
 
-<p>
-<strong>WARNING:</strong> This library is very new and the API will change
-as I gather feedback!
-</p>
+<p>Visit our <a href="https://github.com/bluefeet/o-js">GitHub repository</a> and download the
+<a href="https://raw.github.com/bluefeet/o-js/master/o.js">core o.js library</a>.  There is
+<a href="https://github.com/bluefeet/o-js/issues/3">work being done</a> towards the creation
+of a minified version.<p>
 
+<h2>Documentation</h2>
 
-<h2><a name="Properties"></a>Properties</h2>
+<p>The <a href="https://github.com/bluefeet/o-js/wiki/Core-API">Core API</a> documentation
+is available on the <a href="https://github.com/bluefeet/o-js/wiki">o.js Wiki</a>.</p>
 
-
-<h3><a name="Properties-reader"></a>reader</h3>
-
-<h4>o.reader( key, [definition] )</h4>
-<p>
-Creates a reader function that will return the value of the key.
-</p>
-<pre><code>var obj = {
-    getName: o.reader('name'),
-    name: 'Jessica'
-};
-
-console.log( obj.getName() ); // Jessica
-</code></pre>
-
-<h3><a name="Properties-writer"></a>writer</h3>
-
-<h4>o.writer( key, [definition] )</h4>
-<p>
-Creates a function that will write the passed in value to the key.
-</p>
-<pre><code>var obj = {
-    setName: o.writer('name')
-};
-
-obj.setName('Jessica');
-console.log( obj.name ); // Jessica
-</code></pre>
-
-
-<h3><a name="Properties-accessor"></a>accessor</h3>
-
-<h4>o.accessor( key, [definition] )</h4>
-<p>
-This creates a function that will always return the value of the key,
-like <code>reader</code>, but will also write if a value is passed
-like a <code>writer</code>.
-</p>
-<pre><code>var obj = {
-    name: o.accessor('_name')
-};
-
-obj.name('Jessica');
-console.log( obj.name() ); // Jessica
-</code></pre>
-
-
-<h3><a name="Properties-predicate"></a>predicate</h3>
-
-<h4>o.predicate( key )</h4>
-<p>
-Creates a a function that will return true if the property has been
-set.
-</p>
-<pre><code>var obj = {
-    hasName: o.predicate('name')
-};
-
-console.log( obj.hasName() ); // false
-obj.name = 'Jessica';
-console.log( obj.hasName() ); // true
-</code></pre>
-
-
-<h3><a name="Properties-clearer"></a>clearer</h3>
-
-<h4>o.clearer( key )</h4>
-<p>
-Creates a function that will clear the key.
-</p>
-<pre><code>var obj = {
-    clearName: o.clearer('name'),
-    name: 'Jessica'
-};
-
-console.log( obj.name ); // Jessica
-obj.clearName();
-console.log( obj.name() ); // undefined
-</code></pre>
-
-
-<h3><a name="Properties-proxy"></a>proxy</h3>
-
-<h4>o.proxy( key, methodName )</h4>
-<p>
-Creates a proxy function that calls a method on a property.
-</p>
-<pre><code>var obj = {
-    fruits: [],
-    addFruit: o.proxy('fruits', 'push')
-};
-
-obj.addFruit('apple');
-console.log( obj.fruits.pop() ); // apple
-</code></pre>
-
-
-<h2><a name="PropertyDefinition"></a>Property Definition</h2>
-
-<p>
-Properties have definitions which describe how the property should behave.
-A definition is just an object containing flags and value.  Not all property
-functions handle all definitions.
-</p>
-
-
-<h3><a name="PropertyDefinition-isa"></a>isa</h3>
-
-<h4>definition.isa = type</h4>
-<p>
-Before writing, checks to see if the value is of the specified type.  Types
-can be anything that <code>typeof</code> could return.
-</p>
-
-<h4>definition.isa = constructor</h4>
-<p>
-If a constructor function is passed and the value is an object, then this
-checks to see if the constructor appears in the object's prototype chain
-(via <code>instanceof</code>).
-</p>
-
-<h4>definition.isa = function (value) { ... }</h4>
-<p>
-Finally, if a function is given then the function will be called with the
-value as a single argument.  The return value of the function must be
-<code>true</code> for the isa check to pass.
-</p>
-
-
-<h3><a name="PropertyDefinition-filter"></a>filter</h3>
-
-<h4>definition.filter = function (value) { ... }</h4>
-<p>
-Before a value is written the filter function will be called with the
-value being set.  The value that this function returns will be
-written instead.  This function is called before the <code>isa</code>
-check.
-</p>
-
-
-<h3><a name="PropertyDefinition-default"></a>default</h3>
-
-<h4>definition.default = value</h4>
-<p>
-When the reader is called this value will be used to write a default
-if no value is currently set.
-</p>
-
-<h4>definition.default = function () { ... }</h4>
-<p>
-If the value if the default is a function then that function will be
-called and the return value will be used.  If you would like the default
-value itself to be a function then you'll need to make your default be
-a function that returns a function, as in:
-</p>
-<pre><code>var obj = {
-    getFoo: o.reader(
-        'foo',
-        {
-            default: function () {
-                return function () { ... };
-            }
-        }
-    )
-};
-
-console.log( typeof obj.getName() ); // function
-</code></pre>
-
-
-<h3><a name="PropertyDefinition-required"></a>required</h3>
-
-<h4>definition.required = boolean</h4>
-<p>
-If set to <code>true</code> this will cause the <code>reader</code> to
-throw an error if the value for the key has not been set.
-</p>
-
-
-<h3><a name="PropertyDefinition-chain"></a>chain</h3>
-
-<h4>definition.chain = boolean</h4>
-<p>
-If set to <code>true</code> this will cause the <code>writer</code> to
-return the object rather than the value so that you can chain writers
-together, as in:
-</p>
-<pre><code>var obj = {
-    name: o.writer('_name', {<strong>chain:true,</strong> isa:'string'}),
-    age:  o.writer('_age',  {<strong>chain:true,</strong> isa:'number'})
-};
-
-obj.name('Bob').age(56);
-</code></pre>
-
-
-<h3><a name="PropertyDefinition-option"></a>option</h3>
-
-<h4>definition.option = boolean</h4>
-<p>
-When set to <code>true</code>, this causes the <code>writer</code>
-to default the value to <code>true</code> if the value is undefined, and then
-returns the object rather than the value, much like <code>chain</code> does.
-This is useful for creating simple boolean properties that can be chained
-together.  For example:
-</p>
-<pre><code>var def = {
-    <strong>option:  true,</strong>
-    isa:     'boolean',
-    default: false
-};
-
-var obj = {
-    lazy:         o.writer('_lazy',      def),
-    impatient:    o.writer('_impatient', def),
-    hubris:       o.writer('_hubris',    def),
-};
-
-obj.lazy().impatient();
-obj.lazy(false).hubris();
-
-console.log( obj._lazy      ); // false
-console.log( obj._impatient ); // true
-console.log( obj._hubris    ); // true
-</code></pre>
-
-
-<h3><a name="PropertyDefinition-reader"></a>reader</h3>
-
-<h4>definition.reader = o.reader(...)</h4>
-<p>
-When <a href="#Properties-accessor">o.accessor</a> is reading it needs a
-reader method to call.  If one is not supplied then one will be built using
-the supplied definition.  But, this can be overriden by specifying your own.
-</p>
-<pre><code>var nameReader = o.reader('_name');
-var obj = {
-    name: o.accessor('_name', { reader: nameReader })
-};
-</code></pre>
-
-
-<h3><a name="PropertyDefinition-writer"></a>writer</h3>
-<p>
-This is just like <a href="PropertyDefinition-reader">definition.reader</a>,
-except it is for the writer function and is used by both
-<a href="#Properties-accessor">o.accessor</a>, and
-<a href="#Properties-reader">o.reader</a> (when writing a default value).
-</p>
-
-
-<h3><a name="PropertyDefinition-predicate"></a>predicate</h3>
-<p>
-This is just like <a href="PropertyDefinition-reader">definition.reader</a>,
-except it is for the predicate function and is used by
-<a href="#Properties-reader">o.reader</a> (to check if a value has been
-written).
-</p>
-
-
-<h2><a name="Methods"></a>Methods</h2>
-
-
-<h3><a name="Methods-before"></a>before</h3>
-
-<h4>o.before( originalFunc, beforeFunc )</h4>
-<p>
-Creates a new function that calls your <code>beforeFunc</code> before calling
-the original <code>originalFunc</code>.  The return value will be whatever
-<code>originalFunc</code> returned.  The <code>beforeFunc</code> will not be
-passed any arguments.  If you'd like to also intercept the <code>originalFunc</code>'s
-arguments then you'll need to use <a href="#Methods-around">o.around</a>.
-</p>
-<pre><code>var obj = {
-    foo = function (str) { console.log(str) }
-};
-
-obj.foo = o.before( obj.foo, function () { console.log('Before!') } );
-
-obj.foo('Original!');
-// Before!
-// Original!
-</code></pre>
-<p>
-This is useful for adding functionality to a method without changing the way it
-behaves.
-</p>
-
-<h3><a name="Methods-after"></a>after</h3>
-
-<h4>o.after( originalFunc, afterFunc )</h4>
-<p>
-This works just like <a href="#Methods-before">o.before</a>, but calls the
-<code>afterFunc</code> after calling <code>originalFunc</code>.
-
-<h3><a name="Methods-around"></a>around</h3>
-
-<h4>o.around( originalFunc, aroundFunc )</h4>
-<p>
-This is a hybrid of <a href="#Methods-before">o.before</a> and
-<a href="#Methods-after">o.after</a> that let's you intercept and
-change the arguments and even decide to not call the underlying
-<code>originalFunc</code> if you choose not to.
-</p>
-<pre><code>var obj = {
-    addNums: funcion (num1, num2) { return num1 + num2 }
-};
-
-obj.addNums = o.around(
-    obj.addNums,
-    funcion (original, num1, num2) {
-        if (typeof num1 !== 'number') return null;
-        if (typeof num2 !== 'number') return null;
-        return original( num1, num2 );
-    }
-);
-
-console.log( obj.addNums(1,2) ); // 3
-console.log( obj.addNums('abs',2) ); // null
-</code></pre>
-
-
-<h3><a name="Methods-chain"></a>chain</h3>
-
-<h4>o.chain( originalFunc )</h4>
-<p>
-Makes a method chainable by throwing away the return value and returning
-the object instead.
-</p>
-<pre><code>var obj = {
-    bar: function (str) { this.barValue=str; return str }
-};
-
-console.log( obj.bar('Testing') ); // Testing
-obj.bar = o.chain( obj.bar );
-console.log( obj.bar('Testing') ); // obj
-</code></pre>
-
-
-<h2><a name="Constructors"></a>Constructors</h2>
-
-
-<h3><a name="Constructors-extend"></a>extend</h3>
-
-<h4>o.extend( parent, constructor )</h4>
-<p>
-Extends the given <code>constructor</code> function with
-the given <code>parent</code> function. This is much more advanced than
-your typical extend function that exists in other libraries as it works
-at the constructor level rather than the object level.
-</p>
-<p>
-How this works is two parts.  First, <a href="#Methods-around">o.around</a>
-is used where <code>parent</code> is the <code>originalFunc</code> and
-<code>constructor</code> is the <code>aroundFunc</code>.  Second, the
-prototype of the <code>parent</code> is merged with the prototype of the
-<code>constructor</code> and used as the prototype for the new constructor
-that is returned.  An example is worth a 1,000 words:
-</p>
-<pre><code>var Parent = function (foo) {
-    this.foo = foo;
-};
-Parent.prototype = {
-    logFoo: function () { console.log( this.foo ) }
-};
-
-var Child = function (parent, foo, bar) {
-    this.bar = bar;
-    parent(foo);
-};
-Child.prototype = {
-    logBar: function () { console.log( this.bar ) }
-};
-
-Child = o.extend( Parent, Child );
-
-var obj = new Child( 'FOO', 'BAR' );
-
-obj.logFoo(); // FOO
-obj.logBar(); // BAR
-</code></pre>
-
-
-<h2><a name="Utilities"></a>Utilities</h2>
-
-
-<h3><a name="Utilities-noConflict"></a>noConflict</h3>
-
-<h4>o.noConflict()</h4>
-<p>
-When <code>o.js</code> is first loaded it will export the <code>o</code>
-object into the root namespace (<code>window</code> in a browser, or
-<code>global</code> in Node.js).  For some people this can be problematic
-as the <code>o</code> variable may already be in use.
-</p>
-<p>
-When <code>o.noConflict</code> is called the original value of <code>o</code>
-in the root namespace will be set, and the current <code>o</code> will be returned.
-</p>
-<pre><code>&lt;script>var o = 'Hello World';&lt;/script>
-&lt;script src="o.js">&lt;/script>
-&lt;script>
-    var oJS = o.noConflict();
-    // Now use oJS. instead of o.
-    console.log( o ); // 'Hello World'
-&lt;/script>
-</code></pre>
-
-
-<h2><a name="Support"></a>Support</h2>
+<h2>Support</h2>
 
 <p>
 Currently the best avenue of support is by submitting issue reports and feature requests
 on our <a href="https://github.com/bluefeet/o-js/issues">GitHub Issue Tracker</a>.</li>
 </p>
 
-<h2><a name="Contributing"></a>Contributing</h2>
+<h2>Contributing</h2>
 
 <p>
 Would you like to contribute?  Then <a href="https://github.com/bluefeet/o-js">fork
 our respository on GitHub</a> and send a pull request.
 </p>
 
-<p>
-If you'd like to contribute to this documentation then check out the
-<a href="https://github.com/bluefeet/o-js/tree/gh-pages">gh-pages branch</a>.
-</p>
-
-
 <h2><a name="License"></a>License</h2>
 
-<p><span style="color:#0776BA; font-weight:bold">o.js</span> may be freely distributed under the MIT license.</p>
-<p>Copyright &copy; 2013 Aran Deltac</p>
+<p><strong>o.js</strong> may be freely distributed under the
+<a href="https://raw.github.com/bluefeet/o-js/master/LICENSE.txt">MIT license</a>.</p>
+
+<p>&copy; Aran Deltac</p>
 
 <script>
     var _gaq = _gaq || [];
@@ -629,5 +202,5 @@ If you'd like to contribute to this documentation then check out the
     })();
 </script>
 
-    </div></body>
+    </div></div></body>
 </html>
