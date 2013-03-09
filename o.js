@@ -21,11 +21,11 @@
 
     o.reader = function (key, def) {
         def = def || {};
-        var writer = def.writer || o.writer( key, def );
-        var predicate = def.predicate || o.predicate( key );
+        def.writer = def.writer || o.writer( key, def );
+        def.predicate = def.predicate || o.predicate( key );
 
         return function () {
-            if (!predicate.call( this )) {
+            if (!def.predicate.call( this )) {
                 if (def.required) {
                     throw new Error('...');
                 }
@@ -35,7 +35,7 @@
                         value = value.call( this );
                     }
 
-                    writer.call( this, value );
+                    def.writer.call( this, value );
                 }
             }
 
@@ -75,8 +75,8 @@
 
     o.accessor = function (key, def) {
         def = def || {};
-        var writer = def.writer || o.writer( key, def );
-        var reader = def.reader || o.reader( key, def );
+        def.writer = def.writer || o.writer( key, def );
+        def.reader = def.reader || o.reader( key, def );
 
         return function (value) {
             if (value !== undefined) {
