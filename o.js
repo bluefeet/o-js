@@ -45,18 +45,17 @@
 
     o.writer = function (key, def) {
         def = def || {};
-        var isa = def.isa
-        if (def.option) isa = isa || 'boolean';
+        if (def.option) def.isa = def.isa || 'boolean';
 
         return function (value) {
             if (def.option && value === undefined) { value = true }
             if (def.filter) { value = def.filter.call( this, value ) }
 
-            if (isa) {
-                if (typeof isa === 'string') {
-                    if (typeof value !== isa) throw new Error('...');
+            if (def.isa) {
+                if (typeof def.isa === 'string') {
+                    if (typeof value !== def.isa) throw new Error('...');
                 }
-                else if (!isa.call(this, value)) {
+                else if (!def.isa.call(this, value)) {
                     throw new Error('...');
                 }
             }
