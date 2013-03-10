@@ -116,6 +116,28 @@ test( 'writer', function () {
     ok( obj.setThing(new A()), 'passed extends check' );
     throws( function(){ obj.setThing(new B()) }, 'extends check failed' );
 });
+
+test( 'accessor', function () {
+    // basics
+    var obj = { name: o.accessor('_name') };
+    equal( obj._name, undefined, 'property started as undefined' );
+    equal( obj.name( 'bar' ), 'bar', 'writer works' );
+    equal( obj.name(), 'bar', 'reader works' );
+    equal( obj._name, 'bar', 'raw value is as expected' );
+
+    // writer
+    var setAge = o.writer( '_age' );
+    var writerCalled = false;
+    obj.age = o.accessor('_age', {
+        writer: function(){ writerCalled = true; return setAge.apply(this, arguments) },
+        default: 81
+    });
+    equal( obj.age(), 81, 'reader returned default' );
+    ok( writerCalled, 'writer was called to write the default' );
+    writerCalled = false;
+    obj.age( 90 );
+    ok( writerCalled, 'writer was called to write' );
+});
 </script>
 
     </body>

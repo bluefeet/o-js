@@ -79,9 +79,9 @@
 
         return function (value) {
             if (value !== undefined) {
-                writer.call( this, value );
+                def.writer.call( this, value );
             }
-            return reader.call( this );
+            return def.reader.call( this );
         };
     };
 
