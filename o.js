@@ -29,8 +29,8 @@
                 if (def.required) {
                     throw new Error('...');
                 }
-                else if (def.default !== undefined) {
-                    var value = def.default;
+                else if (def['default'] !== undefined) {
+                    var value = def['default'];
                     if (typeof value === 'function') { 
                         value = value.call( this );
                     }
@@ -60,8 +60,8 @@
                 }
             }
 
-            if (def.extends) {
-                if (!(value instanceof def.extends)) {
+            if (def['extends']) {
+                if (!(value instanceof def['extends'])) {
                     throw new Error('...');
                 }
             }
