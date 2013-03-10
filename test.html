@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>o.js Unit Tests</title>
+        <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.11.0.css">
+    </head>
+    <body>
+
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+<script src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+<script src="o.js"></script>
+
+<script>
+test( 'reader', function () {
+    // basics
+    var obj = { getName: o.reader('name') };
+    equal( obj.getName(), undefined, 'property is undefined' );
+    obj.name = 'foo';
+    equal( obj.getName(), 'foo', 'property was read' );
+
+    // predicate
+    var hasAge = o.predicate('age');
+    var predicateCalled = false;
+    obj.getAge = o.reader('age', {
+        predicate: function () { predicateCalled = true; return hasAge.call(this) },
+    });
+    equal( obj.getAge(), undefined, 'property is undefeind with predicate set' );
+    ok( predicateCalled, 'the custom predicate was called' );
+    obj.age = 18;
+    equal( obj.getAge(), 18, 'property was read with predicate set' );
+
+    // required
+    obj.getColor = o.reader('color', { required: true });
+    throws( function(){ obj.getColor() }, 'throws when required' );
+    obj.color = 'blue';
+    equal( obj.getColor(), 'blue', 'property was read with required set' );
+
+    // default (value)
+    obj.getHeight = o.reader('height', {default:183});
+    equal( obj.getHeight(), 183, 'value default was applied' );
+    obj.height = 168;
+    equal( obj.getHeight(), 168, 'value default was bypassed by explicit value' );
+
+    // default (function)
+    obj.getWeight = o.reader('weight', {default: function(){ return 90 }});
+    equal( obj.getWeight(), 90, 'function default was applied' );
+    obj.weight = 68;
+    equal( obj.getWeight(), 68, 'function default was bypassed by explicit value' );
+
+    // default function that returns a function
+    obj.getHook = o.reader('hook', {default: function(){ return function(){ return 'hook!' } }});
+    equal( obj.getHook()(), 'hook!', 'default can return a function' );
+
+    // default and required precedence
+    obj.getPoints = o.reader('points', {required:true, default:25});
+    throws( function(){ obj.getPoints() }, 'required is evaluated before default' );
+
+    // writer
+    var setLevel = o.writer('level');
+    var writerCalled = false;
+    obj.getLevel = o.reader('level', {
+        writer: function () { writerCalled = true; return setLevel.apply(this, arguments) },
+        default: 6
+    });
+    equal( obj.getLevel(), 6, 'default was set with writer set' );
+    ok( writerCalled, 'the custom writer was called' );
+});
+
+test( 'writer', function () {
+    // basics
+    var obj = { setName: o.writer('name') };
+    equal( obj.name, undefined, 'property started as undefined' );
+    equal( obj.setName( 'bar' ), 'bar', 'written value is returned' );
+    equal( obj.name, 'bar', 'property was set' );
+
+    // isa (typeof)
+    obj.setAge = o.writer('age', {isa:'number'});
+    throws( function(){ obj.setAge('abc') }, 'string does not pass typeof number check' );
+    obj.setAge(24);
+    equal( obj.age, 24, 'number passes typeof number check' );
+
+    // isa (function)
+    obj.setColor = o.writer('color', {isa: function(val){ return (typeof val === 'string') ? true : false }});
+    throws( function(){ obj.setColor(123) }, 'number does not pass function string check' );
+    obj.setColor('green');
+    equal( obj.color, 'green', 'string passes function string check' );
+
+    // option
+    obj.setHappy = o.writer('happy', {option:true});
+    obj.setHappy();
+    equal( obj.happy, true, 'option defaults to true' );
+    equal( obj.setHappy( false ), obj, 'option returned context' );
+    equal( obj.happy, false, 'able to set option to false' );
+    throws( function(){ obj.setHappy('yes') }, 'option defaulted to boolean isa' );
+    obj.setHappy = o.writer('happy', {option:true, isa:'string'});
+    obj.setHappy('yes');
+    equal( obj.happy, 'yes', 'able to set isa with option' );
+
+    // chain
+    obj.setLevel = o.writer('level', {chain:true});
+    equal( obj.setLevel(32), obj, 'chain returned context' );
+    equal( obj.level, 32, 'property was set with chain' );
+
+    // filter
+    obj.setPoints = o.writer('points', {filter:function(val){ return val+1 }, isa:function(val){ return (val>=0) ? true : false }});
+    equal( obj.setPoints(-1), 0, 'filter filtered' );
+    throws( function(){ obj.setPoints(-2) }, 'isa was applied to filtered value' );
+
+    // extends
+    var A = function () { };
+    var B = function () { };
+    obj.setThing = o.writer('thing', {extends:A});
+    ok( obj.setThing(new A()), 'passed extends check' );
+    throws( function(){ obj.setThing(new B()) }, 'extends check failed' );
+});
+</script>
+
+    </body>
+</html>
