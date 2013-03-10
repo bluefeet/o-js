@@ -11,6 +11,7 @@
 <div id="qunit-fixture"></div>
 
 <script src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+<script>var o = 'ORIGINAL_O';</script>
 <script src="o.js"></script>
 
 <script>
@@ -137,6 +138,150 @@ test( 'accessor', function () {
     writerCalled = false;
     obj.age( 90 );
     ok( writerCalled, 'writer was called to write' );
+});
+
+test( 'predicate', function () {
+    var obj = { hasName: o.predicate('name') };
+    ok( !obj.hasName(), 'returns false when the property is not set' );
+    obj.__proto__ = { name: 'Bob' };
+    equal( obj.name, 'Bob', 'property is coming from the prototype' );
+    ok( !obj.hasName(), 'still not set' );
+    obj.name = null;
+    ok( obj.hasName(), 'null returns true' );
+    obj.name = 'Foo';
+    ok( obj.hasName(), 'string returns true' );
+    delete obj.name;
+    ok( !obj.hasName(), 'not set after deletion' );
+});
+
+test( 'clearer', function () {
+    var obj = { clearName: o.clearer('name') };
+    equal(obj.name, undefined, 'undefined before clear');
+    obj.name = 'Foo';
+    equal(obj.name, 'Foo', 'value is now defined');
+    obj.clearName();
+    equal(obj.name, undefined, 'value was cleared');
+
+    obj.__proto__ = { name: 'Bar' };
+    equal(obj.name, 'Bar', 'value is from the prototype');
+    obj.name = 'Baz';
+    equal(obj.name, 'Baz', 'direct value overrode prototype value');
+    obj.clearName();
+    equal(obj.name, 'Bar', 'value is from the prototype after clearer');
+});
+
+test( 'proxy', function () {
+    var obj = {};
+    obj.queue = [];
+    obj.enqueue = o.proxy('queue', 'unshift');
+    obj.dequeue = o.proxy('queue', 'pop');
+    deepEqual( obj.queue, [], 'queue is empty' );
+    obj.enqueue( 'job1' );
+    obj.enqueue( 'job2' );
+    obj.enqueue( 'job3' );
+    deepEqual( obj.queue, ['job3', 'job2', 'job1'], 'queue is full' );
+    equal( obj.dequeue(), 'job1', 'dequeued first job' );
+    deepEqual( obj.queue, ['job3', 'job2'], 'remaining jobs are correct' );
+});
+
+test( 'before', function () {
+    var obj = {};
+    obj.addNumbers = function (num1, num2) { return num1 + num2 };
+    equal( obj.addNumbers(1,2), 3, 'original function works' );
+    var beforeCalled = false;
+    obj.addNumbers = o.before( obj.addNumbers, function () { beforeCalled = true } );
+    equal( obj.addNumbers(1,2), 3, 'modified function still works' );
+    ok( beforeCalled, 'the before function was called' );
+});
+
+test( 'after', function () {
+    var obj = {};
+    obj.addNumbers = function (num1, num2) { return num1 + num2 };
+    equal( obj.addNumbers(1,2), 3, 'original function works' );
+    var afterCalled = false;
+    obj.addNumbers = o.after( obj.addNumbers, function () { afterCalled = true } );
+    equal( obj.addNumbers(1,2), 3, 'modified function still works' );
+    ok( afterCalled, 'the after function was called' );
+});
+
+test( 'around', function () {
+    var obj = {};
+    obj.addNumbers = function (num1, num2) { return num1 + num2 };
+    equal( obj.addNumbers(1,2), 3, 'original function works' );
+    obj.addNumbers = o.around(
+        obj.addNumbers,
+        function (original, num1, num2) {
+            if (typeof num1 !== 'number') return null;
+            if (typeof num2 !== 'number') return null;
+            return original( num1, num2 );
+        }
+    );
+
+    equal( obj.addNumbers(1,2), 3, 'still works right with around' );
+    equal( obj.addNumbers('1', 2), null, 'arround function intercepted non-number' );
+});
+
+test( 'extend', function () {
+    var Parent = function (foo) { this.foo = foo };
+    Parent.prototype = { getFoo: function () { return this.foo } };
+
+    var Child = o.extend(
+        Parent,
+        function (parent, foo, bar) { parent(foo); this.bar = bar }
+    );
+    Child.prototype.getBar = function () { return this.bar };
+
+    var obj = new Child( 'FOO', 'BAR' );
+    equal( obj.foo, 'FOO', 'constructor arguments for parent made it through' );
+    equal( obj.bar, 'BAR', 'constructor arguments for child made it through' );
+
+    equal( obj.__proto__, Child.prototype, 'objects prototype came from the child constructor' );
+    equal( Child.prototype.__proto__, Parent.prototype, 'childs prototype came from the parent constructor' );
+
+    ok( obj instanceof Child, 'object is an instance of the child constructor' );
+    ok( obj instanceof Parent, 'object is an instance of the parent constructor' );
+
+    equal( obj.getFoo(), 'FOO', 'called function from the parent' );
+    equal( obj.getBar(), 'BAR', 'called function from the child' );
+});
+
+test( 'merge', function () {
+    var obj1 = { a:'A', b:'B' };
+    var obj2 = { b:'BB', c:'CC', d:'DD' };
+    var obj3 = { d:'DDD', e:'EEE' };
+
+    var obj4 = o.merge( obj1, obj2, obj3 );
+    equal( obj4, obj1, 'first argument was modified in place' );
+    deepEqual( obj1, {a:'A', b:'BB', c:'CC', d:'DDD', e:'EEE' }, 'merged in right order' );
+});
+
+test( 'clone', function () {
+    var A = function (foo) { this.foo = foo };
+    A.prototype = { bar: 'BAR' };
+
+    var a = new A( 'FOO' );
+    var b = o.clone( a );
+
+    deepEqual( a.foo, b.foo, 'objects match' );
+    deepEqual( a.bar, b.bar, 'objects match' );
+    equal( a.__proto__, b.__proto__, 'prototype matches' );
+    equal( a.constructor, b.constructor, 'constructor matches' );
+});
+
+test( 'has', function () {
+    var obj = { name: 'Foo' };
+    ok( o.has(obj, 'name'), 'has found a property' );
+    ok( !o.has(obj, 'bah'), 'has did not find a property' );
+    obj.__proto__ = { age: 65 };
+    equal( obj.age, 65, 'value propogates from prototype' );
+    ok( !o.has(obj, 'age'), 'prototype property does not affect has' );
+});
+
+test( 'noConflict', function () {
+    var oldO = o;
+    var oJS = o.noConflict();
+    equal(o, 'ORIGINAL_O', 'originl value of o was set');
+    equal(oldO, oJS, 'returned o');
 });
 </script>
 

@@ -123,10 +123,10 @@
             var self = this;
             var args = Array.prototype.slice.call(arguments);
             var wrapper = function () {
-                original.apply( self, arguments );
+                return original.apply( self, arguments );
             };
             args.unshift( wrapper );
-            func.apply( self, args );
+            return func.apply( self, args );
         };
     };
 
@@ -136,13 +136,8 @@
             constructor
         );
 
-        var proto = o.merge(
-            {},
-            parent.prototype,
-            constructor.prototype
-        );
-
-        child.prototype = proto;
+        child.prototype = constructor.prototype ? o.clone( constructor.prototype ) : {};
+        child.prototype.__proto__ = parent.prototype;
 
         return child;
     };
