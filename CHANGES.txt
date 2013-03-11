@@ -1,3 +1,5 @@
+ - Added o.construct.
+ - o.extend now accepts a third, prototype, argument.
  - Full test coverage of the Core API.
  - Fixed around to handle return values.
  - Fixes o.extend to properly inherit the parent's prototype

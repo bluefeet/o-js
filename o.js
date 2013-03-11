@@ -130,13 +130,21 @@
         };
     };
 
-    o.extend = function (parent, constructor) {
+    o.construct = function (constructor, proto) {
+        o.merge( constructor.prototype, proto );
+        return constructor;
+    };
+
+    o.extend = function (parent, constructor, proto) {
         var child = o.around(
             parent,
             constructor
         );
 
-        child.prototype = constructor.prototype ? o.clone( constructor.prototype ) : {};
+        child.prototype = proto
+                        ? o.merge( {}, constructor.prototype, proto )
+                        : o.clone( constructor.prototype );
+
         child.prototype.__proto__ = parent.prototype;
 
         return child;

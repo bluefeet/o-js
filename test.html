@@ -221,6 +221,18 @@ test( 'around', function () {
     equal( obj.addNumbers('1', 2), null, 'arround function intercepted non-number' );
 });
 
+test( 'construct', function () {
+    var Point = o.construct(
+        function (x, y) { this.x=x; this.y=y },
+        {
+            getX: function () { return this.x },
+            getY: function () { return this.y },
+        }
+    );
+    var p = new Point( 12, 4 );
+    deepEqual( [p.getX(), p.getY()], [12, 4], 'basics' );
+});
+
 test( 'extend', function () {
     var Parent = function (foo) { this.foo = foo };
     Parent.prototype = { getFoo: function () { return this.foo } };
@@ -243,6 +255,25 @@ test( 'extend', function () {
 
     equal( obj.getFoo(), 'FOO', 'called function from the parent' );
     equal( obj.getBar(), 'BAR', 'called function from the child' );
+
+    var Child2 = o.extend(
+        Parent,
+        function (parent, foo, baz) { parent(foo); this.baz = baz },
+        { getBaz: function () { return this.baz } }
+    );
+    var obj2 = new Child2( 'FOO', 'BAZ' );
+    equal( obj2.getBaz(), 'BAZ', 'prototype argument was copied' );
+
+    var Child3 = function (parent, foo, zap, mez) { parent(foo); this.zap = zap; this.mez = mez };
+    Child3.prototype.getZap = function () { return this.zap };
+    Child3 = o.extend(
+        Parent,
+        Child3,
+        { getMez: function () { return this.mez } }
+    );
+    var obj3 = new Child3( 'FOO', 'ZAP', 'MEZ' );
+    equal( obj3.getZap(), 'ZAP', 'prototype property was copied' );
+    equal( obj3.getMez(), 'MEZ', 'constructor prototype was copied' );
 });
 
 test( 'merge', function () {
