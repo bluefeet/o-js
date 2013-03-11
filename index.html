@@ -17,7 +17,7 @@
 
             body {
                 background-color: #001C24;
-                color: #999;
+                color: #aaa;
                 margin: 0px;
                 font-family: 'Merriweather Sans', sans-serif;
                 font-size: 17px;
@@ -44,13 +44,13 @@
             }
 
             div.logo p {
-                color: #555;
+                color: #777;
                 font-size: 130%;
                 margin: 40px 30px;
             }
 
             h2 {
-                color: #aaa;
+                color: #bbb;
                 font-size: 200%;
                 margin: 20px 0px;
             }
@@ -80,6 +80,25 @@
                 color: #007394;
             }
 
+            pre {
+                border-radius: 9px;
+                background-color: #001217;
+                padding: 15px;
+            }
+
+            pre code {
+                border-radius: 9px;
+                padding: 15px;
+                display: block;
+                overflow: auto;
+            }
+
+            p.copyright {
+                text-align: right;
+                color: #555;
+                font-size: 80%;
+            }
+
             @media screen and (max-width: 900px) {
                 div.page { padding:0px }
                 div.logo { border-radius:0px }
@@ -89,30 +108,13 @@
                 div.tip { float:none; width:100% }
                 div.tip h2 { margin: 20px 0px; }
                 div.tips { padding: 0px; }
+                pre, pre code { padding: 5px }
             }
 
             @media screen and (max-width: 480px) {
                 div.logo h1 { font-size:600%; margin:40px 15px; }
                 div.logo p { font-size:110%; margin:10px 15px; }
                 body { font-size:15px }
-            }
-
-            pre {
-                border-radius: 9px;
-                background-color: #001217;
-                padding: 15px;
-                overflow: auto;
-            }
-
-            pre code {
-                border-radius: 9px;
-                padding: 15px;
-            }
-
-            p.copyright {
-                text-align: right;
-                color: #555;
-                font-size: 80%;
             }
         </style>
     </head>
@@ -162,6 +164,7 @@
             <a href="https://github.com/bluefeet/o-js/wiki">Wiki</a><br/>
             <a href="https://github.com/bluefeet/o-js">GitHub Repository</a><br/>
             <a href="https://github.com/bluefeet/o-js/issues">Issue Tracker</a><br/>
+            <a href="https://github.com/bluefeet/o-js/issues?milestone=1&state=open">1.0.0 Roadmap</a><br/>
         </p>
     </div></div>
     <div class="tip"><div class="tip-content">
