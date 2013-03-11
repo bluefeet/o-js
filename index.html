@@ -6,14 +6,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
+        <link href='http://fonts.googleapis.com/css?family=Merriweather+Sans:400,700' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/solarized_dark.min.css">
+        <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+
         <style>
             html { -webkit-text-size-adjust: 100% }
 
             body {
-                background-color: #fff;
-                color: #000;
+                background-color: #001C24;
+                color: #999;
                 margin: 0px;
-                font-family: Arial, sans-serif;
+                font-family: 'Merriweather Sans', sans-serif;
                 font-size: 17px;
             }
 
@@ -32,7 +38,7 @@
             }
 
             div.logo h1 {
-                color: #005B8C;
+                color: #3FAFEB;
                 font-size: 900%;
                 margin: 70px 30px;
             }
@@ -44,7 +50,7 @@
             }
 
             h2 {
-                color: #333;
+                color: #aaa;
                 font-size: 200%;
                 margin: 20px 0px;
             }
@@ -71,7 +77,7 @@
 
             a {
                 text-decoration: none;
-                color: #007DC9;
+                color: #007394;
             }
 
             @media screen and (max-width: 900px) {
@@ -93,9 +99,20 @@
 
             pre {
                 border-radius: 9px;
-                background-color: #eee;
+                background-color: #001217;
                 padding: 15px;
                 overflow: auto;
+            }
+
+            pre code {
+                border-radius: 9px;
+                padding: 15px;
+            }
+
+            p.copyright {
+                text-align: right;
+                color: #555;
+                font-size: 80%;
             }
         </style>
     </head>
@@ -122,7 +139,7 @@
         you see fit!</p>
     </div></div>
     <div class="tip"><div class="tip-content">
-        <h2>Simplicity</h2>
+        <h2>Simple</h2>
         <p>One of the tenants of great software design is "do one thing, and do it well".  We
         follow this phylosophy by providing well thought-out bite-sized features which work
         independently and compliment each other when used together.</p>
@@ -130,58 +147,84 @@
     <div class="clear"></div>
 </div>
 
+<div class="tips">
+    <div class="tip"><div class="tip-content">
+        <h2>Download</h2>
+        <p>
+            <a href="o-0.0.1.js">v0.0.1 Minified</a> (2k)<br/>
+            <a href="https://raw.github.com/bluefeet/o-js/master/CHANGES.txt">Change Log</a><br/>
+        </p>
+    </div></div>
+    <div class="tip"><div class="tip-content">
+        <h2>Resources</h2>
+        <p>
+            <a href="https://github.com/bluefeet/o-js/wiki/Core-API">Documentation</a><br/>
+            <a href="https://github.com/bluefeet/o-js/wiki">Wiki</a><br/>
+            <a href="https://github.com/bluefeet/o-js">GitHub Repository</a><br/>
+            <a href="https://github.com/bluefeet/o-js/issues">Issue Tracker</a><br/>
+        </p>
+    </div></div>
+    <div class="tip"><div class="tip-content">
+        <h2>License</h2>
+        <p>o.js may be freely distributed under the
+        <a href="https://raw.github.com/bluefeet/o-js/master/LICENSE.txt">MIT license</a>.</p>
+    </div></div>
+    <div class="clear"></div>
+</div>
 
+<h2>Constructor</h2>
+<p>The classic point example, o.js style, using
+<a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-construct">o.construct</a> and
+<a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-accessor">o.accessor</a>.</p>
+<pre><code>var Point = o.construct(
+    function (x, y) {
+        this.x( x );
+        this.y( y );
+    },
+    {
+        x: o.accessor('_x', { isa:'number' }),
+        y: o.accessor('_x', { isa:'number' }),
+        distanceTo: function (other) {
+            xd = this.x() - other.x();
+            yd = this.y() - other.y();
+            return Math.sqrt(xd*xd + yd*yd)
+        }
+    }
+);
 
-<h2>An Example</h2>
+var a = new Point( 10, 32 );
+var b = new Point( 4, 5 );
 
-<pre><code>var obj = {
-    getName: o.reader('name'),
-    setName: o.writer('name'),
-    hasName: o.predicate('name'),
-    clearName: o.clearer('name'),
-    age: o.accessor('_age')
-};
-
-obj.setName('Tiberius');
-if (obj.hasName()) console.log( obj.getName() );
-obj.clearName();
-
-obj.age( 23 );
-console.log( obj.age() );
+console.log( o.distanceTo(b) ); // 27.658...
 </code></pre>
 
-<h2>Download</h2>
+<h2>Inheritance</h2>
+<p>This literally extends the point example by adding a third dimension, using
+<a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-extend">o.extend</a>.</p>
+<pre><code>var Point3D = o.extend(
+    Point,
+    function (parent, x, y, z) {
+        parent( x, y );
+        this.z( z );
+    },
+    {
+        z: o.accessor('_z', { isa:'number' }),
+        distanceTo = function(other) {
+            xd = this.x() - other.x();
+            yd = this.y() - other.y();
+            zd = this.z() - other.z();
+            return Math.sqrt(xd*xd + yd*yd + zd*zd)
+        }
+    }
+);
 
-<ul>
-    <li><a href="o-0.0.1.js">Core API v0.0.1 Minified</a></li>
-</ul>
+var a = new Point3D( 10, 32, 5 );
+var b = new Point3D( 4, 5, 15 );
 
-<p>View the <a href="https://raw.github.com/bluefeet/o-js/master/CHANGES.txt">change log</a>
-to see what has changed between releases.</p>
+console.log( o.distanceTo(b) ); // 29.410...
+</code></pre>
 
-<h2>Experimental</h2>
-
-<p><strong>o.js</strong> is under heavy development and is still quite new.  The
-API <em>will</em> change, and what works now may change later.  Please experiment
-and provide <a href="https://github.com/bluefeet/o-js/issues">feedback, enhancements,
-and bug fixes</a>!  If you would like to contribute then
-<a href="https://github.com/bluefeet/o-js">fork our respository on GitHub</a> and
-send a pull request.  We are currently targeting to make
-<a href="https://github.com/bluefeet/o-js/issues?milestone=1&state=open">1.0.0</a>
-the first stable release.</p>
-
-<p>Currently the best avenue of support is by submitting issue reports and feature requests
-on our <a href="https://github.com/bluefeet/o-js/issues">GitHub Issue Tracker</a>.</li></p>
-
-<p>The <a href="https://github.com/bluefeet/o-js/wiki/Core-API">Core API</a> documentation
-is available on the <a href="https://github.com/bluefeet/o-js/wiki">o.js Wiki</a>.</p>
-
-<h2>License</h2>
-
-<p><strong>o.js</strong> may be freely distributed under the
-<a href="https://raw.github.com/bluefeet/o-js/master/LICENSE.txt">MIT license</a>.</p>
-
-<p>&copy; Aran Deltac</p>
+<p class="copyright">&copy; Aran Deltac</p>
 
 <script>
     var _gaq = _gaq || [];
