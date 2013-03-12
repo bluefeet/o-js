@@ -5,6 +5,7 @@ NEXT RELEASE
  - Fixed around to handle return values.
  - Fixed o.extend to properly inherit the parent's prototype
    instead of merging it with the child's.
+ - Default isa to "object" if extends is set.
 
 0.0.1 : 2013-03-10
  - First release!
