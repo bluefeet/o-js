@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>o.js - Javascript utility belt for rich objects and prototypes. Ooooh!</title>
+        <title>o.js - JavaScript utility belt for rich objects and prototypes. Ooooh!</title>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
@@ -19,73 +19,61 @@
                 background-color: #001C24;
                 color: #aaa;
                 margin: 0px;
+                padding: 0px;
                 font-family: 'Merriweather Sans', sans-serif;
                 font-size: 17px;
             }
 
-            div.page {
-                padding-bottom: 40px;
-                max-width: 900px;
+            div.section {
+                padding: 10px;
+            }
+            div.section-content {
+                max-width: 930px;
                 margin: 0px auto;
             }
 
-            div.page-content {
-                padding: 15px;
-            }
-
-            div.logo {
+            div.header-section {
                 text-align: center;
             }
-
-            div.logo h1 {
+            div.header-section h1 {
                 color: #3FAFEB;
                 font-size: 900%;
-                margin: 70px 30px;
+                margin: 50px 0px;
             }
-
-            div.logo p {
+            div.header-section p {
                 color: #777;
                 font-size: 130%;
-                margin: 40px 30px;
+                margin: 40px 0px;
+            }
+            span.oh {
+                font-size: 120%;
             }
 
             h2 {
                 color: #bbb;
                 font-size: 200%;
-                margin: 20px 0px;
+                margin: 0px 0px 10px 0px;
             }
-
-            div.tips {
-                padding: 15px 0px 0px 15px;
-            }
-
-            div.tip {
+            div.panel {
                 float: left;
+            }
+            div.panel-content {
+                padding: 10px;
+            }
+            div.clear { clear: both }
+            a {
+                text-decoration: none;
+                color: #2896B5;
+            }
+
+            div.overview-section {
+                background-color: #001014;
+            }
+            div.overview-section div.panel {
                 width: 33.3%;
             }
 
-            div.tip-content {
-                margin: 0px 15px 15px 0px;
-            }
-
-            div.tip h2 {
-                margin-top: 0px;
-                margin-bottom: 10px;
-            }
-
-            div.clear { clear: both }
-
-            a {
-                text-decoration: none;
-                color: #007394;
-            }
-
-            pre {
-                border-radius: 9px;
-                background-color: #001217;
-                padding: 15px;
-            }
-
+            pre { margin: 0px; }
             pre code {
                 border-radius: 9px;
                 padding: 15px;
@@ -93,71 +81,79 @@
                 overflow: auto;
             }
 
-            p.copyright {
-                text-align: right;
-                color: #555;
+            div.features-section div.panel {
+                width: 50%;
+            }
+            div.features-section h2 {
+                margin: 0px;
+                padding: 10px 10px 0px 10px;
+            }
+
+            div.footer-section {
+                background-color: #001014;
+                text-align: center;
                 font-size: 80%;
+                color: #777;
             }
 
-            @media screen and (max-width: 900px) {
-                div.page { padding:0px }
-                div.logo { border-radius:0px }
-            }
-
-            @media screen and (max-width: 700px) {
-                div.tip { float:none; width:100% }
-                div.tip h2 { margin: 20px 0px; }
-                div.tips { padding: 0px; }
-                pre, pre code { padding: 5px }
+            @media screen and (max-width: 950px) {
+                div.panel { float:none; width:100% !important }
+                h2 { margin: 0px; !important }
+                pre { margin-bottom: 10px }
+                div.features-section p { margin: 0px }
             }
 
             @media screen and (max-width: 480px) {
-                div.logo h1 { font-size:600%; margin:40px 15px; }
-                div.logo p { font-size:110%; margin:10px 15px; }
                 body { font-size:15px }
+                pre code { padding: 5px }
+                div.header-section h1 { font-size:600%; margin:40px 0px }
+                div.header-section p { font-size:110%; margin:10px 0px }
+                div.section { padding: 5px; }
             }
         </style>
     </head>
-    <body><div class="page">
+    <body>
 
 
-<div class="logo">
+<div class="section header-section"><div class="section-content">
     <h1>o.js</h1>
-    <p>Javascript utility belt for rich objects and prototypes.  Ooooh!</p>
-</div>
-<div class="page-content">
+    <p>JavaScript utility belt for rich objects and prototypes.  <span class="oh">Ooooh!</span></p>
+</div></div>
 
-<div class="tips">
-    <div class="tip"><div class="tip-content">
+<div class="section overview-section"><div class="section-content">
+
+    <div class="panel"><div class="panel-content">
         <h2>Why o.js?</h2>
         <p>JavaScript already has built-in support for objects and inheritance, but it
         is very lean and only provides the most basic functionality.  This library aims to fill
         in missing the pieces.</p>
     </div></div>
-    <div class="tip"><div class="tip-content">
+
+    <div class="panel"><div class="panel-content">
         <h2>Flexible</h2>
         <p>There are several libraries already that provide rich OO frameworks for JavaScript.
         This library does not provide a framework, and does not impose standard OO.  Use it as
         you see fit!</p>
     </div></div>
-    <div class="tip"><div class="tip-content">
+
+    <div class="panel"><div class="panel-content">
         <h2>Simple</h2>
         <p>One of the tenants of great software design is "do one thing, and do it well".  We
         follow this phylosophy by providing well thought-out bite-sized features which work
         independently and compliment each other when used together.</p>
     </div></div>
-    <div class="clear"></div>
-</div>
 
-<div class="tips">
-    <div class="tip"><div class="tip-content">
+    <div class="clear"></div>
+
+    <div class="panel"><div class="panel-content">
         <h2>Download</h2>
         <p>
             <a href="o-0.0.1.js">v0.0.1 Minified</a> (2k)<br/>
             <a href="https://raw.github.com/bluefeet/o-js/master/CHANGES.txt">Change Log</a><br/>
         </p>
     </div></div>
-    <div class="tip"><div class="tip-content">
+
+    <div class="panel"><div class="panel-content">
         <h2>Resources</h2>
         <p>
             <a href="https://github.com/bluefeet/o-js/wiki/Core-API">Documentation</a><br/>
@@ -169,67 +165,130 @@
             <a href="https://github.com/bluefeet/o-js/issues?milestone=1&state=open">1.0.0 Roadmap</a><br/>
         </p>
     </div></div>
-    <div class="tip"><div class="tip-content">
+
+    <div class="panel"><div class="panel-content">
         <h2>License</h2>
         <p>o.js may be freely distributed under the
         <a href="https://raw.github.com/bluefeet/o-js/master/LICENSE.txt">MIT license</a>.</p>
     </div></div>
-    <div class="clear"></div>
-</div>
 
-<h2>Constructor</h2>
-<p>The classic point example, o.js style, using
-<a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-construct">o.construct</a> and
-<a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-accessor">o.accessor</a>.</p>
+    <div class="clear"></div>
+
+</div></div>
+
+<div class="section features-section"><div class="section-content">
+
+    <h2>Properties</h2>
+    <div class="panel"><div class="panel-content"><p>
+        With o.js you can create rich property definitions such as <code>isa</code>,
+        <code>default</code>, <code>filter</code>, <code>chain</code>, and more, when
+        using <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-reader">o.reader</a>,
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-writer">o.writer</a>,
+        and <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-accessor">o.accessor</a>.
+        Properties can be cleared with 
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-clearer">o.clearer</a> and checked
+        if the property has been set with
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-predicate">o.predicate</a>.
+        Proxy methods, which will call a function on an underlying property, can be created with
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-proxy">o.proxy</a>.
+    </p></div></div>
+
+    <div class="panel"><div class="panel-content">
+<pre><code>obj.name = o.accessor(
+    'NAME', {
+        isa: 'string',
+        required: true
+    }
+);
+obj.name('Bilbo');
+</code></pre>
+    </div></div>
+
+    <div class="clear"></div>
+
+    <h2>Constructors</h2>
+    <div class="panel"><div class="panel-content"><p>
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-construct">o.construct</a>
+        simplifies the creation of constructor functions by grouping the function and the prototype
+        definitions in one call.  <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-extend">o.extend</a>
+        takes this even further by providing a lightweight way to correctly inherit from a parent constructor.
+    </p></div></div>
+
+    <div class="panel"><div class="panel-content">
 <pre><code>var Point = o.construct(
     function (x, y) {
         this.x( x );
         this.y( y );
     },
     {
-        x: o.accessor('_x', { isa:'number' }),
-        y: o.accessor('_x', { isa:'number' }),
-        distanceTo: function (other) {
-            xd = this.x() - other.x();
-            yd = this.y() - other.y();
-            return Math.sqrt(xd*xd + yd*yd)
-        }
+        x: o.accessor('X'),
+        y: o.accessor('Y')
+    }
+);
+</code></pre>
+    </div></div>
+
+    <div class="clear"></div>
+
+    <h2>Methods</h2>
+    <div class="panel"><div class="panel-content"><p>
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-before">o.before</a> and
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-after">o.after</a> can be used
+        to add behavior to an object's method without actually changing the interface.  With
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-around">o.around</a> this
+        is taken to the next step by providing the ability to intercept a method's arguments,
+        change them, or even decide not to call the original method.
+    </p></div></div>
+
+    <div class="panel"><div class="panel-content">
+<pre><code>obj.setColor = o.writer('color');
+
+obj.setColor = o.after(
+    obj.setColor,
+    function () {
+        console.log( this.color );
     }
 );
 
-var a = new Point( 10, 32 );
-var b = new Point( 4, 5 );
-
-console.log( o.distanceTo(b) ); // 27.658...
+obj.setColor( 'blue' );
+// Stores 'blue', then logs 'blue'.
 </code></pre>
+    </div></div>
 
-<h2>Inheritance</h2>
-<p>This literally extends the point example by adding a third dimension, using
-<a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-extend">o.extend</a>.</p>
-<pre><code>var Point3D = o.extend(
-    Point,
-    function (parent, x, y, z) {
-        parent( x, y );
-        this.z( z );
-    },
-    {
-        z: o.accessor('_z', { isa:'number' }),
-        distanceTo = function(other) {
-            xd = this.x() - other.x();
-            yd = this.y() - other.y();
-            zd = this.z() - other.z();
-            return Math.sqrt(xd*xd + yd*yd + zd*zd)
-        }
-    }
+    <div class="clear"></div>
+
+    <h2>Utilities</h2>
+    <div class="panel"><div class="panel-content"><p>
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-merge">o.merge</a>
+        merges two or more objects, while
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-clone">o.clone</a> properly
+        clones an object, prototype, constructor, and all.  There is also
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-has">o.has</a> and
+        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-noConflict">o.noConflict</a>.
+    </p></div></div>
+
+    <div class="panel"><div class="panel-content">
+<pre><code>var obj = o.merge(
+    {},
+    { name:'Bilbo' },
+    { age:111 }
 );
-
-var a = new Point3D( 10, 32, 5 );
-var b = new Point3D( 4, 5, 15 );
-
-console.log( o.distanceTo(b) ); // 29.410...
+// obj = { name:'Bilbo', age:111 }
 </code></pre>
+    </div></div>
 
-<p class="copyright">&copy; Aran Deltac</p>
+    <div class="clear"></div>
+
+</div></div>
+
+
+<div class="section footer-section"><div class="section-content">
+    <p>Hosting provided by <a href="http://pages.github.com/">GitHub Pages</a>.</p>
+    <p>The <a href="https://github.com/vladocar/o---JS-Library-for-Object-Manipulation">o</a>
+       library, by <a href="https://github.com/vladocar">Vladimir Carrer</a>, is not related
+       to this project.</p>
+    <p>&copy; Aran Deltac</p>
+</div>
 
 <script>
     var _gaq = _gaq || [];
@@ -242,6 +301,5 @@ console.log( o.distanceTo(b) ); // 29.410...
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
 </script>
-
-    </div></div></body>
+    </body>
 </html>
