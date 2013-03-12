@@ -6,6 +6,7 @@ NEXT RELEASE
  - Fixed o.extend to properly inherit the parent's prototype
    instead of merging it with the child's.
  - Default isa to "object" if extends is set.
+ - Set the child's prototype's constructor to the parent in o.extend.
 
 0.0.1 : 2013-03-10
  - First release!

@@ -142,11 +142,13 @@
             constructor
         );
 
-        child.prototype = proto
-                        ? o.merge( {}, constructor.prototype, proto )
-                        : o.clone( constructor.prototype );
+        proto = proto
+              ? o.merge( {}, constructor.prototype, proto )
+              : o.clone( constructor.prototype );
 
-        child.prototype.__proto__ = parent.prototype;
+        proto.__proto__ = parent.prototype;
+        proto.constructor = parent;
+        child.prototype = proto;
 
         return child;
     };
