@@ -309,8 +309,9 @@ test( 'has', function () {
 });
 
 test( 'noConflict', function () {
+    equal(oJS, o, 'oJS is exported');
     var oldO = o;
-    var oJS = o.noConflict();
+    var newO = o.noConflict();
     equal(o, 'ORIGINAL_O', 'originl value of o was set');
     equal(oldO, oJS, 'returned o');
 });

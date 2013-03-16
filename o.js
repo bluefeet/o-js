@@ -3,15 +3,17 @@
     var previousO = root.o;
     var o = {};
 
-    // The method in which we export o, that works whether in the browser or
-    // Node.js, including noConflict, was graciously copied from underscore.js.
+    // The method in which we export o (and oJS), that works whether in the browseri
+    // or Node.js, including noConflict, was graciously copied from underscore.js.
     if (typeof exports !== 'undefined') {
         if (typeof module !== 'undefined' && module.exports) {
             exports = module.exports = o;
         }
         exports.o = o;
+        exports.oJS = o;
     } else {
         root.o = o;
+        root.oJS = o;
     }
 
     o.noConflict = function () {
