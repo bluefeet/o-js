@@ -149,7 +149,6 @@
               : o.clone( constructor.prototype );
 
         proto.__proto__ = parent.prototype;
-        proto.constructor = parent;
         child.prototype = proto;
 
         return child;
