@@ -1,4 +1,4 @@
-NEXT RELEASE
+0.0.2 : 2013-03-18
  - Added o.construct.
  - o.extend now accepts a third argument to specify properties for the prototype.
  - Full test coverage of the Core API.
