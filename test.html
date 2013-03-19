@@ -11,8 +11,11 @@
 <div id="qunit-fixture"></div>
 
 <script src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+
 <script>var o = 'ORIGINAL_O';</script>
 <script src="o.js"></script>
+
+<script src="o-types.js"></script>
 
 <script>
 test( 'reader', function () {
@@ -314,6 +317,29 @@ test( 'noConflict', function () {
     var newO = o.noConflict();
     equal(o, 'ORIGINAL_O', 'originl value of o was set');
     equal(oldO, oJS, 'returned o');
+    o = oldO;
+});
+
+test( 'types', function () {
+    var undef; var obj = { foo: 32 };
+
+    ok( o.isUndefined(undefined), 'isUndefined: undefined' );
+    ok( !o.isUndefined(null), 'isUndefined: null' );
+    ok( o.isUndefined(undef), 'isUndefined: undefined variable' );
+    ok( !o.isUndefined(obj), 'isUndefined: defined variable' );
+    ok( o.isUndefined(obj.bar), 'isUndefined: undefined property' );
+    ok( !o.isUndefined(obj.foo), 'isUndefined: defined property' );
+
+    ok( !o.isDefined(undefined), 'isDefined: undefined' );
+    ok( o.isDefined(null), 'isDefined: null' );
+    ok( !o.isDefined(undef), 'isDefined: undefined variable' );
+    ok( o.isDefined(obj), 'isDefined: defined variable' );
+    ok( !o.isDefined(obj.bar), 'isDefined: undefined property' );
+    ok( o.isDefined(obj.foo), 'isDefined: defined property' );
+
+    ok( o.isNull(null), 'isNull: null' );
+    ok( !o.isNull(undefined), 'isNull: undefined' );
+    ok( !o.isNull(obj), 'isNull: defined variable' );
 });
 </script>
 
