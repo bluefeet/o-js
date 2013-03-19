@@ -216,7 +216,7 @@
 
     <div class="panel"><div class="panel-content">
 <pre><code>obj.name = o.accessor(
-    'NAME', {
+    '_name', {
         isa: 'string',
         required: true
     }
@@ -242,8 +242,8 @@ obj.name('Bilbo');
         this.y( y );
     },
     {
-        x: o.accessor('X'),
-        y: o.accessor('Y')
+        x: o.accessor('_x'),
+        y: o.accessor('_y')
     }
 );
 </code></pre>
@@ -262,12 +262,12 @@ obj.name('Bilbo');
     </p></div></div>
 
     <div class="panel"><div class="panel-content">
-<pre><code>obj.setColor = o.writer('color');
+<pre><code>obj.setColor = o.writer('_color');
 
 obj.setColor = o.after(
     obj.setColor,
     function () {
-        console.log( this.color );
+        console.log( this._color );
     }
 );
 
@@ -290,7 +290,6 @@ obj.setColor( 'blue' );
 
     <div class="panel"><div class="panel-content">
 <pre><code>var obj = o.merge(
-    {},
     { name:'Bilbo' },
     { age:111 }
 );
