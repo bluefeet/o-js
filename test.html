@@ -323,23 +323,66 @@ test( 'noConflict', function () {
 test( 'types', function () {
     var undef; var obj = { foo: 32 };
 
-    ok( o.isUndefined(undefined), 'isUndefined: undefined' );
-    ok( !o.isUndefined(null), 'isUndefined: null' );
-    ok( o.isUndefined(undef), 'isUndefined: undefined variable' );
-    ok( !o.isUndefined(obj), 'isUndefined: defined variable' );
-    ok( o.isUndefined(obj.bar), 'isUndefined: undefined property' );
-    ok( !o.isUndefined(obj.foo), 'isUndefined: defined property' );
+    var values = [
+        undefined,           // 0
+        null,
+        true,
+        false,
+        new Boolean(false),
+        'string',            // 5
+        new String('String'),
+        '',
+        123,
+        new Number(456),
+        9.876,               // 10
+        -123,
+        0,
+        function () {},
+        new Function ('foo', 'console.log(foo)'),
+        {},                  // 15
+        new Object({}),
+        [],
+        new Array([]),
+        /a+b/,
+        new RegExp('b+a'),   // 20
+        new Date()
+    ];
 
-    ok( !o.isDefined(undefined), 'isDefined: undefined' );
-    ok( o.isDefined(null), 'isDefined: null' );
-    ok( !o.isDefined(undef), 'isDefined: undefined variable' );
-    ok( o.isDefined(obj), 'isDefined: defined variable' );
-    ok( !o.isDefined(obj.bar), 'isDefined: undefined property' );
-    ok( o.isDefined(obj.foo), 'isDefined: defined property' );
+    var tests = [
+        [ 'undefined', 0 ],
+        [ 'defined', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 ],
+        [ 'null', 1 ],
+        [ 'boolean', 2, 3, 4 ],
+        [ 'string', 5, 6, 7 ],
+        [ 'emptyString', 7 ],
+        [ 'number', 8, 9, 10, 11, 12 ],
+        [ 'integer', 8, 9, 11, 12 ],
+        [ 'positive', 8, 9, 10 ],
+        [ 'negative', 11 ],
+        [ 'nonZero', 8, 9, 10, 11 ],
+        [ 'function', 13, 14 ],
+        [ 'object', 1, 4, 6, 9, 13, 14, 15, 16, 17, 18, 19, 20, 21 ],
+        [ 'array', 17, 18 ],
+        [ 'regExp', 19, 20 ],
+        [ 'date', 21 ]
+    ];
 
-    ok( o.isNull(null), 'isNull: null' );
-    ok( !o.isNull(undefined), 'isNull: undefined' );
-    ok( !o.isNull(obj), 'isNull: defined variable' );
+    for (var i = 0, l = tests.length; i < l; i++) {
+        var okValues = tests[i];
+        var type = okValues.shift();
+        var is = o[type + 'Type']();
+
+        var okLookup = {};
+        for (var j = 0, m = okValues.length; j < m; j++) {
+            okLookup[ okValues[j] ] = true;
+        }
+
+        for (var j = 0, m = values.length; j < m; j++) {
+            var value = values[j];
+            if (okLookup[j]) { ok( is(value), '' + value + ' is ' + type ) }
+            else { ok( !is(value), '' + value + ' is not ' + type ) }
+        }
+    }
 });
 </script>
 

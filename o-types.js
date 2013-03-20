@@ -18,11 +18,13 @@
     o.nullType = function () { return o.isNull };
 
     o.isBoolean = function (value) {
+        if (value instanceof Boolean) return true;
         return (typeof value === 'boolean') ? true : false;
     };
     o.booleanType = function () { return o.isBoolean };
 
     o.isString = function (value) {
+        if (value instanceof String) return true;
         return (typeof value === 'string') ? true : false;
     };
     o.stringType = function () { return o.isString };
@@ -34,13 +36,14 @@
     o.emptyStringType = function () { return o.isEmptyString };
 
     o.isNumber = function (value) {
+        if (value instanceof Number) return true;
         return (typeof value === 'number') ? true : false;
     };
     o.numberType = function () { return o.isNumber };
 
     o.isInteger = function (value) {
         if (!o.isNumber(value)) return false;
-        return (Math.floor(value) === value) ? true : false;
+        return (Math.floor(value) === value + 0) ? true : false;
     };
     o.integerType = function () { return o.isInteger };
 
@@ -63,12 +66,14 @@
     o.nonZeroType = function () { return o.isNonZero };
 
     o.isFunction = function (value) {
+        if (value instanceof Function) return true;
         return (typeof value === 'function') ? true : false;
     };
     o.functionType = function () { return o.isFunction };
 
     o.isObject = function (value) {
-        return (value instanceof Object) ? true : false;
+        if (value instanceof Object) return true;
+        return (typeof value === 'object') ? true : false;
     };
     o.objectType = function () { return o.isObject };
 
