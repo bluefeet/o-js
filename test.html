@@ -389,9 +389,27 @@ test( 'types: enum', function () {
     ok( o.isInEnum('bar', ['foo', 'bar', 'baz']), 'is' );
     ok( !o.isInEnum(5, [1, 2, 3]), 'isnt' );
 
-    var type = o.enumType('this', 'that', 'other');
+    var type = o.enumType(['this', 'that', 'other']);
     ok( type('other'), 'is via type' );
     ok( !type('them'), 'isnt via type' );
+});
+
+test( 'types: extends', function () {
+    var Parent = function () { };
+
+    var Child = o.extend(
+        Parent,
+        function (parent) { parent() }
+    );
+
+    var child = new Child();
+
+    var type = o.extendsType(Array);
+    ok( type(new Array()), 'new Array extends Array' );
+    ok( !type(child), 'child doesnot extend Array' );
+
+    type = o.extendsType(Parent);
+    ok( type(child), 'Child extends Parent' );
 });
 </script>
 
