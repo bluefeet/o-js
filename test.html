@@ -18,7 +18,7 @@
 <script src="o-types.js"></script>
 
 <script>
-test( 'reader', function () {
+test( 'core: reader', function () {
     // basics
     var obj = { getName: o.reader('name') };
     equal( obj.getName(), undefined, 'property is undefined' );
@@ -73,7 +73,7 @@ test( 'reader', function () {
     ok( writerCalled, 'the custom writer was called' );
 });
 
-test( 'writer', function () {
+test( 'core: writer', function () {
     // basics
     var obj = { setName: o.writer('name') };
     equal( obj.name, undefined, 'property started as undefined' );
@@ -121,7 +121,7 @@ test( 'writer', function () {
     throws( function(){ obj.setThing(new B()) }, 'extends check failed' );
 });
 
-test( 'accessor', function () {
+test( 'core: accessor', function () {
     // basics
     var obj = { name: o.accessor('_name') };
     equal( obj._name, undefined, 'property started as undefined' );
@@ -143,7 +143,7 @@ test( 'accessor', function () {
     ok( writerCalled, 'writer was called to write' );
 });
 
-test( 'predicate', function () {
+test( 'core: predicate', function () {
     var obj = { hasName: o.predicate('name') };
     ok( !obj.hasName(), 'returns false when the property is not set' );
     obj.__proto__ = { name: 'Bob' };
@@ -157,7 +157,7 @@ test( 'predicate', function () {
     ok( !obj.hasName(), 'not set after deletion' );
 });
 
-test( 'clearer', function () {
+test( 'core: clearer', function () {
     var obj = { clearName: o.clearer('name') };
     equal(obj.name, undefined, 'undefined before clear');
     obj.name = 'Foo';
@@ -173,7 +173,7 @@ test( 'clearer', function () {
     equal(obj.name, 'Bar', 'value is from the prototype after clearer');
 });
 
-test( 'proxy', function () {
+test( 'core: proxy', function () {
     var obj = {};
     obj.queue = [];
     obj.enqueue = o.proxy('queue', 'unshift');
@@ -187,7 +187,7 @@ test( 'proxy', function () {
     deepEqual( obj.queue, ['job3', 'job2'], 'remaining jobs are correct' );
 });
 
-test( 'before', function () {
+test( 'core: before', function () {
     var obj = {};
     obj.addNumbers = function (num1, num2) { return num1 + num2 };
     equal( obj.addNumbers(1,2), 3, 'original function works' );
@@ -197,7 +197,7 @@ test( 'before', function () {
     ok( beforeCalled, 'the before function was called' );
 });
 
-test( 'after', function () {
+test( 'core: after', function () {
     var obj = {};
     obj.addNumbers = function (num1, num2) { return num1 + num2 };
     equal( obj.addNumbers(1,2), 3, 'original function works' );
@@ -207,7 +207,7 @@ test( 'after', function () {
     ok( afterCalled, 'the after function was called' );
 });
 
-test( 'around', function () {
+test( 'core: around', function () {
     var obj = {};
     obj.addNumbers = function (num1, num2) { return num1 + num2 };
     equal( obj.addNumbers(1,2), 3, 'original function works' );
@@ -224,7 +224,7 @@ test( 'around', function () {
     equal( obj.addNumbers('1', 2), null, 'arround function intercepted non-number' );
 });
 
-test( 'construct', function () {
+test( 'core: construct', function () {
     var Point = o.construct(
         function (x, y) { this.x=x; this.y=y },
         {
@@ -236,7 +236,7 @@ test( 'construct', function () {
     deepEqual( [p.getX(), p.getY()], [12, 4], 'basics' );
 });
 
-test( 'extend', function () {
+test( 'core: extend', function () {
     var Parent = function (foo) { this.foo = foo };
     Parent.prototype = { getFoo: function () { return this.foo } };
 
@@ -279,7 +279,7 @@ test( 'extend', function () {
     equal( obj3.getMez(), 'MEZ', 'constructor prototype was copied' );
 });
 
-test( 'merge', function () {
+test( 'core: merge', function () {
     var obj1 = { a:'A', b:'B' };
     var obj2 = { b:'BB', c:'CC', d:'DD' };
     var obj3 = { d:'DDD', e:'EEE' };
@@ -289,7 +289,7 @@ test( 'merge', function () {
     deepEqual( obj1, {a:'A', b:'BB', c:'CC', d:'DDD', e:'EEE' }, 'merged in right order' );
 });
 
-test( 'clone', function () {
+test( 'core: clone', function () {
     var A = function (foo) { this.foo = foo };
     A.prototype = { bar: 'BAR' };
 
@@ -302,7 +302,7 @@ test( 'clone', function () {
     equal( a.constructor, b.constructor, 'constructor matches' );
 });
 
-test( 'has', function () {
+test( 'core: has', function () {
     var obj = { name: 'Foo' };
     ok( o.has(obj, 'name'), 'has found a property' );
     ok( !o.has(obj, 'bah'), 'has did not find a property' );
@@ -311,7 +311,7 @@ test( 'has', function () {
     ok( !o.has(obj, 'age'), 'prototype property does not affect has' );
 });
 
-test( 'noConflict', function () {
+test( 'core: noConflict', function () {
     equal(oJS, o, 'oJS is exported');
     var oldO = o;
     var newO = o.noConflict();
@@ -320,7 +320,7 @@ test( 'noConflict', function () {
     o = oldO;
 });
 
-test( 'types', function () {
+test( 'types: simple', function () {
     var undef; var obj = { foo: 32 };
 
     var values = [
@@ -383,6 +383,15 @@ test( 'types', function () {
             else { ok( !is(value), '' + value + ' is not ' + type ) }
         }
     }
+});
+
+test( 'types: enum', function () {
+    ok( o.isInEnum('bar', ['foo', 'bar', 'baz']), 'is' );
+    ok( !o.isInEnum(5, [1, 2, 3]), 'isnt' );
+
+    var type = o.enumType('this', 'that', 'other');
+    ok( type('other'), 'is via type' );
+    ok( !type('them'), 'isnt via type' );
 });
 </script>
 
