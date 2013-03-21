@@ -2,117 +2,114 @@
     var o = oJS;
     if (!o) throw new Error('...');
 
+    function simpleType (func) {
+        return function () { return func }
+    }
+
+    function complexType (func) {
+        return function (def) {
+            return function (value) {
+                return func.call( o, value, def );
+            }
+        }
+    }
+
     o.isUndefined = function (value) {
         return (value === undefined) ? true : false;
     };
-    o.undefinedType = function () { return o.isUndefined };
+    o.undefinedType = simpleType( o.isUndefined );
 
     o.isDefined = function (value) {
         return (value === undefined) ? false : true;
     };
-    o.definedType = function () { return o.isDefined };
+    o.definedType = simpleType( o.isDefined );
 
     o.isNull = function (value) {
         return (value === null) ? true : false;
     };
-    o.nullType = function () { return o.isNull };
+    o.nullType = simpleType( o.isNull );
 
     o.isBoolean = function (value) {
         if (value instanceof Boolean) return true;
         return (typeof value === 'boolean') ? true : false;
     };
-    o.booleanType = function () { return o.isBoolean };
+    o.booleanType = simpleType( o.isBoolean );
 
     o.isString = function (value) {
         if (value instanceof String) return true;
         return (typeof value === 'string') ? true : false;
     };
-    o.stringType = function () { return o.isString };
-
-    o.isEmptyString = function (value) {
-        if (!o.isString(value)) return false;
-        return value ? false : true;
-    };
-    o.emptyStringType = function () { return o.isEmptyString };
+    o.stringType = simpleType( o.isString );
 
     o.isNumber = function (value) {
         if (value instanceof Number) return true;
         return (typeof value === 'number') ? true : false;
     };
-    o.numberType = function () { return o.isNumber };
+    o.numberType = simpleType( o.isNumber );
 
     o.isInteger = function (value) {
         if (!o.isNumber(value)) return false;
         return (Math.floor(value) === value + 0) ? true : false;
     };
-    o.integerType = function () { return o.isInteger };
+    o.integerType = simpleType( o.isInteger );
 
     o.isPositive = function (value) {
         if (!o.isNumber(value)) return false;
         return (value > 0) ? true : false;
     }
-    o.positiveType = function () { return o.isPositive };
+    o.positiveType = simpleType( o.isPositive );
 
     o.isNegative = function (value) {
         if (!o.isNumber(value)) return false;
         return (value < 0) ? true : false;
     };
-    o.negativeType = function () { return o.isNegative };
+    o.negativeType = simpleType( o.isNegative );
 
     o.isNonZero = function (value) {
         if (!o.isNumber(value)) return false;
         return (value !== 0) ? true : false;
     };
-    o.nonZeroType = function () { return o.isNonZero };
+    o.nonZeroType = simpleType( o.isNonZero );
 
     o.isFunction = function (value) {
         if (value instanceof Function) return true;
         return (typeof value === 'function') ? true : false;
     };
-    o.functionType = function () { return o.isFunction };
+    o.functionType = simpleType( o.isFunction );
 
     o.isObject = function (value) {
         if (value instanceof Object) return true;
         return (typeof value === 'object') ? true : false;
     };
-    o.objectType = function () { return o.isObject };
+    o.objectType = simpleType( o.isObject );
 
     o.isArray = function (value) {
         return (value instanceof Array) ? true : false;
     };
-    o.arrayType = function () { return o.isArray };
+    o.arrayType = simpleType( o.isArray );
 
     o.isRegExp = function (value) {
         return (value instanceof RegExp) ? true : false;
     };
-    o.regExpType = function () { return o.isRegExp };
+    o.regExpType = simpleType( o.isRegExp );
 
     o.isDate = function (value) {
         return (value instanceof Date) ? true : false;
     };
-    o.dateType = function () { return o.isDate };
+    o.dateType = simpleType( o.isDate );
 
-    o.isInEnum = function (value, values) {
+    o.isEnum = function (value, values) {
         for (var i = 0, l = values.length; i < l; i++) {
             if (value === values[i]) return true;
         }
         return false;
     };
-    o.enumType = function () {
-        var values = arguments;
-        return function (value) {
-            return o.isInEnum( value, values );
-        };
-    };
+    o.enumType = complexType( o.isEnum );
 
-    o.isExtending = function (value, constructor) {
+    o.isExtends = function (value, constructor) {
         return (value instanceof constructor) ? true : false;
     };
-    o.extendsType = function (constructor) {
-        return function (value) {
-            return o.isExtending( value, constructor );
-        };
-    };
+    o.extendsType = complexType( o.isExtends );
 
     o.isDuck = function (value, methods) {
         if (!o.isObject(value)) return false;
@@ -121,12 +118,7 @@
         }
         return true;
     };
-    o.duckType = function () {
-        var methods = arguments;
-        return function (value) {
-            return o.isDuck( value, methods );
-        };
-    };
+    o.duckType = complexType( o.isDuck );
 
     o.isAny = function (value, types) {
         for (var i = 0, l = types.length; i < l; i++) {
@@ -134,12 +126,7 @@
         }
         return false;
     };
-    o.anyType = function () {
-        var types = arguments;
-        return function (value) {
-            return o.isAny.apply( o, value, types );
-        };
-    };
+    o.anyType = complexType( o.isAny );
 
     o.isAll = function (value, types) {
         for (var i = 0, l = types.length; i < l; i++) {
@@ -147,29 +134,15 @@
         }
         return true;
     };
-    o.allType = function () {
-        var types = arguments;
-        return function (value) {
-            return o.isAll( value, types );
-        };
-    };
+    o.allType = complexType( o.isAll );
 
     o.isNone = function (value, types) {
         return o.isAny(value,types) ? false : true;
     };
-    o.noneType = function () {
-        var types = arguments;
-        return function (value) {
-            return o.isNone( value, types );
-        };
-    };
+    o.noneType = complexType( o.isNone );
 
     o.isNot = function (value, type) {
         return type(value) ? false : true;
     };
-    o.notType = function (type) {
-        return function (value) {
-            return o.isNot( value, type );
-        };
-    };
+    o.notType = complexType( o.isNot );
 }).call(this);

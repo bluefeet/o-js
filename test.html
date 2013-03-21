@@ -320,7 +320,7 @@ test( 'core: noConflict', function () {
     o = oldO;
 });
 
-test( 'types: simple', function () {
+test( 'types: basic', function () {
     var undef; var obj = { foo: 32 };
 
     var values = [
@@ -354,7 +354,6 @@ test( 'types: simple', function () {
         [ 'null', 1 ],
         [ 'boolean', 2, 3, 4 ],
         [ 'string', 5, 6, 7 ],
-        [ 'emptyString', 7 ],
         [ 'number', 8, 9, 10, 11, 12 ],
         [ 'integer', 8, 9, 11, 12 ],
         [ 'positive', 8, 9, 10 ],
@@ -386,8 +385,8 @@ test( 'types: simple', function () {
 });
 
 test( 'types: enum', function () {
-    ok( o.isInEnum('bar', ['foo', 'bar', 'baz']), 'is' );
-    ok( !o.isInEnum(5, [1, 2, 3]), 'isnt' );
+    ok( o.isEnum('bar', ['foo', 'bar', 'baz']), 'is' );
+    ok( !o.isEnum(5, [1, 2, 3]), 'isnt' );
 
     var type = o.enumType(['this', 'that', 'other']);
     ok( type('other'), 'is via type' );
@@ -410,6 +409,48 @@ test( 'types: extends', function () {
 
     type = o.extendsType(Parent);
     ok( type(child), 'Child extends Parent' );
+});
+
+test( 'types: duck', function () {
+    var obj = { foo: 1, bar:2 };
+
+    ok( o.isDuck(obj, ['foo', 'bar']), 'all good' );
+    ok( o.isDuck(obj, ['foo']), 'one good' );
+    ok( !o.isDuck(obj, ['baz', 'foo']), 'one good, one bad' );
+    ok( !o.isDuck(obj, ['baz']), 'one bad' );
+});
+
+test( 'types: any', function () {
+    var any = o.anyType([ o.stringType(), o.nullType() ]);
+
+    ok( any('str'), 'string is a string or null' );
+    ok( any(null), 'null is a string or null' );
+    ok( !any(123), 'number if not a string and is not null' );
+});
+
+test( 'types: all', function () {
+    var all = o.allType([ o.integerType(), o.positiveType() ]);
+
+    ok( all(1), '1 is an integer and is positive' );
+    ok( !all(0), '0 is not an integer or is not positive' );
+    ok( !all(-1), '-1 is not an integer or is not positive' );
+    ok( !all(1.23), '1.23 is not an integer or is not positive' );
+});
+
+test( 'types: none', function () {
+    var none = o.noneType([ o.integerType(), o.positiveType() ]);
+
+    ok( !none(1), '1 is an integer and is positive' );
+    ok( !none(0), '0 is an integer or is not positive' );
+    ok( !none(-1), '-1 is an integer or is not positive' );
+    ok( none(-1.23), '-1.23 is not an integer and is not positive' );
+});
+
+test( 'types: not', function () {
+    var not = o.notType( o.stringType() );
+
+    ok( not(123), '123 is not a string' );
+    ok( !not('abc'), 'abc is a string' );
 });
 </script>
 
