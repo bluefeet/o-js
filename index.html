@@ -169,7 +169,9 @@
     <div class="panel"><div class="panel-content">
         <h2>Download</h2>
         <p>
-            <a href="o-0.0.2.js">v0.0.2 Minified</a> (2.2k)<br/>
+            v0.0.3<br/>
+            <a href="o-0.0.3.js">o.js Minified</a> (2.2k)<br/>
+            <a href="o-types-0.0.3.js">o-types.js Minified</a> (2.2k)<br/>
             <a href="https://raw.github.com/bluefeet/o-js/master/CHANGES.txt">Change Log</a><br/>
         </p>
     </div></div>
@@ -294,6 +296,30 @@ obj.setColor( 'blue' );
     { age:111 }
 );
 // obj = { name:'Bilbo', age:111 }
+</code></pre>
+    </div></div>
+
+    <div class="clear"></div>
+
+    <h2>Types</h2>
+    <div class="panel"><div class="panel-content"><p>
+        By itself, <code>o.js</code> provides very basic type checking.  The optional
+        <a href="https://github.com/bluefeet/o-js/wiki/Types-API">Types API</a>,
+        <code>o-types.js</code>, extension provides a wide array of types for doing standalone
+        validation, as well as validation of property values before they are written.
+    </p></div></div>
+
+    <div class="panel"><div class="panel-content">
+<pre><code>if (o.isNumber(123))
+    console.log('ok');
+
+var obj = {
+    setName: o.writer(
+        '_name',
+        { isa: o.stringType() }
+    )
+};
+obj.setName( 'Totoro' );
 </code></pre>
     </div></div>
 
