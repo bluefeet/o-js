@@ -1,5 +1,5 @@
-NEXT RELEASE
- - New types library.
+0.0.3 : 2013-03-24
+ - New types extension (o-types.js).
 
 0.0.2 : 2013-03-18
  - Added o.construct.
