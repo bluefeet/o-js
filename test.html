@@ -360,7 +360,7 @@ test( 'types: basic', function () {
         [ 'negative', 11 ],
         [ 'nonZero', 8, 9, 10, 11 ],
         [ 'function', 13, 14 ],
-        [ 'object', 1, 4, 6, 9, 13, 14, 15, 16, 17, 18, 19, 20, 21 ],
+        [ 'object', 4, 6, 9, 13, 14, 15, 16, 17, 18, 19, 20, 21 ],
         [ 'array', 17, 18 ],
         [ 'regExp', 19, 20 ],
         [ 'date', 21 ]
@@ -393,7 +393,7 @@ test( 'types: enum', function () {
     ok( !type('them'), 'isnt via type' );
 });
 
-test( 'types: extends', function () {
+test( 'types: instanceof', function () {
     var Parent = function () { };
 
     var Child = o.extend(
@@ -403,12 +403,12 @@ test( 'types: extends', function () {
 
     var child = new Child();
 
-    var type = o.extendsType(Array);
-    ok( type(new Array()), 'new Array extends Array' );
-    ok( !type(child), 'child doesnot extend Array' );
+    var type = o.instanceOfType(Array);
+    ok( type(new Array()), 'new Array instanceOf Array' );
+    ok( !type(child), 'child doesnot instanceOf Array' );
 
-    type = o.extendsType(Parent);
-    ok( type(child), 'Child extends Parent' );
+    type = o.instanceOfType(Parent);
+    ok( type(child), 'Child instanceOf Parent' );
 });
 
 test( 'types: duck', function () {

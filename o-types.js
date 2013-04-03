@@ -29,21 +29,53 @@
     };
     o.nullType = simpleType( o.isNull );
 
-    o.isBoolean = function (value) {
-        if (value instanceof Boolean) return true;
+    o.isBooleanPrimitive = function (value) {
         return (typeof value === 'boolean') ? true : false;
+    };
+    o.booleanPrimitiveType = simpleType( o.isBooleanPrimitive );
+
+    o.isBooleanObject = function (value) {
+        return (value instanceof Boolean) ? true : false;
+    };
+    o.booleanObjectType = simpleType( o.isBooleanObject );
+
+    o.isBoolean = function (value) {
+        return (o.isBooleanPrimitive(value) || o.isBooleanObject(value)) ? true : false;
     };
     o.booleanType = simpleType( o.isBoolean );
 
-    o.isString = function (value) {
-        if (value instanceof String) return true;
+    o.isStringPrimitive = function (value) {
         return (typeof value === 'string') ? true : false;
+    };
+    o.stringPrimitiveType = simpleType( o.isStringPrimitive );
+
+    o.isStringObject = function (value) {
+        return (value instanceof String) ? true : false;
+    };
+    o.stringObjectType = simpleType( o.isStringObject );
+
+    o.isString = function (value) {
+        return (o.isStringPrimitive(value) || o.isStringObject(value)) ? true : false;
     };
     o.stringType = simpleType( o.isString );
 
-    o.isNumber = function (value) {
-        if (value instanceof Number) return true;
+    o.isNonEmptyString = function (value) {
+        if (!o.isString(value)) return false;
+        return (value.length > 0) ? true : false;
+    };
+
+    o.isNumberPrimitive = function (value) {
         return (typeof value === 'number') ? true : false;
+    };
+    o.numberPrimitiveType = simpleType( o.isNumberPrimitive );
+
+    o.isNumberObject = function (value) {
+        return (value instanceof Number) ? true : false;
+    };
+    o.numberObjectType = simpleType( o.isNumberObject );
+
+    o.isNumber = function (value) {
+        return (o.isNumberPrimitive(value) || o.isNumberObject(value)) ? true : false;
     };
     o.numberType = simpleType( o.isNumber );
 
@@ -71,17 +103,15 @@
     };
     o.nonZeroType = simpleType( o.isNonZero );
 
-    o.isFunction = function (value) {
-        if (value instanceof Function) return true;
-        return (typeof value === 'function') ? true : false;
-    };
-    o.functionType = simpleType( o.isFunction );
-
     o.isObject = function (value) {
-        if (value instanceof Object) return true;
-        return (typeof value === 'object') ? true : false;
+        return (value instanceof Object) ? true : false;
     };
     o.objectType = simpleType( o.isObject );
+
+    o.isFunction = function (value) {
+        return (value instanceof Function) ? true : false;
+    };
+    o.functionType = simpleType( o.isFunction );
 
     o.isArray = function (value) {
         return (value instanceof Array) ? true : false;
@@ -106,10 +136,15 @@
     };
     o.enumType = complexType( o.isEnum );
 
-    o.isExtends = function (value, constructor) {
+    o.isTypeOf = function (value, result) {
+        return (typeof value === result) ? true : false;
+    };
+    o.typeOfType = complexType( o.isTypeOf );
+
+    o.isInstanceOf = function (value, constructor) {
         return (value instanceof constructor) ? true : false;
     };
-    o.extendsType = complexType( o.isExtends );
+    o.instanceOfType = complexType( o.isInstanceOf );
 
     o.isDuck = function (value, methods) {
         if (!o.isObject(value)) return false;

@@ -1,3 +1,6 @@
+NEXT RELEASE
+ - New primitive and object types for boolean, string, and number.
+
 0.0.3 : 2013-03-24
  - New types extension (o-types.js).
 
