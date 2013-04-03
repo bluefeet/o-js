@@ -28,14 +28,10 @@
 
         return function () {
             if (!def.predicate.call( this )) {
-                if (def.required) {
-                    throw new Error('...');
-                }
-                else if (def['default'] !== undefined) {
-                    var value = def['default'];
-                    if (typeof value === 'function') { 
-                        value = value.call( this );
-                    }
+                if (def.required) throw new Error('...');
+                else if (def.devoid !== undefined) {
+                    var value = def.devoid;
+                    if (value instanceof Function) value = value.call( this );
 
                     def.writer.call( this, value );
                 }
@@ -47,30 +43,28 @@
 
     o.writer = function (key, def) {
         def = def || {};
-        if (def.option) def.isa = def.isa || 'boolean';
-        if (def['extends']) def.isa = def.isa || 'object';
+        if (def.augments) def.type = def.type || 'object';
 
         return function (value) {
-            if (def.option && value === undefined) { value = true }
-            if (def.filter) { value = def.filter.call( this, value ) }
+            if (def.filter) value = def.filter.call( this, value );
 
-            if (def.isa) {
-                if (typeof def.isa === 'string') {
-                    if (typeof value !== def.isa) throw new Error('...');
+            if (def.type) {
+                if (typeof def.type === 'string' || def.type instanceof String) {
+                    if (typeof value !== def.type) throw new Error('...');
                 }
-                else if (!def.isa.call(this, value)) {
+                else if (!def.type.call(this, value)) {
                     throw new Error('...');
                 }
             }
 
-            if (def['extends']) {
-                if (!(value instanceof def['extends'])) {
+            if (def.augments) {
+                if (!(value instanceof def.augments)) {
                     throw new Error('...');
                 }
             }
 
             this[key] = value;
-            if (def.chain || def.option) { return this }
+            if (def.chain) return this;
             return value;
         };
     };
@@ -81,9 +75,7 @@
         def.reader = def.reader || o.reader( key, def );
 
         return function (value) {
-            if (value !== undefined) {
-                def.writer.call( this, value );
-            }
+            if (value !== undefined) def.writer.call( this, value );
             return def.reader.call( this );
         };
     };
@@ -138,7 +130,7 @@
         return constructor;
     };
 
-    o.extend = function (parent, constructor, proto) {
+    o.augment = function (parent, constructor, proto) {
         var child = o.around(
             parent,
             constructor

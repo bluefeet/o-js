@@ -1,5 +1,8 @@
 NEXT RELEASE
  - New primitive and object types for boolean, string, and number.
+ - Remove the option definition property.
+ - Rename o.extend to o.augment.
+ - Rename the default definition property to devoid.
 
 0.0.3 : 2013-03-24
  - New types extension (o-types.js).

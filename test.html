@@ -42,34 +42,34 @@ test( 'core: reader', function () {
     obj.color = 'blue';
     equal( obj.getColor(), 'blue', 'property was read with required set' );
 
-    // default (value)
-    obj.getHeight = o.reader('height', {default:183});
-    equal( obj.getHeight(), 183, 'value default was applied' );
+    // devoid (value)
+    obj.getHeight = o.reader('height', {devoid:183});
+    equal( obj.getHeight(), 183, 'value devoid was applied' );
     obj.height = 168;
-    equal( obj.getHeight(), 168, 'value default was bypassed by explicit value' );
+    equal( obj.getHeight(), 168, 'value devoid was bypassed by explicit value' );
 
-    // default (function)
-    obj.getWeight = o.reader('weight', {default: function(){ return 90 }});
-    equal( obj.getWeight(), 90, 'function default was applied' );
+    // devoid (function)
+    obj.getWeight = o.reader('weight', {devoid: function(){ return 90 }});
+    equal( obj.getWeight(), 90, 'function devoid was applied' );
     obj.weight = 68;
-    equal( obj.getWeight(), 68, 'function default was bypassed by explicit value' );
+    equal( obj.getWeight(), 68, 'function devoid was bypassed by explicit value' );
 
-    // default function that returns a function
-    obj.getHook = o.reader('hook', {default: function(){ return function(){ return 'hook!' } }});
-    equal( obj.getHook()(), 'hook!', 'default can return a function' );
+    // devoid function that returns a function
+    obj.getHook = o.reader('hook', {devoid: function(){ return function(){ return 'hook!' } }});
+    equal( obj.getHook()(), 'hook!', 'devoid can return a function' );
 
-    // default and required precedence
-    obj.getPoints = o.reader('points', {required:true, default:25});
-    throws( function(){ obj.getPoints() }, 'required is evaluated before default' );
+    // devoid and required precedence
+    obj.getPoints = o.reader('points', {required:true, devoid:25});
+    throws( function(){ obj.getPoints() }, 'required is evaluated before devoid' );
 
     // writer
     var setLevel = o.writer('level');
     var writerCalled = false;
     obj.getLevel = o.reader('level', {
         writer: function () { writerCalled = true; return setLevel.apply(this, arguments) },
-        default: 6
+        devoid: 6
     });
-    equal( obj.getLevel(), 6, 'default was set with writer set' );
+    equal( obj.getLevel(), 6, 'devoid was set with writer set' );
     ok( writerCalled, 'the custom writer was called' );
 });
 
@@ -80,28 +80,17 @@ test( 'core: writer', function () {
     equal( obj.setName( 'bar' ), 'bar', 'written value is returned' );
     equal( obj.name, 'bar', 'property was set' );
 
-    // isa (typeof)
-    obj.setAge = o.writer('age', {isa:'number'});
+    // type (typeof)
+    obj.setAge = o.writer('age', {type:'number'});
     throws( function(){ obj.setAge('abc') }, 'string does not pass typeof number check' );
     obj.setAge(24);
     equal( obj.age, 24, 'number passes typeof number check' );
 
-    // isa (function)
-    obj.setColor = o.writer('color', {isa: function(val){ return (typeof val === 'string') ? true : false }});
+    // type (function)
+    obj.setColor = o.writer('color', {type: function(val){ return (typeof val === 'string') ? true : false }});
     throws( function(){ obj.setColor(123) }, 'number does not pass function string check' );
     obj.setColor('green');
     equal( obj.color, 'green', 'string passes function string check' );
-
-    // option
-    obj.setHappy = o.writer('happy', {option:true});
-    obj.setHappy();
-    equal( obj.happy, true, 'option defaults to true' );
-    equal( obj.setHappy( false ), obj, 'option returned context' );
-    equal( obj.happy, false, 'able to set option to false' );
-    throws( function(){ obj.setHappy('yes') }, 'option defaulted to boolean isa' );
-    obj.setHappy = o.writer('happy', {option:true, isa:'string'});
-    obj.setHappy('yes');
-    equal( obj.happy, 'yes', 'able to set isa with option' );
 
     // chain
     obj.setLevel = o.writer('level', {chain:true});
@@ -109,16 +98,16 @@ test( 'core: writer', function () {
     equal( obj.level, 32, 'property was set with chain' );
 
     // filter
-    obj.setPoints = o.writer('points', {filter:function(val){ return val+1 }, isa:function(val){ return (val>=0) ? true : false }});
+    obj.setPoints = o.writer('points', {filter:function(val){ return val+1 }, type:function(val){ return (val>=0) ? true : false }});
     equal( obj.setPoints(-1), 0, 'filter filtered' );
-    throws( function(){ obj.setPoints(-2) }, 'isa was applied to filtered value' );
+    throws( function(){ obj.setPoints(-2) }, 'type was applied to filtered value' );
 
-    // extends
+    // augments
     var A = function () { };
     var B = function () { };
-    obj.setThing = o.writer('thing', {extends:A});
-    ok( obj.setThing(new A()), 'passed extends check' );
-    throws( function(){ obj.setThing(new B()) }, 'extends check failed' );
+    obj.setThing = o.writer('thing', {augments:A});
+    ok( obj.setThing(new A()), 'passed augments check' );
+    throws( function(){ obj.setThing(new B()) }, 'augments check failed' );
 });
 
 test( 'core: accessor', function () {
@@ -134,10 +123,10 @@ test( 'core: accessor', function () {
     var writerCalled = false;
     obj.age = o.accessor('_age', {
         writer: function(){ writerCalled = true; return setAge.apply(this, arguments) },
-        default: 81
+        devoid: 81
     });
-    equal( obj.age(), 81, 'reader returned default' );
-    ok( writerCalled, 'writer was called to write the default' );
+    equal( obj.age(), 81, 'reader returned devoid' );
+    ok( writerCalled, 'writer was called to write the devoid' );
     writerCalled = false;
     obj.age( 90 );
     ok( writerCalled, 'writer was called to write' );
@@ -236,11 +225,11 @@ test( 'core: construct', function () {
     deepEqual( [p.getX(), p.getY()], [12, 4], 'basics' );
 });
 
-test( 'core: extend', function () {
+test( 'core: augment', function () {
     var Parent = function (foo) { this.foo = foo };
     Parent.prototype = { getFoo: function () { return this.foo } };
 
-    var Child = o.extend(
+    var Child = o.augment(
         Parent,
         function (parent, foo, bar) { parent(foo); this.bar = bar }
     );
@@ -259,7 +248,7 @@ test( 'core: extend', function () {
     equal( obj.getFoo(), 'FOO', 'called function from the parent' );
     equal( obj.getBar(), 'BAR', 'called function from the child' );
 
-    var Child2 = o.extend(
+    var Child2 = o.augment(
         Parent,
         function (parent, foo, baz) { parent(foo); this.baz = baz },
         { getBaz: function () { return this.baz } }
@@ -269,7 +258,7 @@ test( 'core: extend', function () {
 
     var Child3 = function (parent, foo, zap, mez) { parent(foo); this.zap = zap; this.mez = mez };
     Child3.prototype.getZap = function () { return this.zap };
-    Child3 = o.extend(
+    Child3 = o.augment(
         Parent,
         Child3,
         { getMez: function () { return this.mez } }
@@ -396,7 +385,7 @@ test( 'types: enum', function () {
 test( 'types: instanceof', function () {
     var Parent = function () { };
 
-    var Child = o.extend(
+    var Child = o.augment(
         Parent,
         function (parent) { parent() }
     );
