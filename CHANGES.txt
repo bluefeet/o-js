@@ -3,6 +3,7 @@ NEXT RELEASE
  - Remove the option definition property.
  - Rename o.extend to o.augment.
  - Rename the default definition property to devoid.
+ - Rename the extends writer property to augments.
 
 0.0.3 : 2013-03-24
  - New types extension (o-types.js).
