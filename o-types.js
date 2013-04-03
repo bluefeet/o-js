@@ -63,6 +63,7 @@
         if (!o.isString(value)) return false;
         return (value.length > 0) ? true : false;
     };
+    o.nonEmptyStringType = simpleType( o.isNonEmptyString );
 
     o.isNumberPrimitive = function (value) {
         return (typeof value === 'number') ? true : false;

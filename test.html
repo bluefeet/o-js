@@ -14,8 +14,8 @@
 
 <script>var o = 'ORIGINAL_O';</script>
 <script src="o.js"></script>
-
 <script src="o-types.js"></script>
+<script src="o-attribute.js"></script>
 
 <script>
 test( 'core: reader', function () {
@@ -440,6 +440,44 @@ test( 'types: not', function () {
 
     ok( not(123), '123 is not a string' );
     ok( !not('abc'), 'abc is a string' );
+});
+
+test( 'attribute', function () {
+    var ageAttr = new o.Attribute({
+        key: 'age',
+        type: o.positiveType(),
+        devoid: function () { return 18 },
+        clearer: true
+    });
+
+    var nameAttr = new o.Attribute({
+        key: 'name',
+        type: o.nonEmptyStringType(),
+        required: true,
+        writer: '_setName',
+        predicate: true
+    });
+
+    var obj = {};
+    ageAttr.apply( obj );
+    nameAttr.apply( obj );
+
+    equal( obj.age(), 18, 'devoid was applied' );
+    obj.age( 32 );
+    equal( obj.age(), 32, 'age was set' );
+
+    obj.clearAge();
+    equal( obj.age(), 18, 'devoid was re-applied after clear' );
+
+    equal( obj.hasAge, undefined, 'no predicate was created' );
+
+    equal( obj.hasName(), false, 'predicate was created' );
+    throws( function(){ obj.name() }, 'throws when required' );
+    obj._setName('Foo');
+    equal( obj.name(), 'Foo', 'name was set' );
+    obj.name('Bar');
+    equal( obj.name(), 'Foo', 'name was set by reader' );
+    equal( obj.clearName, undefined, 'no clearer was created' );
 });
 </script>
 
