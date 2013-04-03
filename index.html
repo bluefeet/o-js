@@ -203,8 +203,8 @@
 
     <h2>Properties</h2>
     <div class="panel"><div class="panel-content"><p>
-        With o.js you can create rich property definitions such as <code>isa</code>,
-        <code>default</code>, <code>filter</code>, <code>chain</code>, and more, when
+        With o.js you can create rich property definitions such as <code>type</code>,
+        <code>devoid</code>, <code>filter</code>, <code>chain</code>, and more, when
         using <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-reader">o.reader</a>,
         <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-writer">o.writer</a>,
         and <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-accessor">o.accessor</a>.
@@ -219,7 +219,7 @@
     <div class="panel"><div class="panel-content">
 <pre><code>obj.name = o.accessor(
     '_name', {
-        isa: 'string',
+        type: 'string',
         required: true
     }
 );
@@ -233,7 +233,7 @@ obj.name('Bilbo');
     <div class="panel"><div class="panel-content"><p>
         <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-construct">o.construct</a>
         simplifies the creation of constructor functions by grouping the function and the prototype
-        definitions in one call.  <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-extend">o.extend</a>
+        definitions in one call.  <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-augment">o.augment</a>
         takes this even further by providing a lightweight way to correctly inherit from a parent constructor.
     </p></div></div>
 
@@ -316,7 +316,7 @@ obj.setColor( 'blue' );
 var obj = {
     setName: o.writer(
         '_name',
-        { isa: o.stringType() }
+        { type: o.stringType() }
     )
 };
 obj.setName( 'Totoro' );
