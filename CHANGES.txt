@@ -4,6 +4,7 @@ NEXT RELEASE
  - Rename o.extend to o.augment.
  - Rename the default definition property to devoid.
  - Rename the extends writer property to augments.
+ - Rename the isa writer property to type.
 
 0.0.3 : 2013-03-24
  - New types extension (o-types.js).
