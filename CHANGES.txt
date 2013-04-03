@@ -8,6 +8,7 @@ NEXT RELEASE
  - Added the nonEmptyString type.
  - Rename the extends type to instanceOf.
  - Added the typeOf type.
+ - New arrayOf and objectOf types.
  - New attribute extention (o-attribute.js).
 
 0.0.3 : 2013-03-24

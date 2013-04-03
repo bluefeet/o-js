@@ -147,6 +147,24 @@
     };
     o.instanceOfType = complexType( o.isInstanceOf );
 
+    o.isArrayOf = function (value, type) {
+        if (!o.isArray(value)) return false;
+        for (var i = 0, l = value.length; i < l; i++) {
+            if (!type(value[i])) return false;
+        }
+        return true;
+    };
+    o.arrayOfType = complexType( o.isArrayOf );
+
+    o.isObjectOf = function (value, type) {
+        if (!o.isObject(value)) return false;
+        for (var key in value) {
+            if (!type(value[key])) return false;
+        }
+        return true;
+    };
+    o.objectOfType = complexType( o.isObjectOf );
+
     o.isDuck = function (value, methods) {
         if (!o.isObject(value)) return false;
         for (var i = 0, l = methods.length; i < l; i++) {
