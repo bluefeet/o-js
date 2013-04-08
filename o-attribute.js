@@ -55,7 +55,7 @@
             filter: function (val) { if (val === true) val = 'clear' + ucFirst( this.key() ); return val },
             devoid: function () { return null }
         },
-        proxies: { type: o.objectType() },
+        proxies: { type: o.objectOfType( o.nonEmptyStringType() ) },
     };
 
     var writers = {};
@@ -125,7 +125,42 @@
                         return o.clearer( this.valueKey() );
                     }
                 }),
-                apply: function (obj) {
+                proxyMethods: o.reader('_proxyMethods', {
+                    type: o.objectOfType( o.functionType() ),
+                    devoid: function () {
+                        var methods = {};
+                        var proxies = this.proxies();
+                        if (proxies === undefined) return methods;
+
+                        var attr = this;
+                        for (var key in proxies) {
+                            // The way JS closures work requires us to copy the key variable via
+                            // a function call so that it does not get changed by the for loop.
+                            methods[key] = (function (toMethod) {
+                                return function () {
+                                    var val = attr.getValue( this );
+                                    return val[ toMethod ].apply( val, arguments );
+                                };
+                            })( proxies[key] );
+                        }
+                        return methods;
+                    }
+                }),
+
+                getValue: function (obj) {
+                    return this.readerMethod().call( obj );
+                },
+                setValue: function (obj, value) {
+                    return this.writerMethod().call( obj, value );
+                },
+                hasValue: function (obj) {
+                    return this.predicateMethod().call( obj );
+                },
+                clearValue: function (obj) {
+                    return this.clearerMethod().call( obj );
+                },
+
+                install: function (obj) {
                     if (this.writer() !== null && this.writer() === this.reader()) {
                         obj[this.writer()] = this.accessorMethod();
                     }
@@ -136,6 +171,11 @@
 
                     if (this.predicate() !== null) obj[this.predicate()] = this.predicateMethod();
                     if (this.clearer() !== null) obj[this.clearer()] = this.clearerMethod();
+
+                    var proxyMethods = this.proxyMethods();
+                    for (var key in proxyMethods) {
+                        obj[key] = proxyMethods[key];
+                    }
                 }
             },
             readers

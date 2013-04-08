@@ -458,9 +458,20 @@ test( 'attribute', function () {
         predicate: true
     });
 
+    var queueAttr = new o.Attribute({
+        key: 'queue',
+        type: o.arrayType(),
+        devoid: function(){ return [] },
+        proxies: {
+            enqueue: 'unshift',
+            dequeue: 'pop'
+        }
+    });
+
     var obj = {};
-    ageAttr.apply( obj );
-    nameAttr.apply( obj );
+    ageAttr.install( obj );
+    nameAttr.install( obj );
+    queueAttr.install( obj );
 
     equal( obj.age(), 18, 'devoid was applied' );
     obj.age( 32 );
@@ -478,6 +489,14 @@ test( 'attribute', function () {
     obj.name('Bar');
     equal( obj.name(), 'Foo', 'name was set by reader' );
     equal( obj.clearName, undefined, 'no clearer was created' );
+
+    obj.enqueue('a');
+    obj.enqueue('b');
+    equal( obj.dequeue(), 'a', 'first queued proxy value dequeued' );
+    obj.enqueue('c');
+    equal( obj.dequeue(), 'b', 'second queued proxy value dequeued' );
+    equal( obj.dequeue(), 'c', 'third queued proxy value dequeued' );
+    equal( obj.dequeue(), undefined, 'queue proxy is empty' );
 });
 </script>
 
