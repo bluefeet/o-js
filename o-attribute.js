@@ -59,7 +59,7 @@
             filter: function (val) { if (val === true) val = 'clear' + ucFirst( this.key() ); return val },
             devoid: function () { return null }
         },
-        proxies: { type: o.objectOfType( o.nonEmptyStringType() ) },
+        proxies: { type: o.objectOfType( o.nonEmptyStringType() ) }
     };
 
     var writers = {};
@@ -100,7 +100,7 @@
                                 type: this.type(),
                                 filter: this.filter(),
                                 augments: this.augments(),
-                                chain: this.chain(),
+                                chain: this.chain()
                             }
                         );
                     }
@@ -112,7 +112,7 @@
                             this.valueKey(),
                             {
                                 writer: this.writerMethod(),
-                                reader: this.readerMethod(),
+                                reader: this.readerMethod()
                             }
                         );
                     }
