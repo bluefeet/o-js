@@ -2,6 +2,10 @@
     var o = oJS;
     if (!o) throw new Error('...');
 
+    if (o.versions.core !== '0.0.4') throw new Error('...');
+    if (o.versions.types !== '0.0.4') throw new Error('...');
+    o.versions.attribute = '0.0.4';
+
     function ucFirst (str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }

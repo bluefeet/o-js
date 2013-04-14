@@ -1,4 +1,4 @@
-NEXT RELEASE
+0.0.4 : 2013-04-14
  - Remove the option definition property.
  - Rename o.extend to o.augment.
  - Rename the default definition property to devoid.
@@ -10,6 +10,7 @@ NEXT RELEASE
  - Added the typeOf type.
  - New arrayOf and objectOf types.
  - New attribute extention (o-attribute.js).
+ - Add versions and version checking to the libraries.
 
 0.0.3 : 2013-03-24
  - New types extension (o-types.js).
