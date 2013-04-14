@@ -3,7 +3,7 @@
     var previousO = root.o;
     var o = {};
 
-    o.versions = { core: '0.0.4' };
+    o.versions = { core: '0.0.5' };
 
     // The method in which we export o (and oJS), that works whether in the browseri
     // or Node.js, including noConflict, was graciously copied from underscore.js.

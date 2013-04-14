@@ -2,8 +2,8 @@
     var o = oJS;
     if (!o) throw new Error('...');
 
-    if (o.versions.core !== '0.0.4') throw new Error('...');
-    o.versions.types = '0.0.4';
+    if (o.versions.core !== '0.0.5') throw new Error('...');
+    o.versions.types = '0.0.5';
 
     function simpleType (func) {
         return function () { return func }
