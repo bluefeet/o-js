@@ -1,0 +1,25 @@
+{
+    "name":    "o-core",
+    "version": "0.0.6",
+
+    "description": "JavaScript utility belt for rich objects and prototypes. Ooooh!",
+    "homepage":    "http://o-js.com",
+    "keywords":    ["util", "prototypes"],
+    "author":      "Aran Deltac <bluefeet@gmail.com>",
+    "repository":  {"type": "git", "url": "git@github.com:o-js/o-core.git"},
+    "bugs":        { "url": "https://github.com/o-js/o-core/issues" },
+    "licenses": [{
+        "type": "MIT",
+        "url":  "https://raw.github.com/o-js/o-core/master/LICENSE.txt"
+    }],
+
+    "main": "o-core.js",
+
+    "devDependencies": {
+        "tap" : "~0.4.0"
+    },
+
+    "scripts": {
+        "test": "tap test/*.js"
+    }
+}

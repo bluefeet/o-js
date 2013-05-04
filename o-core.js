@@ -3,8 +3,6 @@
     var previousO = root.o;
     var o = {};
 
-    o.versions = { core: '0.0.5' };
-
     // The method in which we export o (and oJS), that works whether in the browseri
     // or Node.js, including noConflict, was graciously copied from underscore.js.
     if (typeof exports !== 'undefined') {
@@ -65,9 +63,10 @@
                 }
             }
 
+            var original = this[key];
             this[key] = value;
             if (def.chain) return this;
-            return value;
+            return original;
         };
     };
 
@@ -77,14 +76,14 @@
         def.reader = def.reader || o.reader( key, def );
 
         return function (value) {
-            if (value !== undefined) def.writer.call( this, value );
+            if (value !== undefined) return def.writer.call( this, value );
             return def.reader.call( this );
         };
     };
 
     o.predicate = function (key) {
         return function () {
-            return o.has( this, key );
+            return( o.has( this, key ) && this[key] !== undefined );
         };
     };
 

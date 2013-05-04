@@ -1,3 +1,11 @@
+0.0.6 : 2013-05-04
+ - Move o-types.js and o-attribute.js to their own repos.
+ - Migrate tests for QUnit to tap.
+ - Add a package.json for npm.
+ - o.writer now returns the original value.
+ - o.accessor returns the return value of o.writer if writing.
+ - o.predicate now treats an undefined value as a lack of having.
+
 0.0.5 : 2013-04-14
  - Fix trailing commas in o-attribute.js breaking minification.
 
