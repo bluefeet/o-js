@@ -13,7 +13,7 @@
         "url":  "https://raw.github.com/o-js/o-core/master/LICENSE.txt"
     }],
 
-    "main": "o-core.js",
+    "main": "o.js",
 
     "devDependencies": {
         "tap" : "~0.4.0"
