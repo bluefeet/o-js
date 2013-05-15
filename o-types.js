@@ -1,205 +1,207 @@
 (function() {
-    var o = oJS;
+    var o = this.oJS || require('o-core');
     if (!o) throw new Error('...');
 
-    if (o.versions.core !== '0.0.5') throw new Error('...');
-    o.versions.types = '0.0.5';
+    o.Type = o.construct(
+        function (args) {
+            if (typeof args === 'function') { args = { validate: args } }
 
-    function simpleType (func) {
-        return function () { return func }
-    }
+            if (args.validate) { this.validateMethod = args.validate }
+            else { throw new Error('...') }
 
-    function complexType (func) {
-        return function (def) {
-            return function (value) {
-                return func.call( o, value, def );
+            if (args.message) this.messageMethod = args.message;
+            if (args.coerce) this.coerceMethod = args.coerce;
+            if (args.parent) this.parent = args.parent;
+        },
+        {
+            check: function (val) {
+                if (this.parent) { if (!this.parent.check(val)) return false }
+                if (!this.validateMethod( val )) return false;
+                return true;
+            },
+            validate: function (val) {
+                if (this.parent) this.parent.validate( val );
+                if (!this.validateMethod( val )) throw new Error('...');
+                return true;
+            },
+            coerce: function (val) {
+                if (this.parent) val = this.parent.coerce( val );
+                if (this.coerceMethod) val = this.coerceMethod( val );
+                if (!this.validateMethod( val )) throw new Error('...');
+                return val;
+            },
+            error: function (val) {
+                if (this.messageMethod) { throw new Error( this.messageMethod(val) ) }
+                throw new Error( 'Validation failed for value "' + val + '"' );
+            },
+            subtype: function (args) {
+                if (typeof args === 'function') { args = { validate: args } }
+                return new o.Type(
+                    o.merge( {parent:this}, args )
+                );
             }
         }
-    }
+    );
 
-    o.isUndefined = function (value) {
-        return (value === undefined) ? true : false;
-    };
-    o.undefinedType = simpleType( o.isUndefined );
-
-    o.isDefined = function (value) {
-        return (value === undefined) ? false : true;
-    };
-    o.definedType = simpleType( o.isDefined );
-
-    o.isNull = function (value) {
-        return (value === null) ? true : false;
-    };
-    o.nullType = simpleType( o.isNull );
-
-    o.isBooleanPrimitive = function (value) {
-        return (typeof value === 'boolean') ? true : false;
-    };
-    o.booleanPrimitiveType = simpleType( o.isBooleanPrimitive );
-
-    o.isBooleanObject = function (value) {
-        return (value instanceof Boolean) ? true : false;
-    };
-    o.booleanObjectType = simpleType( o.isBooleanObject );
-
-    o.isBoolean = function (value) {
-        return (o.isBooleanPrimitive(value) || o.isBooleanObject(value)) ? true : false;
-    };
-    o.booleanType = simpleType( o.isBoolean );
-
-    o.isStringPrimitive = function (value) {
-        return (typeof value === 'string') ? true : false;
-    };
-    o.stringPrimitiveType = simpleType( o.isStringPrimitive );
-
-    o.isStringObject = function (value) {
-        return (value instanceof String) ? true : false;
-    };
-    o.stringObjectType = simpleType( o.isStringObject );
-
-    o.isString = function (value) {
-        return (o.isStringPrimitive(value) || o.isStringObject(value)) ? true : false;
-    };
-    o.stringType = simpleType( o.isString );
-
-    o.isNonEmptyString = function (value) {
-        if (!o.isString(value)) return false;
-        return (value.length > 0) ? true : false;
-    };
-    o.nonEmptyStringType = simpleType( o.isNonEmptyString );
-
-    o.isNumberPrimitive = function (value) {
-        return (typeof value === 'number') ? true : false;
-    };
-    o.numberPrimitiveType = simpleType( o.isNumberPrimitive );
-
-    o.isNumberObject = function (value) {
-        return (value instanceof Number) ? true : false;
-    };
-    o.numberObjectType = simpleType( o.isNumberObject );
-
-    o.isNumber = function (value) {
-        return (o.isNumberPrimitive(value) || o.isNumberObject(value)) ? true : false;
-    };
-    o.numberType = simpleType( o.isNumber );
-
-    o.isInteger = function (value) {
-        if (!o.isNumber(value)) return false;
-        return (Math.floor(value) === value + 0) ? true : false;
-    };
-    o.integerType = simpleType( o.isInteger );
-
-    o.isPositive = function (value) {
-        if (!o.isNumber(value)) return false;
-        return (value > 0) ? true : false;
-    }
-    o.positiveType = simpleType( o.isPositive );
-
-    o.isNegative = function (value) {
-        if (!o.isNumber(value)) return false;
-        return (value < 0) ? true : false;
-    };
-    o.negativeType = simpleType( o.isNegative );
-
-    o.isNonZero = function (value) {
-        if (!o.isNumber(value)) return false;
-        return (value !== 0) ? true : false;
-    };
-    o.nonZeroType = simpleType( o.isNonZero );
-
-    o.isObject = function (value) {
-        return (value instanceof Object) ? true : false;
-    };
-    o.objectType = simpleType( o.isObject );
-
-    o.isFunction = function (value) {
-        return (value instanceof Function) ? true : false;
-    };
-    o.functionType = simpleType( o.isFunction );
-
-    o.isArray = function (value) {
-        return (value instanceof Array) ? true : false;
-    };
-    o.arrayType = simpleType( o.isArray );
-
-    o.isRegExp = function (value) {
-        return (value instanceof RegExp) ? true : false;
-    };
-    o.regExpType = simpleType( o.isRegExp );
-
-    o.isDate = function (value) {
-        return (value instanceof Date) ? true : false;
-    };
-    o.dateType = simpleType( o.isDate );
-
-    o.isEnum = function (value, values) {
-        for (var i = 0, l = values.length; i < l; i++) {
-            if (value === values[i]) return true;
+    o.IsValueType = o.augment(
+        o.Type,
+        function (parent, expected) {
+            parent( function (val) {
+                return (val === expected) ? true : false;
+            });
         }
-        return false;
-    };
-    o.enumType = complexType( o.isEnum );
+    );
 
-    o.isTypeOf = function (value, result) {
-        return (typeof value === result) ? true : false;
-    };
-    o.typeOfType = complexType( o.isTypeOf );
-
-    o.isInstanceOf = function (value, constructor) {
-        return (value instanceof constructor) ? true : false;
-    };
-    o.instanceOfType = complexType( o.isInstanceOf );
-
-    o.isArrayOf = function (value, type) {
-        if (!o.isArray(value)) return false;
-        for (var i = 0, l = value.length; i < l; i++) {
-            if (!type(value[i])) return false;
+    o.AnyType = o.augment(
+        o.Type,
+        function (parent, types) {
+            parent( function (val) {
+                for (var i = 0, l = types.length; i < l; i++) {
+                    if (types[i].check(val)) return true;
+                }
+                return false;
+            });
         }
-        return true;
-    };
-    o.arrayOfType = complexType( o.isArrayOf );
+    );
 
-    o.isObjectOf = function (value, type) {
-        if (!o.isObject(value)) return false;
-        for (var key in value) {
-            if (!type(value[key])) return false;
+    o.AllType = o.augment(
+        o.Type,
+        function (parent, types) {
+            parent( function (val) {
+                for (var i = 0, l = types.length; i < l; i++) {
+                    if (!types[i].check(val)) return false;
+                }
+                return true;
+            });
         }
-        return true;
-    };
-    o.objectOfType = complexType( o.isObjectOf );
+    );
 
-    o.isDuck = function (value, methods) {
-        if (!o.isObject(value)) return false;
-        for (var i = 0, l = methods.length; i < l; i++) {
-            if (value[methods[i]] === undefined) return false;
+    o.NoneType = o.augment(
+        o.Type,
+        function (parent, types) {
+            var type = new o.AnyType(types);
+            parent( function (val) {
+                return type.check(val) ? false : true;
+            });
         }
-        return true;
-    };
-    o.duckType = complexType( o.isDuck );
+    );
 
-    o.isAny = function (value, types) {
-        for (var i = 0, l = types.length; i < l; i++) {
-            if (types[i](value)) return true;
+    o.NotType = o.augment(
+        o.NoneType,
+        function (parent, type) {
+            parent( [type] );
         }
-        return false;
-    };
-    o.anyType = complexType( o.isAny );
+    );
 
-    o.isAll = function (value, types) {
-        for (var i = 0, l = types.length; i < l; i++) {
-            if (!types[i](value)) return false;
+    o.EnumType = o.augment(
+        o.Type,
+        function (parent, values) {
+            parent( function (val) {
+                for (var i = 0, l = values.length; i < l; i++) {
+                    if (val === values[i]) return true;
+                }
+                return false;
+            });
         }
-        return true;
-    };
-    o.allType = complexType( o.isAll );
+    );
 
-    o.isNone = function (value, types) {
-        return o.isAny(value,types) ? false : true;
-    };
-    o.noneType = complexType( o.isNone );
+    o.TypeOfType = o.augment(
+        o.Type,
+        function (parent, result) {
+            parent( function (val) {
+                return (typeof val === result) ? true : false;
+            });
+        }
+    );
 
-    o.isNot = function (value, type) {
-        return type(value) ? false : true;
-    };
-    o.notType = complexType( o.isNot );
+    o.InstanceOfType = o.augment(
+        o.Type,
+        function (parent, constructor) {
+            parent( function (val) {
+                return (val instanceof constructor) ? true : false;
+            });
+        }
+    );
+
+    o.undefinedType = new o.IsValueType( undefined );
+    o.definedType = new o.NotType( o.undefinedType );
+    o.nullType = new o.IsValueType( null );
+
+    o.booleanPrimitiveType = new o.TypeOfType( 'boolean' );
+    o.booleanObjectType = new o.InstanceOfType( Boolean );
+    o.booleanType = new o.AnyType([ o.booleanPrimitiveType, o.booleanObjectType ]);
+
+    o.stringPrimitiveType = new o.TypeOfType( 'string' );
+    o.stringObjectType = new o.InstanceOfType( String );
+    o.stringType = new o.AnyType([ o.stringPrimitiveType, o.stringObjectType ]);
+
+    o.nonEmptyStringType = o.stringType.subtype( function (val) {
+        return (val.length > 0) ? true : false;
+    });
+
+    o.numberPrimitiveType = new o.TypeOfType( 'number' );
+    o.numberObjectType = new o.InstanceOfType( Number );
+    o.numberType = new o.AnyType([ o.numberPrimitiveType, o.numberObjectType ]);
+
+    o.integerType = o.numberType.subtype( function (val) {
+        return (Math.floor(val) === val + 0) ? true : false;
+    });
+
+    o.positiveType = o.numberType.subtype( function (val) {
+        return (val > 0) ? true : false;
+    });
+
+    o.negativeType = o.numberType.subtype( function (val) {
+        return (val < 0) ? true : false;
+    });
+
+    o.nonZeroType = o.numberType.subtype( function (val) {
+        return (val !== 0) ? true : false;
+    });
+
+    o.objectType = new o.InstanceOfType( Object );
+    o.functionType = new o.InstanceOfType( Function );
+    o.arrayType = new o.InstanceOfType( Array );
+    o.regExpType = new o.InstanceOfType( RegExp );
+    o.dateType = new o.InstanceOfType( Date );
+
+    o.DuckType = o.augment(
+        o.Type,
+        function (parent, methods) {
+            parent( function (val) {
+                if (!o.objectType.check(val)) return false;
+                for (var i = 0, l = methods.length; i < l; i++) {
+                    if (val[methods[i]] === undefined) return false;
+                }
+                return true;
+            });
+        }
+    );
+
+    o.ArrayOfType = o.augment(
+        o.Type,
+        function (parent, type) {
+            parent( function (val) {
+                if (!o.arrayType.check(val)) return false;
+                for (var i = 0, l = val.length; i < l; i++) {
+                    if (!type.check(val[i])) return false;
+                }
+                return true;
+            });
+        }
+    );
+
+    o.ObjectOfType = o.augment(
+        o.Type,
+        function (parent, type) {
+            parent( function (val) {
+                if (!o.objectType.check(val)) return false;
+                for (var key in val) {
+                    if (!type.check(val[key])) return false;
+                }
+                return true;
+            });
+        }
+    );
+
 }).call(this);
