@@ -1,3 +1,6 @@
+NEXT RELEASE
+ - Re-introduce is* methods for short-hand adhock validation.
+
 0.0.1 : 2013-05-15
  - First release of the redesigned o.js types system.
 

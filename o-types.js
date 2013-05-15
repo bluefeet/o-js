@@ -43,7 +43,7 @@
         }
     );
 
-    o.IsValueType = o.augment(
+    o.EqualType = o.augment(
         o.Type,
         function (parent, expected) {
             parent( function (val) {
@@ -123,47 +123,74 @@
         }
     );
 
-    o.undefinedType = new o.IsValueType( undefined );
+    o.undefinedType = new o.EqualType( undefined );
     o.definedType = new o.NotType( o.undefinedType );
-    o.nullType = new o.IsValueType( null );
+    o.nullType = new o.EqualType( null );
+
+    o.isUndefined = function (val) { return o.undefinedType.check(val) };
+    o.isDefined = function (val) { return o.definedType.check(val) };
+    o.isNull = function (val) { return o.nullType.check(val) };
 
     o.booleanPrimitiveType = new o.TypeOfType( 'boolean' );
     o.booleanObjectType = new o.InstanceOfType( Boolean );
     o.booleanType = new o.AnyType([ o.booleanPrimitiveType, o.booleanObjectType ]);
 
+    o.isBooleanPrimitive = function (val) { return o.booleanPrimitiveType.check(val) };
+    o.isBooleanObject = function (val) { return o.booleanObjectType.check(val) };
+    o.isBoolean = function (val) { return o.booleanType.check(val) };
+
     o.stringPrimitiveType = new o.TypeOfType( 'string' );
     o.stringObjectType = new o.InstanceOfType( String );
     o.stringType = new o.AnyType([ o.stringPrimitiveType, o.stringObjectType ]);
 
+    o.isStringPrimitive = function (val) { return o.stringPrimitiveType.check(val) };
+    o.isStringObject = function (val) { return o.stringObjectType.check(val) };
+    o.isString = function (val) { return o.stringType.check(val) };
+
     o.nonEmptyStringType = o.stringType.subtype( function (val) {
         return (val.length > 0) ? true : false;
     });
+    o.isNonEmptyString = function (val) { return o.nonEmptyStringType.check(val) };
 
     o.numberPrimitiveType = new o.TypeOfType( 'number' );
     o.numberObjectType = new o.InstanceOfType( Number );
     o.numberType = new o.AnyType([ o.numberPrimitiveType, o.numberObjectType ]);
 
+    o.isNumberPrimitive = function (val) { return o.numberPrimitiveType.check(val) };
+    o.isNumberObject = function (val) { return o.numberObjectType.check(val) };
+    o.isNumber = function (val) { return o.numberType.check(val) };
+
     o.integerType = o.numberType.subtype( function (val) {
         return (Math.floor(val) === val + 0) ? true : false;
     });
+    o.isInteger = function (val) { return o.integerType.check(val) };
 
     o.positiveType = o.numberType.subtype( function (val) {
         return (val > 0) ? true : false;
     });
+    o.isPositive = function (val) { return o.positiveType.check(val) };
 
     o.negativeType = o.numberType.subtype( function (val) {
         return (val < 0) ? true : false;
     });
+    o.isNegative = function (val) { return o.negativeType.check(val) };
 
     o.nonZeroType = o.numberType.subtype( function (val) {
         return (val !== 0) ? true : false;
     });
+    o.isNonZero = function (val) { return o.nonZeroType.check(val) };
 
     o.objectType = new o.InstanceOfType( Object );
     o.functionType = new o.InstanceOfType( Function );
     o.arrayType = new o.InstanceOfType( Array );
     o.regExpType = new o.InstanceOfType( RegExp );
     o.dateType = new o.InstanceOfType( Date );
+
+    o.isObject = function (val) { return o.objectType.check(val) };
+    o.isFunction = function (val) { return o.functionType.check(val) };
+    o.isArray = function (val) { return o.arrayType.check(val) };
+    o.isRegExp = function (val) { return o.regExpType.check(val) };
+    o.isDate = function (val) { return o.dateType.check(val) };
 
     o.DuckType = o.augment(
         o.Type,
