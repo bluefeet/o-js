@@ -1,65 +1,63 @@
 (function() {
-    var o = oJS;
+    var o = this.oJS || require('o-core');
     if (!o) throw new Error('...');
-
-    if (o.versions.core !== '0.0.5') throw new Error('...');
-    if (o.versions.types !== '0.0.5') throw new Error('...');
-    o.versions.attribute = '0.0.5';
+require('o-types');
 
     function ucFirst (str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    var methodType = o.anyType([
-        o.nullType(),
-        o.nonEmptyStringType()
+    var nullOrFunctionType = new o.AnyType([
+        o.nullType,
+        o.nonEmptyStringType
     ]);
 
     var definitions = {
         key: {
-            type: o.nonEmptyStringType(),
+            type: o.nonEmptyStringType,
             required: true
         },
         argKey: {
-            type: o.nonEmptyStringType(),
+            type: o.nonEmptyStringType,
             devoid: function () { return this.key() }
         },
         valueKey: {
-            type: o.nonEmptyStringType(),
+            type: o.nonEmptyStringType,
             devoid: function () { return '_' + this.key() }
         },
 
-        devoid: { type: o.definedType() },
-        required: { type: o.booleanType() },
+        devoid: { type: o.definedType },
+        required: { type: o.booleanType, devoid: false },
         type: {
-            type: o.anyType([
-                o.enumType(['undefined', 'object', 'boolean', 'number', 'string', 'function']),
-                o.functionType()
+            type: new o.AnyType([
+                new o.EnumType(['undefined', 'object', 'boolean', 'number', 'string', 'function']),
+                new o.InstanceOfType( o.Type ),
+                o.functionType
             ])
         },
-        filter: { type: o.functionType() },
-        augments: { type: o.functionType() },
-        chain: { type: o.booleanType() },
+        filter: { type: o.functionType },
+        augments: { type: o.functionType },
+        chain: { type: o.booleanType, devoid: false },
 
         reader: {
-            type: methodType,
+            type: nullOrFunctionType,
             devoid: function () { return this.key() }
         },
         writer: {
-            type: methodType,
+            type: nullOrFunctionType,
             devoid: function () { return this.key() }
         },
         predicate: {
-            type: methodType,
+            type: nullOrFunctionType,
             filter: function (val) { if (val === true) val = 'has' + ucFirst( this.key() ); return val },
             devoid: function () { return null }
         },
         clearer: {
-            type: methodType,
+            type: nullOrFunctionType,
             filter: function (val) { if (val === true) val = 'clear' + ucFirst( this.key() ); return val },
             devoid: function () { return null }
         },
-        proxies: { type: o.objectOfType( o.nonEmptyStringType() ) }
+        proxies: { type: new o.ObjectOfType( o.nonEmptyStringType ) }
     };
 
     var writers = {};
@@ -78,7 +76,7 @@
         o.merge(
             {
                 readerMethod: o.reader('_readerMethod', {
-                    type: o.functionType(),
+                    type: o.functionType,
                     devoid: function () {
                         return o.reader(
                             this.valueKey(),
@@ -92,7 +90,7 @@
                     }
                 }),
                 writerMethod: o.reader('_writerMethod', {
-                    type: o.functionType(),
+                    type: o.functionType,
                     devoid: function () {
                         return o.writer(
                             this.valueKey(),
@@ -106,7 +104,7 @@
                     }
                 }),
                 accessorMethod: o.reader('_accessorMethod', {
-                    type: o.functionType(),
+                    type: o.functionType,
                     devoid: function () {
                         return o.accessor(
                             this.valueKey(),
@@ -118,19 +116,19 @@
                     }
                 }),
                 predicateMethod: o.reader('_predicateMethod', {
-                    type: o.functionType(),
+                    type: o.functionType,
                     devoid: function () {
                         return o.predicate( this.valueKey() );
                     }
                 }),
                 clearerMethod: o.reader('_clearerMethod', {
-                    type: o.functionType(),
+                    type: o.functionType,
                     devoid: function () {
                         return o.clearer( this.valueKey() );
                     }
                 }),
                 proxyMethods: o.reader('_proxyMethods', {
-                    type: o.objectOfType( o.functionType() ),
+                    type: new o.ObjectOfType( o.functionType ),
                     devoid: function () {
                         var methods = {};
                         var proxies = this.proxies();

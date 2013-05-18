@@ -1,15 +1,19 @@
+var o = require('o-core');
+require('o-types');
+require('../o-attributes');
+var test = require('tap').test;
 
-test( 'attribute', function () {
+test('basic', function (t) {
     var ageAttr = new o.Attribute({
         key: 'age',
-        type: o.positiveType(),
+        type: o.positiveType,
         devoid: function () { return 18 },
         clearer: true
     });
 
     var nameAttr = new o.Attribute({
         key: 'name',
-        type: o.nonEmptyStringType(),
+        type: o.nonEmptyStringType,
         required: true,
         writer: '_setName',
         predicate: true
@@ -17,7 +21,7 @@ test( 'attribute', function () {
 
     var queueAttr = new o.Attribute({
         key: 'queue',
-        type: o.arrayType(),
+        type: o.arrayType,
         devoid: function(){ return [] },
         proxies: {
             enqueue: 'unshift',
@@ -30,28 +34,30 @@ test( 'attribute', function () {
     nameAttr.install( obj );
     queueAttr.install( obj );
 
-    equal( obj.age(), 18, 'devoid was applied' );
+    t.equal( obj.age(), 18, 'devoid was applied' );
     obj.age( 32 );
-    equal( obj.age(), 32, 'age was set' );
+    t.equal( obj.age(), 32, 'age was set' );
 
     obj.clearAge();
-    equal( obj.age(), 18, 'devoid was re-applied after clear' );
+    t.equal( obj.age(), 18, 'devoid was re-applied after clear' );
 
-    equal( obj.hasAge, undefined, 'no predicate was created' );
+    t.equal( obj.hasAge, undefined, 'no predicate was created' );
 
-    equal( obj.hasName(), false, 'predicate was created' );
-    throws( function(){ obj.name() }, 'throws when required' );
+    t.equal( obj.hasName(), false, 'predicate was created' );
+    t.throws( function(){ obj.name() }, 'throws when required' );
     obj._setName('Foo');
-    equal( obj.name(), 'Foo', 'name was set' );
+    t.equal( obj.name(), 'Foo', 'name was set' );
     obj.name('Bar');
-    equal( obj.name(), 'Foo', 'name was set by reader' );
-    equal( obj.clearName, undefined, 'no clearer was created' );
+    t.equal( obj.name(), 'Foo', 'name was set by reader' );
+    t.equal( obj.clearName, undefined, 'no clearer was created' );
 
     obj.enqueue('a');
     obj.enqueue('b');
-    equal( obj.dequeue(), 'a', 'first queued proxy value dequeued' );
+    t.equal( obj.dequeue(), 'a', 'first queued proxy value dequeued' );
     obj.enqueue('c');
-    equal( obj.dequeue(), 'b', 'second queued proxy value dequeued' );
-    equal( obj.dequeue(), 'c', 'third queued proxy value dequeued' );
-    equal( obj.dequeue(), undefined, 'queue proxy is empty' );
+    t.equal( obj.dequeue(), 'b', 'second queued proxy value dequeued' );
+    t.equal( obj.dequeue(), 'c', 'third queued proxy value dequeued' );
+    t.equal( obj.dequeue(), undefined, 'queue proxy is empty' );
+
+    t.end();
 });
