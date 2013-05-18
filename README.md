@@ -1,6 +1,6 @@
 o-types.js
 ====
 
-JavaScript utility belt for rich objects and prototypes. Ooooh!
+Type system for o.js and beyond!
 
 Please visit the website for more information: http://o-js.com
