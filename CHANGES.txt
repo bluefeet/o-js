@@ -1,0 +1,4 @@
+NEXT RELEASE
+ - First release of the redesigned o-attributes.js.
+ - Rename from o-attribute.js to o-attributes.js.
+

@@ -1,0 +1,29 @@
+{
+    "name":    "o-attributes",
+    "version": "0.0.1",
+
+    "description": "Prototype attributes powered by o.js.",
+    "homepage":    "http://o-js.com",
+    "keywords":    ["util", "prototypes"],
+    "author":      "Aran Deltac <bluefeet@gmail.com>",
+    "repository":  {"type": "git", "url": "git@github.com:o-js/o-attributes.git"},
+    "bugs":        { "url": "https://github.com/o-js/o-attributes/issues" },
+    "licenses": [{
+        "type": "MIT",
+        "url":  "https://raw.github.com/o-js/o-attributes/master/LICENSE.txt"
+    }],
+
+    "main": "o-attributes.js",
+
+    "dependencies": {
+        "o-core": ">=0.0.7",
+        "o-types": ">=0.0.2"
+    },
+    "devDependencies": {
+        "tap": ">=0.4.0"
+    },
+
+    "scripts": {
+        "test": "tap test/*.js"
+    }
+}
