@@ -52,7 +52,20 @@
                 if (typeof def.type === 'string' || def.type instanceof String) {
                     if (typeof value !== def.type) throw new Error('...');
                 }
-                else if (!def.type.call(this, value)) {
+                else if (def.type instanceof Function) {
+                    if (!def.type( value )) {
+                        throw new Error('...');
+                    }
+                }
+                else if (def.type instanceof Object && def.type.validate) {
+                    if (def.type.validate instanceof Function) {
+                        def.type.validate( value );
+                    }
+                    else {
+                        throw new Error('...');
+                    }
+                }
+                else {
                     throw new Error('...');
                 }
             }

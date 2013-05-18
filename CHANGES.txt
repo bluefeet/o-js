@@ -1,3 +1,6 @@
+NEXT VERSION
+ - Support o-types types in o.writer.
+
 0.0.6 : 2013-05-04
  - Move o-types.js and o-attribute.js to their own repos.
  - Migrate tests for QUnit to tap.

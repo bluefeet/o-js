@@ -27,6 +27,23 @@ test('type (function)', function (t) {
     t.end();
 });
 
+test('type (object)', function (t) {
+    var obj = {};
+
+    obj.setX = o.writer('x', { type: {} });
+    t.throws( function(){ obj.setX('abc') }, 'object without validate property throws an error' );
+
+    obj.setX = o.writer('x', { type: {validate:'foo'} });
+    t.throws( function(){ obj.setX('abc') }, 'object with non-function validate property throws an error' );
+
+    obj.setX = o.writer('x', { type: {validate: function(v){ if(v=='bad') throw new Error('bad') } } });
+    t.throws( function(){ obj.setX('bad') }, 'bad value caught' );
+    obj.setX('good');
+    t.equal( obj.x, 'good', 'good value was stored' );
+
+    t.end();
+});
+
 test('filter', function (t) {
     var obj = {};
     obj.setX = o.writer('x', {
