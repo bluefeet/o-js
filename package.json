@@ -16,7 +16,7 @@
     "main": "o-types.js",
 
     "dependencies": {
-        "o-core": ">=0.0.6"
+        "o-core": ">=0.0.7"
     },
     "devDependencies": {
         "tap": ">=0.4.0"
