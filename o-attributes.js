@@ -1,7 +1,10 @@
 (function() {
-    var o = this.oJS || require('o-core');
+    var o = this.oJS;
+    if (typeof exports !== 'undefined') {
+        o = require('o-core');
+        require('o-types');
+    }
     if (!o) throw new Error('...');
-require('o-types');
 
     function ucFirst (str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -18,7 +21,7 @@ require('o-types');
             required: true
         },
         argKey: {
-            type: o.nonEmptyStringType,
+            type: new o.AnyType([ o.nonEmptyStringType, o.nullType ]),
             devoid: function () { return this.key() }
         },
         valueKey: {

@@ -1,4 +1,7 @@
 NEXT RELEASE
  - First release of the redesigned o-attributes.js.
  - Rename from o-attribute.js to o-attributes.js.
+ - Allow argKey to be nullable.
+ - Add more comprehensive tests for the key arguments.
+ - Better handling of node and browser contexts.
 
