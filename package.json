@@ -1,6 +1,6 @@
 {
     "name":    "o-types",
-    "version": "0.0.1",
+    "version": "0.0.2",
 
     "description": "Type system for o.js and beyond!",
     "homepage":    "http://o-js.com",

@@ -1,5 +1,8 @@
 (function() {
-    var o = this.oJS || require('o-core');
+    var o = this.oJS;
+    if (typeof exports !== 'undefined') {
+        o = require('o-core');
+    }
     if (!o) throw new Error('...');
 
     o.Type = o.construct(
@@ -45,81 +48,95 @@
 
     o.EqualType = o.augment(
         o.Type,
-        function (parent, expected) {
-            parent( function (val) {
+        function (parent, expected, args) {
+            args = args || {};
+            args.validate = function (val) {
                 return (val === expected) ? true : false;
-            });
+            };
+            parent( args );
         }
     );
 
     o.AnyType = o.augment(
         o.Type,
-        function (parent, types) {
-            parent( function (val) {
+        function (parent, types, args) {
+            args = args || {};
+            args.validate = function (val) {
                 for (var i = 0, l = types.length; i < l; i++) {
                     if (types[i].check(val)) return true;
                 }
                 return false;
-            });
+            };
+            parent( args );
         }
     );
 
     o.AllType = o.augment(
         o.Type,
-        function (parent, types) {
-            parent( function (val) {
+        function (parent, types, args) {
+            args = args || {};
+            args.validate = function (val) {
                 for (var i = 0, l = types.length; i < l; i++) {
                     if (!types[i].check(val)) return false;
                 }
                 return true;
-            });
+            };
+            parent( args );
         }
     );
 
     o.NoneType = o.augment(
         o.Type,
-        function (parent, types) {
+        function (parent, types, args) {
+            args = args || {};
             var type = new o.AnyType(types);
-            parent( function (val) {
+            args.validate = function (val) {
                 return type.check(val) ? false : true;
-            });
+            };
+            parent( args );
         }
     );
 
     o.NotType = o.augment(
         o.NoneType,
-        function (parent, type) {
-            parent( [type] );
+        function (parent, type, args) {
+            parent( [type], args );
         }
     );
 
     o.EnumType = o.augment(
         o.Type,
-        function (parent, values) {
-            parent( function (val) {
+        function (parent, values, args) {
+            args = args || {};
+            args.validate = function (val) {
                 for (var i = 0, l = values.length; i < l; i++) {
                     if (val === values[i]) return true;
                 }
                 return false;
-            });
+            };
+            parent( args );
         }
     );
 
     o.TypeOfType = o.augment(
         o.Type,
-        function (parent, result) {
-            parent( function (val) {
+        function (parent, result, args) {
+            args = args || {};
+            args.validate = function (val) {
                 return (typeof val === result) ? true : false;
-            });
+            };
+            parent( args );
         }
     );
 
     o.InstanceOfType = o.augment(
         o.Type,
-        function (parent, constructor) {
-            parent( function (val) {
+        function (parent, constructor, args) {
+            args = args || {};
+            args.validate = function (val) {
                 return (val instanceof constructor) ? true : false;
-            });
+            };
+            parent( args );
         }
     );
 
@@ -194,40 +211,46 @@
 
     o.DuckType = o.augment(
         o.Type,
-        function (parent, methods) {
-            parent( function (val) {
+        function (parent, methods, args) {
+            args = args || {};
+            args.validate = function (val) {
                 if (!o.objectType.check(val)) return false;
                 for (var i = 0, l = methods.length; i < l; i++) {
                     if (val[methods[i]] === undefined) return false;
                 }
                 return true;
-            });
+            };
+            parent( args );
         }
     );
 
     o.ArrayOfType = o.augment(
         o.Type,
-        function (parent, type) {
-            parent( function (val) {
+        function (parent, type, args) {
+            args = args || {};
+            args.validate = function (val) {
                 if (!o.arrayType.check(val)) return false;
                 for (var i = 0, l = val.length; i < l; i++) {
                     if (!type.check(val[i])) return false;
                 }
                 return true;
-            });
+            };
+            parent( args );
         }
     );
 
     o.ObjectOfType = o.augment(
         o.Type,
-        function (parent, type) {
-            parent( function (val) {
+        function (parent, type, args) {
+            args = args || {};
+            args.validate = function (val) {
                 if (!o.objectType.check(val)) return false;
                 for (var key in val) {
                     if (!type.check(val[key])) return false;
                 }
                 return true;
-            });
+            };
+            parent( args );
         }
     );
 
