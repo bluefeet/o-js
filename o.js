@@ -30,10 +30,10 @@
             if (!def.predicate.call( this )) {
                 if (def.required) throw new Error('...');
                 else if (def.devoid !== undefined) {
-                    var value = def.devoid;
-                    if (value instanceof Function) value = value.call( this );
+                    var val = def.devoid;
+                    if (val instanceof Function) val = val.call( this );
 
-                    def.writer.call( this, value );
+                    def.writer.call( this, val );
                 }
             }
 
@@ -45,21 +45,24 @@
         def = def || {};
         if (def.augments) def.type = def.type || 'object';
 
-        return function (value) {
-            if (def.filter) value = def.filter.call( this, value );
+        return function (val) {
+            if (def.filter) val = def.filter.call( this, val );
 
             if (def.type) {
                 if (typeof def.type === 'string' || def.type instanceof String) {
-                    if (typeof value !== def.type) throw new Error('...');
+                    if (typeof val !== def.type) throw new Error('...');
                 }
                 else if (def.type instanceof Function) {
-                    if (!def.type( value )) {
+                    if (!def.type( val )) {
                         throw new Error('...');
                     }
                 }
                 else if (def.type instanceof Object && def.type.validate) {
-                    if (def.type.validate instanceof Function) {
-                        def.type.validate( value );
+                    if (def.coerce && def.type.coerce instanceof Function) {
+                        val = def.type.coerce( val );
+                    }
+                    else if (def.type.validate instanceof Function) {
+                        def.type.validate( val );
                     }
                     else {
                         throw new Error('...');
@@ -71,13 +74,13 @@
             }
 
             if (def.augments) {
-                if (!(value instanceof def.augments)) {
+                if (!(val instanceof def.augments)) {
                     throw new Error('...');
                 }
             }
 
             var original = this[key];
-            this[key] = value;
+            this[key] = val;
             if (def.chain) return this;
             return original;
         };
@@ -88,8 +91,8 @@
         def.writer = def.writer || o.writer( key, def );
         def.reader = def.reader || o.reader( key, def );
 
-        return function (value) {
-            if (value !== undefined) return def.writer.call( this, value );
+        return function (val) {
+            if (val !== undefined) return def.writer.call( this, val );
             return def.reader.call( this );
         };
     };

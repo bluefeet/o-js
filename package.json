@@ -1,6 +1,6 @@
 {
     "name":    "o-core",
-    "version": "0.0.6",
+    "version": "0.0.7",
 
     "description": "JavaScript utility belt for rich objects and prototypes. Ooooh!",
     "homepage":    "http://o-js.com",
@@ -16,7 +16,7 @@
     "main": "o.js",
 
     "devDependencies": {
-        "tap" : "~0.4.0"
+        "tap": ">=0.4.0"
     },
 
     "scripts": {
