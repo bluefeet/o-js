@@ -1,4 +1,4 @@
-NEXT VERSION
+0.0.2 : 2013-05-19
  - Test o-core's ability to handle o.Type objects in o.writer.
  - Re-introduce is* methods for short-hand adhock validation.
  - Allow extra arguments to be passed to type constructors.
