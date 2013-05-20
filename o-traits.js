@@ -46,6 +46,13 @@
                 for (var name in after) {
                     obj[name] = o.after( obj[name], after[name] );
                 }
+            },
+
+            setFromArgs: function (obj, args) {
+                var attributes = this.attributes();
+                for (var i = 0, l = attributes.length; i < l; i++) {
+                    attributes[i].setValueFromArgs( obj, args );
+                }
             }
         }
     );
