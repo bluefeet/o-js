@@ -4,4 +4,6 @@ NEXT RELEASE
  - Allow argKey to be nullable.
  - Add more comprehensive tests for the key arguments.
  - Better handling of node and browser contexts.
+ - Add setValueFromArgs method to attributes.
+ - Suport the o.writer coerce property definition.
 

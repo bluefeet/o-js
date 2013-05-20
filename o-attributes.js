@@ -38,6 +38,7 @@
                 o.functionType
             ])
         },
+        coerce: { type: o.booleanType, devoid: false },
         filter: { type: o.functionType },
         augments: { type: o.functionType },
         chain: { type: o.booleanType, devoid: false },
@@ -99,6 +100,7 @@
                             this.valueKey(),
                             {
                                 type: this.type(),
+                                coerce: this.coerce(),
                                 filter: this.filter(),
                                 augments: this.augments(),
                                 chain: this.chain()
@@ -163,6 +165,12 @@
                 },
                 clearValue: function (obj) {
                     return this.clearerMethod().call( obj );
+                },
+
+                setValueFromArgs: function (obj, args) {
+                    if (this.argKey() === null) return;
+                    if (args[this.argKey()] === undefined) return;
+                    return this.setValue( obj, args[this.argKey()] );
                 },
 
                 install: function (obj) {
