@@ -1,0 +1,31 @@
+{
+    "name":    "o-constructors",
+    "version": "0.0.1",
+
+    "description": "Prototype constructors powered by o.js.",
+    "homepage":    "http://o-js.com",
+    "keywords":    ["util", "prototypes"],
+    "author":      "Aran Deltac <bluefeet@gmail.com>",
+    "repository":  {"type": "git", "url": "git@github.com:o-js/o-constructorss.git"},
+    "bugs":        { "url": "https://github.com/o-js/o-constructors/issues" },
+    "licenses": [{
+        "type": "MIT",
+        "url":  "https://raw.github.com/o-js/o-constructors/master/LICENSE.txt"
+    }],
+
+    "main": "o-constructors.js",
+
+    "dependencies": {
+        "o-core": ">=0.0.7",
+        "o-types": ">=0.0.2",
+        "o-attributes": ">=0.0.1",
+        "o-traits": ">=0.0.1"
+    },
+    "devDependencies": {
+        "tap": ">=0.4.0"
+    },
+
+    "scripts": {
+        "test": "tap test/*.js"
+    }
+}
