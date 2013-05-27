@@ -1,6 +1,4 @@
-var o = require('o-core');
-require('o-types');
-require('../o-attributes');
+var o = require('../o');
 var test = require('tap').test;
 
 test('key', function (t) {
@@ -33,10 +31,6 @@ test('valueKey', function (t) {
 
     t.end();
 });
-var o = require('o-core');
-require('o-types');
-require('../o-attributes');
-var test = require('tap').test;
 
 test('basic', function (t) {
     var ageAttr = new o.Attribute({

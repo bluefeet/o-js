@@ -1,7 +1,4 @@
-var o = require('o-core');
-require('o-types');
-require('o-attributes');
-require('../o-traits');
+var o = require('../o');
 var test = require('tap').test;
 
 test('basic', function (t) {

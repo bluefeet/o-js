@@ -187,13 +187,6 @@
     o.has = function (obj, key) {
         return Object.prototype.hasOwnProperty.call( obj, key );
     };
-}).call(this);
-(function() {
-    var o = this.oJS;
-    if (typeof exports !== 'undefined') {
-        o = require('o-core');
-    }
-    if (!o) throw new Error('...');
 
     o.Type = o.construct(
         function (args) {
@@ -444,15 +437,6 @@
         }
     );
 
-}).call(this);
-(function() {
-    var o = this.oJS;
-    if (typeof exports !== 'undefined') {
-        o = require('o-core');
-        require('o-types');
-    }
-    if (!o) throw new Error('...');
-
     function ucFirst (str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
@@ -641,15 +625,6 @@
             readers
         )
     );
-}).call(this);
-(function() {
-    var o = this.oJS;
-    if (typeof exports !== 'undefined') {
-        o = require('o-core');
-        require('o-types');
-        require('o-attributes');
-    }
-    if (!o) throw new Error('...');
 
     var traitAttrs = [];
 
@@ -756,16 +731,6 @@
     for (var i = 0, l = traitAttrs.length; i < l; i++) {
         traitAttrs[i].install( proto );
     }
-}).call(this);
-(function() {
-    var o = this.oJS;
-    if (typeof exports !== 'undefined') {
-        o = require('o-core');
-        require('o-types');
-        require('o-attributes');
-        require('o-traits');
-    }
-    if (!o) throw new Error('...');
 
     o.Constructor = o.construct(
         function (args) {
