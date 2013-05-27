@@ -1,9 +1,17 @@
 NEXT VERSION
+ - Redesign o-types so that each type is an object with coercions.
  - Test o-core's ability to handle o.Type objects in o.writer.
  - Re-introduce is* methods for short-hand adhock validation.
  - Allow extra arguments to be passed to type constructors.
- - Redesign o-types so that each type is an object with coercions.
- - Bring o-types back in to the main repository, it was a bad idea.
+ - Rewrite of o-attributes.
+ - Rename from o-attribute.js to o-attributes.js.
+ - Allow argKey to be nullable in attributes.
+ - Add more comprehensive tests for the key arguments of attributes.
+ - Better handling of node and browser contexts.
+ - Add setValueFromArgs method to attributes.
+ - Suport the o.writer coerce property definition in attributes.
+ - Bring o-types and o-attributes back in to the main repository, it was a bad
+   idea.
 
 0.0.7 : 2013-05-19
  - Support o-types types in o.writer.
