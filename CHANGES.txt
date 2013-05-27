@@ -1,4 +1,5 @@
 NEXT VERSION
+ - New o-constructors library.
  - Redesign o-types so that each type is an object with coercions.
  - Test o-core's ability to handle o.Type objects in o.writer.
  - Re-introduce is* methods for short-hand adhock validation.
