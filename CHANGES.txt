@@ -1,21 +1,19 @@
-NEXT VERSION
+0.0.6 : 2013-05-27
  - Merge o-types and o-attributes in to the main library.
  - New Trait and Constructor objects.
  - Redesign types so that each type is an object with coercions.
+ - Migrate tests for QUnit to tap, and add many new tests.
  - Many many new tests.
  - Redesign Attribute.
  - Allow argKey to be nullable in attributes.
-
-0.0.7 : 2013-05-19
- - Support o-types types in o.writer.
-
-0.0.6 : 2013-05-04
- - Move o-types.js and o-attribute.js to their own repos.
- - Migrate tests for QUnit to tap.
+ - Support Type objects in o.writer.
  - Add a package.json for npm.
  - o.writer now returns the original value.
  - o.accessor returns the return value of o.writer if writing.
  - o.predicate now treats an undefined value as a lack of having.
+ - Coercion now only validates against the first type, not parent
+   types, since the value, before being coerced, will often times
+   fail a parent's validation.
 
 0.0.5 : 2013-04-14
  - Fix trailing commas in o-attribute.js breaking minification.

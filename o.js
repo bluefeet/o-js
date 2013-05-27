@@ -57,15 +57,12 @@
                         throw new Error('...');
                     }
                 }
-                else if (def.type instanceof Object && def.type.validate) {
-                    if (def.coerce && def.type.coerce instanceof Function) {
+                else if (def.type instanceof o.Type) {
+                    if (def.coerce) {
                         val = def.type.coerce( val );
                     }
-                    else if (def.type.validate instanceof Function) {
-                        def.type.validate( val );
-                    }
                     else {
-                        throw new Error('...');
+                        def.type.validate( val );
                     }
                 }
                 else {
@@ -210,9 +207,13 @@
                 if (!this.validateMethod( val )) throw new Error('...');
                 return true;
             },
-            coerce: function (val) {
-                if (this.parent) val = this.parent.coerce( val );
+            coerceOnly: function (val) {
+                if (this.parent) val = this.parent.coerceOnly( val );
                 if (this.coerceMethod) val = this.coerceMethod( val );
+                return val;
+            },
+            coerce: function (val) {
+                val = this.coerceOnly( val );
                 if (!this.validateMethod( val )) throw new Error('...');
                 return val;
             },
@@ -222,6 +223,7 @@
             },
             subtype: function (args) {
                 if (typeof args === 'function') { args = { validate: args } }
+                if (args.validate === undefined) { args.validate=function(){ return true } }
                 return new o.Type(
                     o.merge( {parent:this}, args )
                 );

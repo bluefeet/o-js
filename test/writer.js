@@ -30,16 +30,20 @@ test('type (function)', function (t) {
 test('type (object)', function (t) {
     var obj = {};
 
-    obj.setX = o.writer('x', { type: {} });
-    t.throws( function(){ obj.setX('abc') }, 'object without validate property throws an error' );
+    var fooType = o.numberType.subtype({
+        coerce: function (val) { return (typeof val === 'number') ? (val + 1) : 0 }
+    });
 
-    obj.setX = o.writer('x', { type: {validate:'foo'} });
-    t.throws( function(){ obj.setX('abc') }, 'object with non-function validate property throws an error' );
+    obj.setX = o.writer('x', { type: fooType });
+    t.throws( function(){ obj.setX('abc') }, 'string did not pass number' );
+    obj.setX( 11 );
+    t.is( obj.x, 11, 'coercion was not used' );
 
-    obj.setX = o.writer('x', { type: {validate: function(v){ if(v=='bad') throw new Error('bad') } } });
-    t.throws( function(){ obj.setX('bad') }, 'bad value caught' );
-    obj.setX('good');
-    t.equal( obj.x, 'good', 'good value was stored' );
+    obj.setX = o.writer('x', { type: fooType, coerce:true });
+    obj.setX( 11 );
+    t.is( obj.x, 12, 'coercion was used' );
+    obj.setX( 'abc' );
+    t.is( obj.x, 0, 'coercion was used' );
 
     t.end();
 });
