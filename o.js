@@ -698,7 +698,7 @@
             }
             return attributes;
         },
-        writer: null,
+        writer: null
     }) );
 
     traitAttrs.push( new o.Attribute({
