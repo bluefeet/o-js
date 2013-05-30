@@ -5,7 +5,7 @@ test('basic', function (t) {
     var log = [];
 
     var person = new o.Trait({
-        has: {
+        attributes: {
             firstName: { type:o.nonEmptyStringType },
             lastName: { type:o.nonEmptyStringType },
             gender: { type:new o.EnumType(['m', 'f']) },

@@ -3,7 +3,7 @@ var test = require('tap').test;
 
 test('basic', function (t) {
     var Person = new o.Constructor({
-        has: {
+        attributes: {
             firstName: { type:o.nonEmptyStringType },
             lastName: { type:o.nonEmptyStringType },
             gender: { type:new o.EnumType(['m', 'f']) },

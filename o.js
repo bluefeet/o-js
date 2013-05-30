@@ -680,7 +680,6 @@
 
     traitAttrs.push( new o.Attribute({
         key: 'traits',
-        argKey: 'with',
         type: new o.ArrayOfType( new o.InstanceOfType( o.Trait ) ),
         devoid: function () { return [] },
         writer: null
@@ -688,7 +687,6 @@
 
     traitAttrs.push( new o.Attribute({
         key: 'attributes',
-        argKey: 'has',
         type: new o.ArrayOfType( new o.InstanceOfType( o.Attribute ) ),
         devoid: function () { return {} },
         filter: function (val) {

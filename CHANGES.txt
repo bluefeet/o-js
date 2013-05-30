@@ -1,3 +1,8 @@
+NEXT RELEASE
+ - Remove the special initArgs for attributes and traits in
+   Attribute.
+ - Support Travis CI.
+
 0.0.6 : 2013-05-27
  - Merge o-types and o-attributes in to the main library.
  - New Trait and Constructor objects.
