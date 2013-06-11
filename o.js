@@ -678,57 +678,60 @@
         }
     );
 
-    traitAttrs.push( new o.Attribute({
-        key: 'traits',
-        type: new o.ArrayOfType( new o.InstanceOfType( o.Trait ) ),
-        devoid: function () { return [] },
-        writer: null
-    }) );
-
-    traitAttrs.push( new o.Attribute({
-        key: 'attributes',
-        type: new o.ArrayOfType( new o.InstanceOfType( o.Attribute ) ),
-        devoid: function () { return {} },
-        filter: function (val) {
-            var attributes = [];
-            for (var key in val) {
-                attributes.push( new o.Attribute( o.merge({ key:key }, val[key]) ) );
-            }
-            return attributes;
+    traitAttrs = [
+        {
+            key: 'traits',
+            type: new o.ArrayOfType( new o.InstanceOfType( o.Trait ) ),
+            devoid: function () { return [] },
+            writer: null
         },
-        writer: null
-    }) );
 
-    traitAttrs.push( new o.Attribute({
-        key: 'methods',
-        type: new o.ObjectOfType( o.functionType ),
-        devoid: function () { return {} },
-        writer: null
-    }) );
+        {
+            key: 'attributes',
+            type: new o.ArrayOfType( new o.InstanceOfType( o.Attribute ) ),
+            devoid: function () { return {} },
+            filter: function (val) {
+                var attributes = [];
+                for (var key in val) {
+                    attributes.push( new o.Attribute( o.merge({ key:key }, val[key]) ) );
+                }
+                return attributes;
+            },
+            writer: null
+        },
 
-    traitAttrs.push( new o.Attribute({
-        key: 'around',
-        type: new o.ObjectOfType( o.functionType ),
-        devoid: function () { return {} },
-        writer: null
-    }) );
+        {
+            key: 'methods',
+            type: new o.ObjectOfType( o.functionType ),
+            devoid: function () { return {} },
+            writer: null
+        },
 
-    traitAttrs.push( new o.Attribute({
-        key: 'before',
-        type: new o.ObjectOfType( o.functionType ),
-        devoid: function () { return {} },
-        writer: null
-    }) );
+        {
+            key: 'around',
+            type: new o.ObjectOfType( o.functionType ),
+            devoid: function () { return {} },
+            writer: null
+        },
 
-    traitAttrs.push( new o.Attribute({
-        key: 'after',
-        type: new o.ObjectOfType( o.functionType ),
-        devoid: function () { return {} },
-        writer: null
-    }) );
+        {
+            key: 'before',
+            type: new o.ObjectOfType( o.functionType ),
+            devoid: function () { return {} },
+            writer: null
+        },
+
+        {
+            key: 'after',
+            type: new o.ObjectOfType( o.functionType ),
+            devoid: function () { return {} },
+            writer: null
+        }
+    ];
 
     var proto = o.Trait.prototype;
     for (var i = 0, l = traitAttrs.length; i < l; i++) {
+        traitAttrs[i] = new o.Attribute( traitAttrs[i] );
         traitAttrs[i].install( proto );
     }
 
