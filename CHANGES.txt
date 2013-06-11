@@ -1,5 +1,6 @@
 NEXT RELEASE
  - Optimize some bits to produce a smaller minified output.
+ - Remove o.is functions.. again, they are a nice-to-have that just bloats things.
  - Remove the special initArgs for attributes and traits in Attribute.
  - Support Travis CI.
 
