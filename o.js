@@ -479,6 +479,7 @@
 
     o.Attribute = o.construct(
         function (args) {
+            this._originalArgs = o.clone( args );
             for (var key in args) {
                 writers[key].call( this, args[key] );
             }
@@ -595,6 +596,15 @@
                     for (var key in proxyMethods) {
                         obj[key] = proxyMethods[key];
                     }
+                },
+
+                rebuild: function (args) {
+                    var Constructor = this.constructor;
+                    return new Constructor( o.merge(
+                        {},
+                        this._originalArgs,
+                        args
+                    ));
                 }
             },
             readers
@@ -666,7 +676,14 @@
             filter: function (val) {
                 var attributes = [];
                 for (var key in val) {
-                    attributes.push( new o.Attribute( o.merge({ key:key }, val[key]) ) );
+                    var attribute = val[key];
+                    if (attribute instanceof o.Attribute) {
+                        if (attribute.key() !== key) attribute = attribute.rebuild({ key: key });
+                    }
+                    else {
+                        attribute = new o.Attribute( o.merge({}, attribute, { key:key }) );
+                    }
+                    attributes.push( attribute );
                 }
                 return attributes;
             },

@@ -32,6 +32,20 @@ test('valueKey', function (t) {
     t.end();
 });
 
+test('rebuild', function(t) {
+    var attr1 = new o.Attribute({ key:'fooKey', writer:'setFOO', predicate:true });
+    t.is( attr1.key(), 'fooKey', 'key on original is correct' );
+    t.is( attr1.writer(), 'setFOO', 'writer on original is correct' );
+    t.is( attr1.predicate(), 'hasFooKey', 'predicate on original is correct' );
+
+    var attr2 = attr1.rebuild({ key:'barKey' });
+    t.is( attr2.key(), 'barKey', 'key on rebuilt is correct' );
+    t.is( attr2.writer(), 'setFOO', 'writer on rebuilt is correct' );
+    t.is( attr2.predicate(), 'hasBarKey', 'predicate on rebuilt is correct' );
+
+    t.end();
+});
+
 test('basic', function (t) {
     var ageAttr = new o.Attribute({
         key: 'age',

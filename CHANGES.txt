@@ -1,4 +1,6 @@
 NEXT RELEASE
+ - Attributes on Traits (and Constructors) can now be pre-made o.Attribute
+   objects which may be re-used.
  - Optimize some bits to produce a smaller minified output.
  - Remove o.is functions.. again, they are a nice-to-have that just bloats things.
  - Remove the special initArgs for attributes and traits in Attribute.
@@ -17,9 +19,8 @@ NEXT RELEASE
  - o.writer now returns the original value.
  - o.accessor returns the return value of o.writer if writing.
  - o.predicate now treats an undefined value as a lack of having.
- - Coercion now only validates against the first type, not parent
-   types, since the value, before being coerced, will often times
-   fail a parent's validation.
+ - Coercion now only validates against the first type, not parent types, since
+   the value, before being coerced, will often times fail a parent's validation.
 
 0.0.5 : 2013-04-14
  - Fix trailing commas in o-attribute.js breaking minification.
@@ -43,11 +44,12 @@ NEXT RELEASE
 
 0.0.2 : 2013-03-18
  - Added o.construct.
- - o.extend now accepts a third argument to specify properties for the prototype.
+ - o.extend now accepts a third argument to specify properties for the
+   prototype.
  - Full test coverage of the Core API.
  - Fixed around to handle return values.
- - Fixed o.extend to properly inherit the parent's prototype
-   instead of merging it with the child's.
+ - Fixed o.extend to properly inherit the parent's prototype instead of merging
+   it with the child's.
  - Default isa to "object" if extends is set.
 
 0.0.1 : 2013-03-10

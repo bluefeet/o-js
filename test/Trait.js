@@ -1,6 +1,31 @@
 var o = require('../o');
 var test = require('tap').test;
 
+test('existing-attributes', function (t) {
+    var attr = new o.Attribute({
+        key: 'hair',
+        filter: function (val) { return val + 'FOO' }
+    });
+
+    var trait = new o.Trait({
+        attributes: {
+            hair: attr,
+            fur: attr
+        }
+    });
+
+    var obj = {};
+    trait.install( obj );
+
+    obj.hair('green');
+    obj.fur('pink');
+
+    t.is( obj._hair, 'greenFOO' );
+    t.is( obj._fur, 'pinkFOO' );
+
+    t.end();
+});
+
 test('basic', function (t) {
     var log = [];
 
