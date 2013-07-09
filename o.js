@@ -428,7 +428,7 @@
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    var nullOrFunctionType = new o.AnyType([
+    var nullOrNonEmptyStringType = new o.AnyType([
         o.nullType,
         o.nonEmptyStringType
     ]);
@@ -462,20 +462,20 @@
         chain: { type: o.booleanType, devoid: false },
 
         reader: {
-            type: nullOrFunctionType,
+            type: nullOrNonEmptyStringType,
             devoid: function () { return this.key() }
         },
         writer: {
-            type: nullOrFunctionType,
+            type: nullOrNonEmptyStringType,
             devoid: function () { return this.key() }
         },
         predicate: {
-            type: nullOrFunctionType,
+            type: nullOrNonEmptyStringType,
             filter: function (val) { if (val === true) val = 'has' + ucFirst( this.key() ); return val },
             devoid: function () { return null }
         },
         clearer: {
-            type: nullOrFunctionType,
+            type: nullOrNonEmptyStringType,
             filter: function (val) { if (val === true) val = 'clear' + ucFirst( this.key() ); return val },
             devoid: function () { return null }
         },
