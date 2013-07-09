@@ -189,36 +189,36 @@
         function (args) {
             if (typeof args === 'function') { args = { validate: args } }
 
-            if (args.validate) { this.validateMethod = args.validate }
+            if (args.validate) { this._validateMethod = args.validate }
             else { throw new Error('...') }
 
-            if (args.message) this.messageMethod = args.message;
-            if (args.coerce) this.coerceMethod = args.coerce;
-            if (args.parent) this.parent = args.parent;
+            if (args.message) this._messageMethod = args.message;
+            if (args.coerce) this._coerceMethod = args.coerce;
+            if (args.parent) this._parent = args.parent;
         },
         {
             check: function (val) {
-                if (this.parent) { if (!this.parent.check(val)) return false }
-                if (!this.validateMethod( val )) return false;
+                if (this._parent) { if (!this._parent.check(val)) return false }
+                if (!this._validateMethod( val )) return false;
                 return true;
             },
             validate: function (val) {
-                if (this.parent) this.parent.validate( val );
-                if (!this.validateMethod( val )) throw new Error('...');
+                if (this._parent) this._parent.validate( val );
+                if (!this._validateMethod( val )) throw new Error('...');
                 return true;
-            },
-            coerceOnly: function (val) {
-                if (this.parent) val = this.parent.coerceOnly( val );
-                if (this.coerceMethod) val = this.coerceMethod( val );
-                return val;
             },
             coerce: function (val) {
                 val = this.coerceOnly( val );
-                if (!this.validateMethod( val )) throw new Error('...');
+                if (!this._validateMethod( val )) throw new Error('...');
+                return val;
+            },
+            coerceOnly: function (val) {
+                if (this._parent) val = this._parent.coerceOnly( val );
+                if (this._coerceMethod) val = this._coerceMethod( val );
                 return val;
             },
             error: function (val) {
-                if (this.messageMethod) { throw new Error( this.messageMethod(val) ) }
+                if (this._messageMethod) { throw new Error( this._messageMethod(val) ) }
                 throw new Error( 'Validation failed for value "' + val + '"' );
             },
             subtype: function (args) {
