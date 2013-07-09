@@ -1,3 +1,6 @@
+NEXT RELEASE
+ - Added o.PatternType for creating types that match against a RegExp.
+
 0.0.7 : 2013-06-18
  - Attributes on Traits (and Constructors) can now be pre-made o.Attribute
    objects which may be re-used.

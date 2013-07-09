@@ -412,6 +412,18 @@
         }
     );
 
+    o.PatternType = o.augment(
+        o.Type,
+        function (parent, regExp, args) {
+            args = args || {};
+            args.validate = function (val) {
+                if (!o.stringType.check(val)) return false;
+                return regExp.test(val);
+            };
+            parent( args );
+        }
+    );
+
     function ucFirst (str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
