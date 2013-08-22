@@ -369,14 +369,24 @@
 
     o.DuckType = o.augment(
         o.Type,
-        function (parent, methods, args) {
+        function (parent, properties, args) {
             args = args || {};
             args.validate = function (val) {
                 if (!o.objectType.check(val)) return false;
-                for (var i = 0, l = methods.length; i < l; i++) {
-                    if (val[methods[i]] === undefined) return false;
+                if (o.arrayType.check(properties)) {
+                    for (var i = 0, l = properties.length; i < l; i++) {
+                        if (val[properties[i]] === undefined) return false;
+                    }
+                    return true;
                 }
-                return true;
+                else if (o.objectType.check(properties)) {
+                    for (var key in properties) {
+                        if (val[key] === undefined) return false;
+                        if (!properties[key].check(val[key])) return false;
+                    }
+                    return true;
+                }
+                return false;
             };
             parent( args );
         }
