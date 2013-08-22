@@ -8,7 +8,6 @@
 
         <link href='http://fonts.googleapis.com/css?family=Merriweather+Sans:400,700' rel='stylesheet' type='text/css'>
 
-        <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/solarized_dark.min.css">
         <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
 
@@ -16,8 +15,8 @@
             html { -webkit-text-size-adjust: 100% }
 
             body {
-                background-color: #001C24;
-                color: #ddd;
+                background-color: #fff;
+                color: #000;
                 margin: 0px;
                 padding: 0px;
                 font-family: 'Merriweather Sans', sans-serif;
@@ -36,21 +35,24 @@
                 text-align: center;
             }
             div.header-section h1 {
-                color: #3FAFEB;
+                color: #2896B5;
                 font-size: 900%;
                 margin: 50px 0px;
             }
+            div.header-section span.dot {
+                color: #1ab500;
+            }
             div.header-section p {
-                color: #aaa;
+                color: #888;
                 font-size: 130%;
                 margin: 40px 0px;
             }
-            span.oh {
+            div.header-section span.oh {
                 font-size: 120%;
             }
 
             h2 {
-                color: #bbb;
+                color: #0d627b;
                 font-size: 200%;
                 margin: 0px 0px 10px 0px;
             }
@@ -63,20 +65,20 @@
             div.clear { clear: both }
             a {
                 text-decoration: none;
-                color: #2896B5;
+                color: #17667c;
             }
 
             div.overview-section {
-                background-color: #001014;
+                background-color: #dcf3d8;
             }
             div.overview-section div.panel {
                 width: 33.3%;
             }
             div.overview-section h2 {
-                color: #888;
+                color: #0d627b;
             }
             div.overview-section1 {
-                border-bottom: dotted 10px #001C24;
+                border-bottom: dotted 10px #1783a2;
             }
 
             pre { margin: 0px; }
@@ -96,10 +98,10 @@
             }
 
             div.footer-section {
-                background-color: #001014;
+                background-color: #dcf3d8;
                 text-align: center;
                 font-size: 80%;
-                color: #777;
+                color: #444;
             }
 
             @media screen and (max-width: 950px) {
@@ -115,6 +117,18 @@
                 div.header-section h1 { font-size:600%; margin:40px 0px }
                 div.header-section p { font-size:110%; margin:10px 0px }
                 div.section { padding: 5px; }
+            }
+
+            pre {
+                border-radius: 15px;
+                background-color: #e8f3f6;
+            }
+
+            code span.literal, code span.params, code span.string {
+                color: #1c7f9c;
+            }
+            code span.keyword {
+                font-weight: bold;
             }
         </style>
 
@@ -134,7 +148,7 @@
 
 
 <div class="section header-section"><div class="section-content">
-    <h1>o.js</h1>
+    <h1>o<span class="dot">.</span>js</h1>
     <p>JavaScript utility belt for rich objects and prototypes.  <span class="oh">Ooooh!</span></p>
 </div></div>
 
@@ -174,6 +188,7 @@
             <a href="https://raw.github.com/bluefeet/o-js/master/CHANGES.txt">Change Log</a><br/>
         </p>
         <p><code>npm install o</code></p>
+        <p><code>jam install o</code></p>
     </div></div>
 
     <div class="panel"><div class="panel-content">
@@ -183,8 +198,9 @@
             <a href="https://github.com/bluefeet/o-js">GitHub Repository</a><br/>
             <a href="https://github.com/bluefeet/o-js/issues">Issue Tracker</a><br/>
             <a href="https://travis-ci.org/bluefeet/o-js">Travis CI Builds</a><br/>
-            <a href="https://npmjs.org/package/o">On npm</a><br/>
-            <a href="https://twitter.com/ooojs">Twitter</a><br/>
+            <a href="https://npmjs.org/package/o">On npm</a>,
+            <a href="http://jamjs.org/packages/#/details/o">On Jam</a><br/>
+            <a href="https://twitter.com/ooojs">Twitter</a>,
             <a href="http://blog.o-js.com">Blog</a><br/>
         </p>
     </div></div>
