@@ -23,6 +23,12 @@
                 font-size: 17px;
             }
 
+            div.clear { clear: both }
+            a {
+                text-decoration: none;
+                color: #17667c;
+            }
+
             div.section {
                 padding: 10px;
             }
@@ -56,17 +62,17 @@
                 font-size: 200%;
                 margin: 0px 0px 10px 0px;
             }
+            p {
+                margin: 10px 0px;
+            }
             div.panel {
                 float: left;
             }
             div.panel-content {
-                padding: 10px;
+                padding: 10px 10px 0px 10px;
             }
-            div.clear { clear: both }
-            a {
-                text-decoration: none;
-                color: #17667c;
-            }
+            div.left-panel div.panel-content { padding-left: 0px }
+            div.right-panel div.panel-content { padding-right: 0px }
 
             div.overview-section {
                 background-color: #dcf3d8;
@@ -77,24 +83,18 @@
             div.overview-section h2 {
                 color: #0d627b;
             }
-            div.overview-section1 {
+            div.overview-section-1 {
                 border-bottom: dotted 10px #1783a2;
             }
 
-            pre { margin: 0px; }
-            pre code {
-                border-radius: 9px;
-                padding: 15px;
-                display: block;
-                overflow: auto;
+            div.features-section {
+                padding-top: 40px;
             }
-
             div.features-section div.panel {
                 width: 50%;
             }
-            div.features-section h2 {
-                margin: 0px;
-                padding: 10px 10px 0px 10px;
+            div.features-section div.panel-content {
+                padding-top: 0px;
             }
 
             div.footer-section {
@@ -104,24 +104,15 @@
                 color: #444;
             }
 
-            @media screen and (max-width: 950px) {
-                div.panel { float:none; width:100% !important }
-                h2 { margin: 0px; !important }
-                pre { margin-bottom: 10px }
-                div.features-section p { margin: 0px }
-            }
-
-            @media screen and (max-width: 480px) {
-                body { font-size:15px }
-                pre code { padding: 5px }
-                div.header-section h1 { font-size:600%; margin:40px 0px }
-                div.header-section p { font-size:110%; margin:10px 0px }
-                div.section { padding: 5px; }
-            }
-
             pre {
+                display: block;
                 border-radius: 15px;
                 background-color: #e8f3f6;
+                padding: 10px;
+            }
+            pre code {
+                display: block;
+                overflow: auto;
             }
 
             code span.literal, code span.params, code span.string {
@@ -129,6 +120,19 @@
             }
             code span.keyword {
                 font-weight: bold;
+            }
+
+            @media screen and (max-width: 950px) {
+                div.panel { float:none; width:100% !important }
+                div.panel-content { padding: 0px }
+            }
+
+            @media screen and (max-width: 480px) {
+                body { font-size:15px }
+                pre { padding: 5px }
+                div.header-section h1 { font-size:600%; margin:40px 0px }
+                div.header-section p { font-size:110%; margin:10px 0px }
+                div.features-section { padding-top:10px }
             }
         </style>
 
@@ -152,9 +156,9 @@
     <p>JavaScript utility belt for rich objects and prototypes.  <span class="oh">Ooooh!</span></p>
 </div></div>
 
-<div class="section overview-section overview-section1"><div class="section-content">
+<div class="section overview-section overview-section-1"><div class="section-content">
 
-    <div class="panel"><div class="panel-content">
+    <div class="panel left-panel"><div class="panel-content">
         <h2>Why o.js?</h2>
         <p>JavaScript already has built-in support for objects and inheritance, but it
         is very lean and only provides the most basic functionality.  This library aims to fill
@@ -168,7 +172,7 @@
         you see fit!</p>
     </div></div>
 
-    <div class="panel"><div class="panel-content">
+    <div class="panel right-panel"><div class="panel-content">
         <h2>Simple</h2>
         <p>One of the tenants of great software design is "do one thing, and do it well".  We
         follow this phylosophy by providing well thought-out bite-sized features which work
@@ -178,9 +182,9 @@
     <div class="clear"></div>
 
 </div></div>
-<div class="section overview-section overview-section2"><div class="section-content">
+<div class="section overview-section overview-section-2"><div class="section-content">
 
-    <div class="panel"><div class="panel-content">
+    <div class="panel left-panel"><div class="panel-content">
         <h2>Download</h2>
         <p>
             v0.0.7<br/>
@@ -205,7 +209,7 @@
         </p>
     </div></div>
 
-    <div class="panel"><div class="panel-content">
+    <div class="panel right-panel"><div class="panel-content">
         <h2>License</h2>
         <p>o.js may be freely distributed under the
         <a href="https://raw.github.com/bluefeet/o-js/master/LICENSE.txt">MIT license</a>.</p>
@@ -218,7 +222,7 @@
 <div class="section features-section"><div class="section-content">
 
     <h2>Properties</h2>
-    <div class="panel"><div class="panel-content"><p>
+    <div class="panel left-panel"><div class="panel-content"><p>
         With o.js you can create rich property definitions such as <code>type</code>,
         <code>devoid</code>, <code>filter</code>, <code>chain</code>, and more, when
         using <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-reader">o.reader</a>,
@@ -232,7 +236,7 @@
         <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-proxy">o.proxy</a>.
     </p></div></div>
 
-    <div class="panel"><div class="panel-content">
+    <div class="panel right-panel"><div class="panel-content">
 <pre><code>obj.name = o.accessor(
     '_name', {
         type: 'string',
@@ -246,14 +250,14 @@ obj.name('Bilbo');
     <div class="clear"></div>
 
     <h2>Constructors</h2>
-    <div class="panel"><div class="panel-content"><p>
+    <div class="panel left-panel"><div class="panel-content"><p>
         <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-construct">o.construct</a>
         simplifies the creation of constructor functions by grouping the function and the prototype
         definitions in one call.  <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-augment">o.augment</a>
         takes this even further by providing a lightweight way to correctly inherit from a parent constructor.
     </p></div></div>
 
-    <div class="panel"><div class="panel-content">
+    <div class="panel right-panel"><div class="panel-content">
 <pre><code>var Point = o.construct(
     function (x, y) {
         this.x( x );
@@ -270,7 +274,7 @@ obj.name('Bilbo');
     <div class="clear"></div>
 
     <h2>Methods</h2>
-    <div class="panel"><div class="panel-content"><p>
+    <div class="panel left-panel"><div class="panel-content"><p>
         <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-before">o.before</a> and
         <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-after">o.after</a> can be used
         to add behavior to an object's method without actually changing the interface.  With
@@ -279,7 +283,7 @@ obj.name('Bilbo');
         change them, or even decide not to call the original method.
     </p></div></div>
 
-    <div class="panel"><div class="panel-content">
+    <div class="panel right-panel"><div class="panel-content">
 <pre><code>obj.setColor = o.writer('_color');
 
 obj.setColor = o.after(
@@ -297,7 +301,7 @@ obj.setColor( 'blue' );
     <div class="clear"></div>
 
     <h2>Utilities</h2>
-    <div class="panel"><div class="panel-content"><p>
+    <div class="panel left-panel"><div class="panel-content"><p>
         <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-merge">o.merge</a>
         merges two or more objects, while
         <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-clone">o.clone</a> properly
@@ -306,7 +310,7 @@ obj.setColor( 'blue' );
         <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-noConflict">o.noConflict</a>.
     </p></div></div>
 
-    <div class="panel"><div class="panel-content">
+    <div class="panel right-panel"><div class="panel-content">
 <pre><code>var obj = o.merge(
     { name:'Bilbo' },
     { age:111 }
@@ -318,14 +322,14 @@ obj.setColor( 'blue' );
     <div class="clear"></div>
 
     <h2>Types</h2>
-    <div class="panel"><div class="panel-content"><p>
+    <div class="panel left-panel"><div class="panel-content"><p>
         By itself, <code>o.js</code> provides very basic type checking.  The optional
         <a href="https://github.com/bluefeet/o-js/wiki/Types-API">Types API</a>,
         <code>o-types.js</code>, extension provides a wide array of types for doing standalone
         validation, as well as validation of property values before they are written.
     </p></div></div>
 
-    <div class="panel"><div class="panel-content">
+    <div class="panel right-panel"><div class="panel-content">
 <pre><code>if (o.isNumber(123))
     console.log('ok');
 
