@@ -1,10 +1,24 @@
 {
   "name": "o",
-  "homepage": "http://o-js.com",
   "description": "JavaScript utility belt for rich objects and prototypes. Ooooh!",
+  "homepage": "http://o-js.com",
   "main": "o.js",
-  "authors": [
-    "Aran Deltac"
+  "version": "0.0.7",
+  "authors": [ "Aran Deltac" ],
+  "license": "MIT",
+  "keywords": [
+    "prototype",
+    "prototypes",
+    "object",
+    "objects",
+    "oo",
+    "utility",
+    "o.js"
   ],
-  "license": "MIT"
+  "ignore": [
+    "test",
+    "package.json",
+    ".travis.yml",
+    ".gitignore"
+  ]
 }
