@@ -1,0 +1,10 @@
+{
+  "name": "o",
+  "homepage": "http://o-js.com",
+  "description": "JavaScript utility belt for rich objects and prototypes. Ooooh!",
+  "main": "o.js",
+  "authors": [
+    "Aran Deltac"
+  ],
+  "license": "MIT"
+}
