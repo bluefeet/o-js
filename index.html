@@ -6,9 +6,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="bootstrap-3.0.2.min.css">
     <link rel="stylesheet" href="site.css">
+
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152x152.png">
 
     <script>
         var _gaq = _gaq || [];
@@ -116,9 +122,6 @@
     can have attributes, methods, method overrides, and a number of other
     features.  A constructor, at its core (take a look at the source code)
     is a very simple wrapper around a trait.</p>
-    <p>Read more in the
-    <a href="https://github.com/bluefeet/o-js/wiki/o.Constructor">o.Constructor</a>
-    documentation.</p>
 <pre><code>var Person = new o.Constructor({
     attributes: {
         name: { type:o.nonEmptyStringType },
@@ -135,6 +138,9 @@ var baggins = new Person({
     age: 111
 });
 baggins.log_name();</code></pre>
+    <p>Read more in the
+    <a href="https://github.com/bluefeet/o-js/wiki/o.Constructor">o.Constructor</a>
+    documentation.</p>
 
     </div><div class="col-md-6">
 
@@ -142,9 +148,6 @@ baggins.log_name();</code></pre>
     <p>Traits are created with <code>new o.Trait(...)</code> which creates
     a new Trait object.  Traits can be included in Constructors or installed
     directly on to existing objects.</p>
-    <p>Read more in the
-    <a href="https://github.com/bluefeet/o-js/wiki/o.Trait">o.Trait</a>
-    documentation.</p>
 <pre><code>var productTrait = new o.Trait({
     attributes: {
         price: { type:o.numberType }
@@ -160,6 +163,9 @@ var mySheet = new Sheet({
     price: 24.95,
     threadCount: 160
 });</code></pre>
+    <p>Read more in the
+    <a href="https://github.com/bluefeet/o-js/wiki/o.Trait">o.Trait</a>
+    documentation.</p>
 
     </div>
     <div class="clearfix visible-md visible-lg"></div>
@@ -168,13 +174,13 @@ var mySheet = new Sheet({
     <h2>Attributes</h2>
     <p>Attribute can be created directly via <code>new o.Attribute(...)</code>
     and re-used, or inderectly in Constructor and Trait definitions.</p>
-    <p>Read more in the
-    <a href="https://github.com/bluefeet/o-js/wiki/o.Attribute">o.Attribute</a>
-    documentation.</p>
 <pre><code>var fullNameAttr = new o.Attribute({
     type: o.nonEmptyStringType,
     required: true
 });</code></pre>
+    <p>Read more in the
+    <a href="https://github.com/bluefeet/o-js/wiki/o.Attribute">o.Attribute</a>
+    documentation.</p>
 
     </div><div class="col-md-6">
 
@@ -182,14 +188,14 @@ var mySheet = new Sheet({
     <p>Type objects validate and coerce attribute arguments.  New types can
     be created via <code>new o.Type(...)</code> and used in Attribute
     definitions.</p>
-    <p>Read more in the
-    <a href="https://github.com/bluefeet/o-js/wiki/Types">Types</a> and
-    <a href="https://github.com/bluefeet/o-js/wiki/o.Type">o.Type</a>
-    documentation.</p>
 <pre><code>var ageType = new o.AllType([
     o.integerType,
     o.positiveType
 ]);</code></pre>
+    <p>Read more in the
+    <a href="https://github.com/bluefeet/o-js/wiki/Types">Types</a> and
+    <a href="https://github.com/bluefeet/o-js/wiki/o.Type">o.Type</a>
+    documentation.</p>
 
     </div>
     </div>
