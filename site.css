@@ -1,0 +1,61 @@
+body,h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 {
+    font-family: 'Lato', Arial, sans-serif;
+}
+
+code {
+    background-color: #F2F9F5;
+    color: #20AD56;
+}
+.highlights-container code {
+    padding: 0px;
+    background-color: transparent;
+}
+
+.header-container {
+    padding-bottom: 30px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 800%;
+}
+h1 small {
+    color: #999;
+    font-size: 20%;
+    display: block;
+    margin-top: 10px;
+}
+
+@media (max-width: 767px) { /* xs breakpoint */
+    .header-container {
+        padding-bottom: 15px;
+    }
+    h1 {
+        font-size: 550%;
+    }
+    h1 small {
+        font-size: 23%;
+    }
+}
+
+.highlights-container {
+    padding-bottom: 15px;
+    background-color: #f5f5f5;
+    border-style: solid;
+    border-color: #ccc;
+    border-width: 1px 0px;
+}
+
+.examples-container {
+    padding-bottom: 12px;
+}
+
+.footer-container {
+    text-align: center;
+    color: #ccc;
+    background-color: #333;
+    padding: 14px 0px 7px 0px;
+}
+.footer-container a {
+    color: #95C5ED;
+}

@@ -1,363 +1,225 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>o.js - JavaScript utility belt for rich objects and prototypes. Ooooh!</title>
+<html lang="en">
+<head>
+    <title>o.js - JavaScript utility belt for rich objects and prototypes. Ooooh!</title>
 
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <link href='http://fonts.googleapis.com/css?family=Merriweather+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="bootstrap-3.0.2.min.css">
+    <link rel="stylesheet" href="site.css">
 
-        <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-1586001-11']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+<body>
 
-        <style>
-            html { -webkit-text-size-adjust: 100% }
-
-            body {
-                background-color: #fff;
-                color: #000;
-                margin: 0px;
-                padding: 0px;
-                font-family: 'Merriweather Sans', sans-serif;
-                font-size: 17px;
-            }
-
-            div.clear { clear: both }
-            a {
-                text-decoration: none;
-                color: #17667c;
-            }
-
-            div.section {
-                padding: 10px;
-            }
-            div.section-content {
-                max-width: 930px;
-                margin: 0px auto;
-            }
-
-            div.header-section {
-                text-align: center;
-            }
-            div.header-section h1 {
-                color: #119ac0;
-                font-size: 900%;
-                margin: 50px 0px;
-            }
-            div.header-section span.dot {
-                color: #1ab500;
-            }
-            div.header-section p {
-                color: #888;
-                font-size: 130%;
-                margin: 40px 0px;
-            }
-            div.header-section span.oh {
-                font-size: 120%;
-            }
-
-            h2 {
-                color: #0d627b;
-                font-size: 200%;
-                margin: 0px 0px 10px 0px;
-            }
-            p {
-                margin: 10px 0px;
-            }
-            div.panel {
-                float: left;
-            }
-            div.panel-content {
-                padding: 10px 10px 0px 10px;
-            }
-            div.left-panel div.panel-content { padding-left: 0px }
-            div.right-panel div.panel-content { padding-right: 0px }
-
-            div.overview-section {
-                background-color: #dcf3d8;
-            }
-            div.overview-section div.panel {
-                width: 33.3%;
-            }
-            div.overview-section h2 {
-                color: #0d627b;
-            }
-            div.overview-section-1 {
-                border-bottom: dotted 10px #1783a2;
-            }
-
-            div.features-section {
-                padding-top: 40px;
-            }
-            div.features-section div.panel {
-                width: 50%;
-            }
-            div.features-section div.panel-content {
-                padding-top: 0px;
-            }
-
-            div.footer-section {
-                background-color: #dcf3d8;
-                text-align: center;
-                font-size: 80%;
-                color: #444;
-            }
-
-            pre {
-                display: block;
-                border-radius: 15px;
-                background-color: #e8f3f6;
-                padding: 10px;
-            }
-            pre code {
-                display: block;
-                overflow: auto;
-            }
-
-            code span.literal, code span.params, code span.string {
-                color: #1c7f9c;
-            }
-            code span.keyword {
-                font-weight: bold;
-            }
-
-            @media screen and (max-width: 950px) {
-                div.panel { float:none; width:100% !important }
-                div.panel-content { padding: 0px }
-            }
-
-            @media screen and (max-width: 480px) {
-                body { font-size:15px }
-                pre { padding: 5px }
-                div.header-section h1 { font-size:600%; margin:40px 0px }
-                div.header-section p { font-size:110%; margin:10px 0px }
-                div.features-section { padding-top:10px }
-            }
-        </style>
-
-        <script>
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-1586001-11']);
-            _gaq.push(['_trackPageview']);
-
-            (function() {
-                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-    </head>
-    <body>
-
-
-<div class="section header-section"><div class="section-content">
-    <h1>o<span class="dot">.</span>js</h1>
-    <p>JavaScript utility belt for rich objects and prototypes.  <span class="oh">Ooooh!</span></p>
-</div></div>
-
-<div class="section overview-section overview-section-1"><div class="section-content">
-
-    <div class="panel left-panel"><div class="panel-content">
-        <h2>Why o.js?</h2>
-        <p>JavaScript already has built-in support for objects and inheritance, but it
-        is very lean and only provides the most basic functionality.  This library aims to fill
-        in missing the pieces.</p>
-    </div></div>
-
-    <div class="panel"><div class="panel-content">
-        <h2>Flexible</h2>
-        <p>There are several libraries already that provide rich OO frameworks for JavaScript.
-        This library does not provide a framework, and does not impose standard OO.  Use it as
-        you see fit!</p>
-    </div></div>
-
-    <div class="panel right-panel"><div class="panel-content">
-        <h2>Simple</h2>
-        <p>One of the tenants of great software design is "do one thing, and do it well".  We
-        follow this phylosophy by providing well thought-out bite-sized features which work
-        independently and compliment each other when used together.</p>
-    </div></div>
-
-    <div class="clear"></div>
-
-</div></div>
-<div class="section overview-section overview-section-2"><div class="section-content">
-
-    <div class="panel left-panel"><div class="panel-content">
-        <h2>Download</h2>
-        <p>
-            v0.0.7<br/>
-            <a href="o-0.0.7.js">o.js Minified</a> (11k)<br/>
-            <a href="https://raw.github.com/bluefeet/o-js/master/CHANGES.txt">Change Log</a><br/>
-        </p>
-        <p><code>npm install o</code></p>
-        <p><code>jam install o</code></p>
-    </div></div>
-
-    <div class="panel"><div class="panel-content">
-        <h2>Resources</h2>
-        <p>
-            <a href="https://github.com/bluefeet/o-js/wiki">Documentation</a><br/>
-            <a href="https://github.com/bluefeet/o-js">GitHub Repository</a><br/>
-            <a href="https://github.com/bluefeet/o-js/issues">Issue Tracker</a><br/>
-            <a href="https://travis-ci.org/bluefeet/o-js">Travis CI Builds</a><br/>
-            <a href="https://npmjs.org/package/o">On npm</a>,
-            <a href="http://jamjs.org/packages/#/details/o">On Jam</a><br/>
-            <a href="https://twitter.com/ooojs">Twitter</a>,
-            <a href="http://blog.o-js.com">Blog</a><br/>
-        </p>
-    </div></div>
-
-    <div class="panel right-panel"><div class="panel-content">
-        <h2>License</h2>
-        <p>o.js may be freely distributed under the
-        <a href="https://raw.github.com/bluefeet/o-js/master/LICENSE.txt">MIT license</a>.</p>
-    </div></div>
-
-    <div class="clear"></div>
-
-</div></div>
-
-<div class="section features-section"><div class="section-content">
-
-    <h2>Properties</h2>
-    <div class="panel left-panel"><div class="panel-content"><p>
-        With o.js you can create rich property definitions such as <code>type</code>,
-        <code>devoid</code>, <code>filter</code>, <code>chain</code>, and more, when
-        using <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-reader">o.reader</a>,
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-writer">o.writer</a>,
-        and <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-accessor">o.accessor</a>.
-        Properties can be cleared with 
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-clearer">o.clearer</a> and checked
-        if the property has been set with
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-predicate">o.predicate</a>.
-        Proxy methods, which will call a function on an underlying property, can be created with
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-proxy">o.proxy</a>.
-    </p></div></div>
-
-    <div class="panel right-panel"><div class="panel-content">
-<pre><code>obj.name = o.accessor(
-    '_name', {
-        type: 'string',
-        required: true
-    }
-);
-obj.name('Bilbo');
-</code></pre>
-    </div></div>
-
-    <div class="clear"></div>
-
-    <h2>Constructors</h2>
-    <div class="panel left-panel"><div class="panel-content"><p>
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-construct">o.construct</a>
-        simplifies the creation of constructor functions by grouping the function and the prototype
-        definitions in one call.  <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-augment">o.augment</a>
-        takes this even further by providing a lightweight way to correctly inherit from a parent constructor.
-    </p></div></div>
-
-    <div class="panel right-panel"><div class="panel-content">
-<pre><code>var Point = o.construct(
-    function (x, y) {
-        this.x( x );
-        this.y( y );
-    },
-    {
-        x: o.accessor('_x'),
-        y: o.accessor('_y')
-    }
-);
-</code></pre>
-    </div></div>
-
-    <div class="clear"></div>
-
-    <h2>Methods</h2>
-    <div class="panel left-panel"><div class="panel-content"><p>
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-before">o.before</a> and
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-after">o.after</a> can be used
-        to add behavior to an object's method without actually changing the interface.  With
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-around">o.around</a> this
-        is taken to the next step by providing the ability to intercept a method's arguments,
-        change them, or even decide not to call the original method.
-    </p></div></div>
-
-    <div class="panel right-panel"><div class="panel-content">
-<pre><code>obj.setColor = o.writer('_color');
-
-obj.setColor = o.after(
-    obj.setColor,
-    function () {
-        console.log( this._color );
-    }
-);
-
-obj.setColor( 'blue' );
-// Stores 'blue', then logs 'blue'.
-</code></pre>
-    </div></div>
-
-    <div class="clear"></div>
-
-    <h2>Utilities</h2>
-    <div class="panel left-panel"><div class="panel-content"><p>
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-merge">o.merge</a>
-        merges two or more objects, while
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-clone">o.clone</a> properly
-        clones an object, prototype, constructor, and all.  There is also
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-has">o.has</a> and
-        <a href="https://github.com/bluefeet/o-js/wiki/Core-API#wiki-noConflict">o.noConflict</a>.
-    </p></div></div>
-
-    <div class="panel right-panel"><div class="panel-content">
-<pre><code>var obj = o.merge(
-    { name:'Bilbo' },
-    { age:111 }
-);
-// obj = { name:'Bilbo', age:111 }
-</code></pre>
-    </div></div>
-
-    <div class="clear"></div>
-
-    <h2>Types</h2>
-    <div class="panel left-panel"><div class="panel-content"><p>
-        By itself, <code>o.js</code> provides very basic type checking.  The optional
-        <a href="https://github.com/bluefeet/o-js/wiki/Types-API">Types API</a>,
-        <code>o-types.js</code>, extension provides a wide array of types for doing standalone
-        validation, as well as validation of property values before they are written.
-    </p></div></div>
-
-    <div class="panel right-panel"><div class="panel-content">
-<pre><code>if (o.isNumber(123))
-    console.log('ok');
-
-var obj = {
-    setName: o.writer(
-        '_name',
-        { type: o.stringType() }
-    )
-};
-obj.setName( 'Totoro' );
-</code></pre>
-    </div></div>
-
-    <div class="clear"></div>
-
-    <p>The above is just a taste of what is available.  More examples and details are available
-    in the <a href="https://github.com/bluefeet/o-js/wiki">documentation</a>.</p>
-
-</div></div>
-
-
-<div class="section footer-section"><div class="section-content">
-    <p>Hosting provided by <a href="http://pages.github.com/">GitHub Pages</a>.</p>
-    <p>The <a href="https://github.com/vladocar/o---JS-Library-for-Object-Manipulation">o</a>
-       library, by <a href="https://github.com/vladocar">Vladimir Carrer</a>, is not related
-       to this project.</p>
-    <p>&copy; Aran Deltac</p>
+<div class="header-container">
+<div class="container">
+    <h1>o.js
+        <small>JavaScript utility belt for rich objects and prototypes. Ooooh!</small>
+    </h1>
+</div>
 </div>
 
-    </body>
+<div class="highlights-container">
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Powerful</h3>
+            <p>
+                If you like the rich OO features of other languages, such
+                as Perl and Java, and wish you had the same power in JavaScript,
+                but with a small footprint, then o.js is for you.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Compatible</h3>
+            <p>
+                o.js is designed to extend JavaScript's native prototype system, not
+                replace it.  This means that o.js constructors, traits, attributes,
+                types, and objects are automatically compatible with existing JavaScript
+                libraries.
+            </p>
+        </div>
+
+        <div class="col-md-4">
+            <h3>Flexible</h3>
+            <p>
+                o.js is built of components that
+                <a href="http://en.wikipedia.org/wiki/Unix_philosophy">do one thing
+                and do it well</a>, providing a rich library of utilities that build
+                upon each other.  Any layer of the o.js stack of components may be
+                used independently as needed.
+            </p>
+        </div>
+
+        <div class="clearfix visible-md"></div>
+
+        <div class="col-sm-4">
+            <h3>Download</h3>
+            <p><ul class="list-unstyled">
+                <li>v0.0.7</li>
+                <li><a href="o-0.0.7.js">o.js Minified</a> (11k)</li>
+                <li><a href="https://raw.github.com/bluefeet/o-js/master/CHANGES.txt">Change Log</a></li>
+                <li><code>npm install o</code></li>
+                <li><code>jam install o</code></li>
+                <li><code>bower install o</code></li>
+            </ul></p>
+        </div>
+        <div class="col-sm-4">
+            <h3>Resources</h3>
+            <p><ul class="list-unstyled">
+                <li><a href="https://github.com/bluefeet/o-js/wiki">Documentation</a></li>
+                <li><a href="https://github.com/bluefeet/o-js">GitHub Repository</a></li>
+                <li><a href="https://github.com/bluefeet/o-js/issues">Issue Tracker</a></li>
+                <li><a href="https://travis-ci.org/bluefeet/o-js">Travis CI Builds</a></li>
+                <li>
+                    <a href="https://npmjs.org/package/o">npm</a>,
+                    <a href="http://jamjs.org/packages/#/details/o">Jam</a>,
+                    <a href="http://bower.io/">Bower</a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/ooojs">Twitter</a>,
+                    <a href="http://blog.o-js.com/">Blog</a>
+                </li>
+            </ul></p>
+        </div>
+        <div class="col-sm-4">
+            <h3>License</h3>
+            <p>
+                o.js may be freely distributed under the
+                <a href="https://raw.github.com/bluefeet/o-js/master/LICENSE.txt">MIT license</a>.
+            </p>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="examples-container">
+<div class="container">
+
+    <div class="row">
+    <div class="col-md-6">
+
+    <h2>Constructors</h2>
+    <p>Define constructors using <code>new o.Constructor(...)</code> which
+    creates a standard JavaScript function constructor.  These constructors
+    can have attributes, methods, method overrides, and a number of other
+    features.  A constructor, at its core (take a look at the source code)
+    is a very simple wrapper around a trait.</p>
+    <p>Read more in the
+    <a href="https://github.com/bluefeet/o-js/wiki/o.Constructor">o.Constructor</a>
+    documentation.</p>
+<pre><code>var Person = new o.Constructor({
+    attributes: {
+        name: { type:o.nonEmptyStringType },
+        age: { type:o.integerType }
+    },
+    methods: {
+        log_name: function () {
+            console.log( this.name() );
+        }
+    }
+});
+var baggins = new Person({
+    name: 'Bilbo',
+    age: 111
+});
+baggins.log_name();</code></pre>
+
+    </div><div class="col-md-6">
+
+    <h2>Traits</h2>
+    <p>Traits are created with <code>new o.Trait(...)</code> which creates
+    a new Trait object.  Traits can be included in Constructors or installed
+    directly on to existing objects.</p>
+    <p>Read more in the
+    <a href="https://github.com/bluefeet/o-js/wiki/o.Trait">o.Trait</a>
+    documentation.</p>
+<pre><code>var productTrait = new o.Trait({
+    attributes: {
+        price: { type:o.numberType }
+    }
+});
+var Sheet = new o.Constructor({
+    attributes: {
+        threadCount: { type:o.integerType }
+    },
+    traits: [ productTrait ]
+});
+var mySheet = new Sheet({
+    price: 24.95,
+    threadCount: 160
+});</code></pre>
+
+    </div>
+    <div class="clearfix visible-md visible-lg"></div>
+    <div class="col-md-6">
+
+    <h2>Attributes</h2>
+    <p>Attribute can be created directly via <code>new o.Attribute(...)</code>
+    and re-used, or inderectly in Constructor and Trait definitions.</p>
+    <p>Read more in the
+    <a href="https://github.com/bluefeet/o-js/wiki/o.Attribute">o.Attribute</a>
+    documentation.</p>
+<pre><code>var fullNameAttr = new o.Attribute({
+    type: o.nonEmptyStringType,
+    required: true
+});</code></pre>
+
+    </div><div class="col-md-6">
+
+    <h2>Types</h2>
+    <p>Type objects validate and coerce attribute arguments.  New types can
+    be created via <code>new o.Type(...)</code> and used in Attribute
+    definitions.</p>
+    <p>Read more in the
+    <a href="https://github.com/bluefeet/o-js/wiki/Types">Types</a> and
+    <a href="https://github.com/bluefeet/o-js/wiki/o.Type">o.Type</a>
+    documentation.</p>
+<pre><code>var ageType = new o.AllType([
+    o.integerType,
+    o.positiveType
+]);</code></pre>
+
+    </div>
+    </div>
+
+    <h2>Plumbing</h2>
+    <p>A rich array of plumbing functions exist which provide the moving
+    pieces that make Constructors, Traits, Attributes, and Types work.
+    Plumbing functions include <code>o.construct()</code>, <code>o.augment()</code>,
+    <code>o.merge()</code>, <code>o.clone()</code>, <code>o.has()</code>,
+    <code>o.before()</code>, <code>o.after()</code>, <code>o.around()</code>,
+    etc.</p>
+    <p>Read more in the
+    <a href="https://github.com/bluefeet/o-js/wiki/Plumbing">Plumbing</a>
+    documentation.</p>
+
+</div>
+</div>
+
+<div class="footer-container">
+<div class="container">
+    <p>Hosting provided by <a href="http://pages.github.com/">GitHub Pages</a>.</p>
+    <p>
+        The <a href="https://github.com/vladocar/o---JS-Library-for-Object-Manipulation">o</a>
+        library, by <a href="https://github.com/vladocar">Vladimir Carrer</a>,
+        is not related to this project.
+    </p>
+    <p>&copy; Aran Deltac</p>
+</div>
+</div>
+
+</body>
 </html>
