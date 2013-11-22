@@ -3,6 +3,9 @@ NEXT RELEASE
    allowing for type checking.
  - Added o.PatternType for creating types that match against a RegExp.
  - Added bower.json so that Bower has some more info about this package.
+ - Attribute/Trait.install() now supports a second argument for specifying
+   the value of the attribute(s).
+ - The attributes attribute of Trait is now an object instead of an array.
 
 0.0.7 : 2013-06-18
  - Attributes on Traits (and Constructors) can now be pre-made o.Attribute

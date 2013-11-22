@@ -396,10 +396,10 @@
         o.Type,
         function (parent, type, args) {
             args = args || {};
-            args.validate = function (val) {
-                if (!o.arrayType.check(val)) return false;
-                for (var i = 0, l = val.length; i < l; i++) {
-                    if (!type.check(val[i])) return false;
+            args.validate = function (ary) {
+                if (!o.arrayType.check(ary)) return false;
+                for (var i = 0, l = ary.length; i < l; i++) {
+                    if (!type.check(ary[i])) return false;
                 }
                 return true;
             };
@@ -411,10 +411,10 @@
         o.Type,
         function (parent, type, args) {
             args = args || {};
-            args.validate = function (val) {
-                if (!o.objectType.check(val)) return false;
-                for (var key in val) {
-                    if (!type.check(val[key])) return false;
+            args.validate = function (obj) {
+                if (!o.objectType.check(obj)) return false;
+                for (var key in obj) {
+                    if (!type.check(obj[key])) return false;
                 }
                 return true;
             };
@@ -602,7 +602,7 @@
                     return this.setValue( obj, args[this.argKey()] );
                 },
 
-                install: function (obj) {
+                install: function (obj, value) {
                     if (this.writer() !== null && this.writer() === this.reader()) {
                         obj[this.writer()] = this.accessorMethod();
                     }
@@ -618,6 +618,8 @@
                     for (var key in proxyMethods) {
                         obj[key] = proxyMethods[key];
                     }
+
+                    if (value) this.setValue( obj, value );
                 },
 
                 rebuild: function (args) {
@@ -642,15 +644,15 @@
             }
         },
         {
-            install: function (obj) {
+            install: function (obj, args) {
                 var traits = this.traits();
                 for (var i = 0, l = traits.length; i < l; i++) {
                     traits[i].install( obj );
                 }
 
                 var attributes = this.attributes();
-                for (var i = 0, l = attributes.length; i < l; i++) {
-                    attributes[i].install( obj );
+                for (var name in attributes) {
+                    attributes[name].install( obj );
                 }
 
                 var methods = this.methods();
@@ -672,12 +674,14 @@
                 for (var name in after) {
                     obj[name] = o.after( obj[name], after[name] );
                 }
+
+                if (args) this.setFromArgs( obj, args );
             },
 
             setFromArgs: function (obj, args) {
                 var attributes = this.attributes();
-                for (var i = 0, l = attributes.length; i < l; i++) {
-                    attributes[i].setValueFromArgs( obj, args );
+                for (var name in attributes) {
+                    attributes[name].setValueFromArgs( obj, args );
                 }
             }
         }
@@ -693,10 +697,10 @@
 
         {
             key: 'attributes',
-            type: new o.ArrayOfType( new o.InstanceOfType( o.Attribute ) ),
+            type: new o.ObjectOfType( new o.InstanceOfType( o.Attribute ) ),
             devoid: function () { return {} },
             filter: function (val) {
-                var attributes = [];
+                var attributes = {};
                 for (var key in val) {
                     var attribute = val[key];
                     if (attribute instanceof o.Attribute) {
@@ -705,7 +709,7 @@
                     else {
                         attribute = new o.Attribute( o.merge({}, attribute, { key:key }) );
                     }
-                    attributes.push( attribute );
+                    attributes[key] = attribute;
                 }
                 return attributes;
             },
