@@ -21,6 +21,22 @@
         return o;
     };
 
+    o.local = function (obj, prop, func) {
+        var hasProp = o.has( obj, prop );
+        var origVal = obj[prop];
+
+        var ret;
+        try {
+            ret = func();
+        }
+        finally {
+            if (hasProp) { obj[prop] = origVal }
+            else { delete obj[prop] }
+        }
+
+        return ret;
+    };
+
     o.reader = function (key, def) {
         def = def || {};
         def.writer = def.writer || o.writer( key, def );

@@ -6,6 +6,7 @@ NEXT RELEASE
  - Attribute/Trait.install() now supports a second argument for specifying
    the value of the attribute(s).
  - The attributes attribute of Trait is now an object instead of an array.
+ - Added o.local() to localize object property changes to a scope.
 
 0.0.7 : 2013-06-18
  - Attributes on Traits (and Constructors) can now be pre-made o.Attribute
