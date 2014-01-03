@@ -45,11 +45,13 @@
         return function () {
             if (!def.predicate.call( this )) {
                 if (def.required) throw new Error('...');
-                else if (def.devoid !== undefined) {
+                else if (def.devoid) {
                     var val = def.devoid;
                     if (val instanceof Function) val = val.call( this );
-
                     def.writer.call( this, val );
+                }
+                else if (def.builder) {
+                    def.writer.call( this, this[def.builder].call(this) );
                 }
             }
 
@@ -474,6 +476,11 @@
         },
 
         devoid: { type: o.definedType },
+        builder: {
+            type: booleanOrNonEmptyStringType,
+            devoid: false,
+            filter: function (val) { if (val === true) val = 'build' + ucFirst( this.key() ); return val }
+        },
         required: { type: o.booleanType, devoid: false },
         type: {
             type: new o.AnyType([
@@ -535,6 +542,7 @@
                             this.valueKey(),
                             {
                                 devoid:    this.devoid(),
+                                builder:   this.builder(),
                                 required:  this.required(),
                                 writer:    this.writerMethod(),
                                 predicate: this.predicateMethod()

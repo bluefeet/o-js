@@ -13,6 +13,8 @@ NEXT RELEASE
    practice of immutable objects.
  - Avoid a race condition when filters depend on other attributes being
    set during object construction.
+ - Added a builder argument to o.writer and o.Attribute which provides a
+   method-based alternative to devoid.
 
 0.0.7 : 2013-06-18
  - Attributes on Traits (and Constructors) can now be pre-made o.Attribute

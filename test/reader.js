@@ -59,6 +59,12 @@ test('devoid + writer', function (t) {
     t.end();
 });
 
+test('builder', function (t) {
+    var obj = { getX: o.reader('x', {builder:'buildX'}), buildX:function(){ return 12 } };
+    t.is( obj.getX(), 12 );
+    t.end();
+});
+
 test('writer (definition pass-through)', function (t) {
     var obj = {};
     obj.getX = o.reader('x', { type:'number', devoid:16 });

@@ -46,6 +46,31 @@ test('rebuild', function(t) {
     t.end();
 });
 
+test('builder', function (t) {
+    var attr1 = new o.Attribute({
+        key: 'fooKey',
+        builder: true,
+    });
+
+    var attr2 = new o.Attribute({
+        key: 'barKey',
+        builder: 'buildBAR',
+    });
+
+    var obj = {
+        buildFooKey: function () { return 'fooTest' },
+        buildBAR: function () { return 'barTest' }
+    };
+
+    attr1.install( obj );
+    attr2.install( obj );
+
+    t.is( obj.fooKey(), 'fooTest', 'true builder worked' );
+    t.is( obj.barKey(), 'barTest', 'named builder worked' );
+
+    t.end();
+});
+
 test('basic', function (t) {
     var ageAttr = new o.Attribute({
         key: 'age',
