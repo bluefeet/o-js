@@ -520,6 +520,7 @@
     o.Attribute = o.construct(
         function (args) {
             this._originalArgs = o.clone( args );
+            // Write the "key" attribute first as some filters depend on it.
             writers['key'].call( this, args['key'] );
             for (var key in args) {
                 writers[key].call( this, args[key] );
@@ -698,8 +699,18 @@
             },
 
             setFromArgs: function (obj, args) {
+                // Set the attributes that do not have filters first so
+                // that any filters that depend on other attributes are set
+                // last.  Avoids a common race conditions when using filters.
                 var attributes = this.attributes();
+
                 for (var name in attributes) {
+                    if (attributes[name].filter()) continue;
+                    attributes[name].setValueFromArgs( obj, args );
+                }
+
+                for (var name in attributes) {
+                    if (!attributes[name].filter()) continue;
                     attributes[name].setValueFromArgs( obj, args );
                 }
             }

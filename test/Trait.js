@@ -1,6 +1,38 @@
 var o = require('../o');
 var test = require('tap').test;
 
+// This test is a bit brittle as it depends on JavaScript returning a
+// filtered attribute our before a non-filtered attribute when using for.
+// See o.Trait's setFromArgs function.
+test('set-from-args-race-condition', function (t) {
+    var filter = function (val) {
+        return( val + this.a() + this.c() + this.e() );
+    };
+
+    var trait = new o.Trait({
+        attributes: {
+            a: {},
+            b: { filter: filter },
+            c: {},
+            d: { filter: filter },
+            e: {},
+            f: { filter: filter },
+        }
+    });
+
+    var obj = {};
+    trait.install( obj, { a:'a', b:'b', c:'c', d:'d', e:'e', f:'f' } );
+
+    t.is( obj.a(), 'a' );
+    t.is( obj.b(), 'bace' );
+    t.is( obj.c(), 'c' );
+    t.is( obj.d(), 'dace' );
+    t.is( obj.e(), 'e' );
+    t.is( obj.f(), 'face' );
+
+    t.end();
+});
+
 test('existing-attributes', function (t) {
     var attr = new o.Attribute({
         key: 'hair',
