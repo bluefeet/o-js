@@ -9,6 +9,8 @@ NEXT RELEASE
  - Added o.local() to localize object property changes to a scope.
  - Attribute properties reader, writer, predicate, and clearer now take
    false instead of null.
+ - An attribute's writer property now defaults to false to support the best
+   practice of immutable objects.
 
 0.0.7 : 2013-06-18
  - Attributes on Traits (and Constructors) can now be pre-made o.Attribute

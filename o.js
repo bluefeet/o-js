@@ -494,7 +494,7 @@
         },
         writer: {
             type: booleanOrNonEmptyStringType,
-            devoid: true,
+            devoid: false,
             filter: function (val) { if (val === true) val = this.key(); return val }
         },
         predicate: {
