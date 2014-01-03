@@ -454,8 +454,8 @@
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    var nullOrNonEmptyStringType = new o.AnyType([
-        o.nullType,
+    var booleanOrNonEmptyStringType = new o.AnyType([
+        o.booleanType,
         o.nonEmptyStringType
     ]);
 
@@ -488,22 +488,24 @@
         chain: { type: o.booleanType, devoid: false },
 
         reader: {
-            type: nullOrNonEmptyStringType,
-            devoid: function () { return this.key() }
+            type: booleanOrNonEmptyStringType,
+            devoid: true,
+            filter: function (val) { if (val === true) val = this.key(); return val }
         },
         writer: {
-            type: nullOrNonEmptyStringType,
-            devoid: function () { return this.key() }
+            type: booleanOrNonEmptyStringType,
+            devoid: true,
+            filter: function (val) { if (val === true) val = this.key(); return val }
         },
         predicate: {
-            type: nullOrNonEmptyStringType,
-            filter: function (val) { if (val === true) val = 'has' + ucFirst( this.key() ); return val },
-            devoid: function () { return null }
+            type: booleanOrNonEmptyStringType,
+            devoid: false,
+            filter: function (val) { if (val === true) val = 'has' + ucFirst( this.key() ); return val }
         },
         clearer: {
-            type: nullOrNonEmptyStringType,
-            filter: function (val) { if (val === true) val = 'clear' + ucFirst( this.key() ); return val },
-            devoid: function () { return null }
+            type: booleanOrNonEmptyStringType,
+            devoid: false,
+            filter: function (val) { if (val === true) val = 'clear' + ucFirst( this.key() ); return val }
         },
         proxies: { type: new o.ObjectOfType( o.nonEmptyStringType ) }
     };
@@ -518,6 +520,7 @@
     o.Attribute = o.construct(
         function (args) {
             this._originalArgs = o.clone( args );
+            writers['key'].call( this, args['key'] );
             for (var key in args) {
                 writers[key].call( this, args[key] );
             }
@@ -707,8 +710,7 @@
         {
             key: 'traits',
             type: new o.ArrayOfType( new o.InstanceOfType( o.Trait ) ),
-            devoid: function () { return [] },
-            writer: null
+            devoid: function () { return [] }
         },
 
         {
@@ -728,36 +730,31 @@
                     attributes[key] = attribute;
                 }
                 return attributes;
-            },
-            writer: null
+            }
         },
 
         {
             key: 'methods',
             type: new o.ObjectOfType( o.functionType ),
-            devoid: function () { return {} },
-            writer: null
+            devoid: function () { return {} }
         },
 
         {
             key: 'around',
             type: new o.ObjectOfType( o.functionType ),
-            devoid: function () { return {} },
-            writer: null
+            devoid: function () { return {} }
         },
 
         {
             key: 'before',
             type: new o.ObjectOfType( o.functionType ),
-            devoid: function () { return {} },
-            writer: null
+            devoid: function () { return {} }
         },
 
         {
             key: 'after',
             type: new o.ObjectOfType( o.functionType ),
-            devoid: function () { return {} },
-            writer: null
+            devoid: function () { return {} }
         }
     ];
 

@@ -4,7 +4,8 @@ var test = require('tap').test;
 test('existing-attributes', function (t) {
     var attr = new o.Attribute({
         key: 'hair',
-        filter: function (val) { return val + 'FOO' }
+        filter: function (val) { return val + 'FOO' },
+        writer: true
     });
 
     var trait = new o.Trait({
@@ -31,10 +32,10 @@ test('basic', function (t) {
 
     var person = new o.Trait({
         attributes: {
-            firstName: { type:o.nonEmptyStringType },
-            lastName: { type:o.nonEmptyStringType },
-            gender: { type:new o.EnumType(['m', 'f']) },
-            married: { type:o.booleanType }
+            firstName: { type:o.nonEmptyStringType, writer:true },
+            lastName: { type:o.nonEmptyStringType, writer:true },
+            gender: { type:new o.EnumType(['m', 'f']), writer:true },
+            married: { type:o.booleanType, writer:true }
         },
         methods: {
             fullName: function () {

@@ -51,7 +51,8 @@ test('basic', function (t) {
         key: 'age',
         type: o.positiveType,
         devoid: function () { return 18 },
-        clearer: true
+        clearer: true,
+        writer: true
     });
 
     var nameAttr = new o.Attribute({
