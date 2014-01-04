@@ -1,4 +1,4 @@
-NEXT RELEASE
+0.0.8 : 2014-01-03
  - In addition to accepting an Array, o.DuckType now accepts an Object,
    allowing for type checking.
  - Added o.PatternType for creating types that match against a RegExp.
