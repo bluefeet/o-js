@@ -783,6 +783,25 @@
         traitAttrs[i].install( proto );
     }
 
+    var ConstructorTrait = new o.Trait({
+        attributes: {
+            type: {
+                type: new o.InstanceOfType( o.Type ),
+                builder: true,
+                argKey: null
+            },
+            trait: {
+                type: new o.InstanceOfType( o.Trait ),
+                required: true
+            }
+        },
+        methods: {
+            buildType: function () {
+                return new o.InstanceOfType( this );
+            }
+        }
+    });
+
     o.Constructor = o.construct(
         function (args) {
             var trait = new o.Trait( args );
@@ -790,6 +809,7 @@
                 trait.setFromArgs( this, args );
             };
             trait.install( Constructor.prototype );
+            ConstructorTrait.install( Constructor, {trait:trait} );
             return Constructor;
         }
     );

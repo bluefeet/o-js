@@ -15,6 +15,8 @@ NEXT RELEASE
    set during object construction.
  - Added a builder argument to o.writer and o.Attribute which provides a
    method-based alternative to devoid.
+ - Constructors now get a trait applied to them that exposes a type and
+   trait attribute.
 
 0.0.7 : 2013-06-18
  - Attributes on Traits (and Constructors) can now be pre-made o.Attribute

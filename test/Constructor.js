@@ -1,6 +1,20 @@
 var o = require('../o');
 var test = require('tap').test;
 
+test('type', function (t) {
+    var Thing1 = new o.Constructor({});
+    var Thing2 = new o.Constructor({});
+
+
+    var thing1 = new Thing1({});
+    var thing2 = new Thing2({});
+
+    t.is( Thing1.type().check(thing1), true, 'type passed' );
+    t.is( Thing1.type().check(thing2), false, 'type failed' );
+
+    t.end();
+});
+
 test('basic', function (t) {
     var Person = new o.Constructor({
         attributes: {
