@@ -17,6 +17,9 @@ NEXT RELEASE
    method-based alternative to devoid.
  - Constructors now get a trait applied to them that exposes a type and
    trait attribute.
+ - Traits now have a type attribute which returns a Duck type that can be
+   used to validate that an object exposes an interface compatible with
+   the trait.
 
 0.0.7 : 2013-06-18
  - Attributes on Traits (and Constructors) can now be pre-made o.Attribute

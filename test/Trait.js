@@ -1,6 +1,66 @@
 var o = require('../o');
 var test = require('tap').test;
 
+test('type', function (t) {
+    var parentTrait = new o.Trait({
+        attributes: { parentAttribute:{ type:o.integerType } },
+        methods: { parentMethod:function(){} }
+    });
+
+    var trait = new o.Trait({
+        traits: [ parentTrait ],
+        attributes: {
+            type: { type:o.integerType },
+            augments: { augments:Number },
+            both: { type:o.integerType, augments:Number },
+            none: { }
+        },
+        methods: { method:function(){} },
+        after: { after:function(){} },
+        before: { before:function(){} },
+        around: { around:function(){} },
+    });
+
+    var type = trait.type();
+    var parentType = parentTrait.type();
+
+    t.is( parentType.check({}), false, 'parent type failed on empty object' );
+    t.is( parentType.check({ _parentAttribute:32, parentMethod:function(){} }), true, 'parent type passed object');
+
+    var good = {
+        _parentAttribute: 32,
+        parentMethod: function(){},
+
+        _type: 103,
+        _augments: new Number( 32.45 ),
+        _both: new Number( 103 ),
+        _none: null,
+
+        method: function(){},
+        after: function(){},
+        before: function(){},
+        around: function(){}
+    };
+    t.is( type.check(good), true, 'type passed' );
+
+    var bad1 = o.merge({}, good, {_type:null});
+    t.is( type.check(bad1), false, 'type failed' );
+
+    var bad2 = o.merge({}, good, {method:'foo'});
+    t.is( type.check(bad2), false, 'type failed' );
+
+    var bad3 = o.merge({}, good, {_augments:32.45});
+    t.is( type.check(bad3), false, 'type failed' );
+
+    var bad4 = o.merge({}, good, {_both:new Number(103.1)});
+    t.is( type.check(bad4), false, 'type failed' );
+
+    var bad5 = o.merge({}, good, {_parentAttribute:'foo'});
+    t.is( type.check(bad5), false, 'type failed' );
+
+    t.end();
+});
+
 // This test is a bit brittle as it depends on JavaScript returning a
 // filtered attribute our before a non-filtered attribute when using for.
 // See o.Trait's setFromArgs function.

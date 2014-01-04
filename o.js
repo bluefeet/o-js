@@ -721,6 +721,70 @@
                     if (!attributes[name].filter()) continue;
                     attributes[name].setValueFromArgs( obj, args );
                 }
+            },
+
+            buildType: function () {
+                var duck = {};
+
+                var attributes = this.attributes();
+                for (var name in attributes) {
+                    var attribute = attributes[name];
+
+                    // No type to declare, skip.
+                    var type = attribute.type();
+                    var augments = attribute.augments();
+                    if (!(type || augments)) continue;
+
+                    var valueKey = attribute.valueKey();
+                    var required = attribute.required();
+
+                    var augmentsType = augments ? new o.InstanceOfType(augments) : null;
+
+                    var typeType = (type instanceof o.Type) ? type
+                                 : (type instanceof Function) ? new o.Type({ validate:type })
+                                 : type ? new o.TypeOfType( type )
+                                 : null;
+
+                    var type = (augmentsType && typeType) ? new o.AllType([ augmentsType, typeType ])
+                             : augmentsType ? augmentsType
+                             : typeType;
+
+                    if (!required) {
+                        type = new o.AnyType([
+                            o.undefinedType,
+                            type
+                        ]);
+                    }
+
+                    duck[valueKey] = type;
+                }
+
+                for (var name in this.methods()) {
+                    duck[name] = o.functionType;
+                }
+
+                for (var name in this.around()) {
+                    duck[name] = o.functionType;
+                }
+
+                for (var name in this.before()) {
+                    duck[name] = o.functionType;
+                }
+
+                for (var name in this.after()) {
+                    duck[name] = o.functionType;
+                }
+
+                duck = new o.DuckType( duck );
+                var traits = this.traits();
+                if (!traits.length) return duck;
+
+                var ducks = [ duck ];
+                for (var i = 0, l = traits.length; i < l; i++) {
+                    ducks.push( traits[i].type() );
+                }
+
+                return( new o.AllType(ducks) );
             }
         }
     );
@@ -774,6 +838,13 @@
             key: 'after',
             type: new o.ObjectOfType( o.functionType ),
             devoid: function () { return {} }
+        },
+
+        {
+            key: 'type',
+            type: new o.InstanceOfType( o.Type ),
+            builder: true,
+            argKey: null
         }
     ];
 
