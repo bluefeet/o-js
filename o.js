@@ -880,7 +880,16 @@
         },
         methods: {
             buildType: function () {
-                return new o.InstanceOfType( this );
+                var Constructor = this;
+                return new o.InstanceOfType(
+                    Constructor,
+                    { coerce: function (val) {
+                        if (val instanceof Constructor) return val;
+                        if (val instanceof Object && val.constructor === Object)
+                            return new Constructor( val );
+                        return val;
+                    } }
+                );
             }
         }
     });

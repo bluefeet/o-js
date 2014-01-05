@@ -2,6 +2,9 @@ NEXT RELEASE
  - Added requires attribute to o.Trait so that traits can declare a
    base-line interface that they require to be installed onto an
    object.
+ - o.Constructor's type declare a coercion that will convert a simple
+   object to an object constructed with the constructor where the simple
+   object are the arguments.
 
 0.0.8 : 2014-01-03
  - In addition to accepting an Array, o.DuckType now accepts an Object,

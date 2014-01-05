@@ -5,12 +5,18 @@ test('type', function (t) {
     var Thing1 = new o.Constructor({});
     var Thing2 = new o.Constructor({});
 
-
     var thing1 = new Thing1({});
     var thing2 = new Thing2({});
 
     t.is( Thing1.type().check(thing1), true, 'type passed' );
     t.is( Thing1.type().check(thing2), false, 'type failed' );
+
+    var Obj = new o.Constructor({
+        attributes: { one: {type:Thing1.type(), coerce:true} }
+    });
+    var obj = new Obj({ one:{} });
+
+    t.is( obj.one().constructor, Thing1, 'coerce worked' );
 
     t.end();
 });
