@@ -427,6 +427,13 @@
                 }
                 return true;
             };
+            args.coerce = function (ary) {
+                if (!this.check(ary)) return ary;
+                for (var i = 0, l = ary.length; i < l; i++) {
+                    ary[i] = type.coerce( ary[i] );
+                }
+                return ary;
+            };
             parent( args );
         }
     );
@@ -441,6 +448,13 @@
                     if (!type.check(obj[key])) return false;
                 }
                 return true;
+            };
+            args.coerce = function (obj) {
+                if (!this.check(obj)) return obj;
+                for (var key in obj) {
+                    obj[key] = type.coerce( obj[key] );
+                }
+                return obj;
             };
             parent( args );
         }

@@ -8,6 +8,7 @@ NEXT RELEASE
  - Added o.simpleObjectType for checking if an object's constructor is Object.
  - Added o.typeType, o.attributeType, and o.traitType for validating o.js's
    built-in object types.
+ - ArrayOfType and ObjectOfType now apply their inner type's coercions.
 
 0.0.8 : 2014-01-03
  - In addition to accepting an Array, o.DuckType now accepts an Object,
