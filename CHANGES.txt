@@ -5,6 +5,7 @@ NEXT RELEASE
  - o.Constructor's type declare a coercion that will convert a simple
    object to an object constructed with the constructor where the simple
    object are the arguments.
+ - Added o.simpleObjectType for checking if an object's constructor is Object.
 
 0.0.8 : 2014-01-03
  - In addition to accepting an Array, o.DuckType now accepts an Object,

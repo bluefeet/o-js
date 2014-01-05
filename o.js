@@ -385,6 +385,10 @@
     o.regExpType = new o.InstanceOfType( RegExp );
     o.dateType = new o.InstanceOfType( Date );
 
+    o.simpleObjectType = o.objectType.subtype( function (val) {
+        return (val.constructor === Object) ? true : false;
+    });
+
     o.DuckType = o.augment(
         o.Type,
         function (parent, properties, args) {
