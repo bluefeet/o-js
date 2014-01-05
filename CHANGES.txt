@@ -6,6 +6,8 @@ NEXT RELEASE
    object to an object constructed with the constructor where the simple
    object are the arguments.
  - Added o.simpleObjectType for checking if an object's constructor is Object.
+ - Added o.typeType, o.attributeType, and o.traitType for validating o.js's
+   built-in object types.
 
 0.0.8 : 2014-01-03
  - In addition to accepting an Array, o.DuckType now accepts an Object,

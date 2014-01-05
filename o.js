@@ -389,6 +389,8 @@
         return (val.constructor === Object) ? true : false;
     });
 
+    o.typeType = new o.InstanceOfType( o.Type );
+
     o.DuckType = o.augment(
         o.Type,
         function (parent, properties, args) {
@@ -489,7 +491,7 @@
         type: {
             type: new o.AnyType([
                 new o.EnumType(['undefined', 'object', 'boolean', 'number', 'string', 'function']),
-                new o.InstanceOfType( o.Type ),
+                o.typeType,
                 o.functionType
             ])
         },
@@ -750,8 +752,8 @@
 
                     var augmentsType = augments ? new o.InstanceOfType(augments) : null;
 
-                    var typeType = (type instanceof o.Type) ? type
-                                 : (type instanceof Function) ? new o.Type({ validate:type })
+                    var typeType = o.typeType.check(type) ? type
+                                 : o.functionType.check(type) ? new o.Type({ validate:type })
                                  : type ? new o.TypeOfType( type )
                                  : null;
 
@@ -799,6 +801,9 @@
         }
     );
 
+    o.traitType = new o.InstanceOfType( o.Trait );
+    o.attributeType = new o.InstanceOfType( o.Attribute );
+
     traitAttrs = [
         {
             key: 'requires',
@@ -808,19 +813,19 @@
 
         {
             key: 'traits',
-            type: new o.ArrayOfType( new o.InstanceOfType( o.Trait ) ),
+            type: new o.ArrayOfType( o.traitType ),
             devoid: function () { return [] }
         },
 
         {
             key: 'attributes',
-            type: new o.ObjectOfType( new o.InstanceOfType( o.Attribute ) ),
+            type: new o.ObjectOfType( o.attributeType ),
             devoid: function () { return {} },
             filter: function (val) {
                 var attributes = {};
                 for (var key in val) {
                     var attribute = val[key];
-                    if (attribute instanceof o.Attribute) {
+                    if (o.attributeType.check(attribute)) {
                         if (attribute.key() !== key) attribute = attribute.rebuild({ key: key });
                     }
                     else {
@@ -858,7 +863,7 @@
 
         {
             key: 'type',
-            type: new o.InstanceOfType( o.Type ),
+            type: o.typeType,
             builder: true,
             argKey: null
         }
@@ -873,24 +878,22 @@
     var ConstructorTrait = new o.Trait({
         attributes: {
             type: {
-                type: new o.InstanceOfType( o.Type ),
+                type: o.typeType,
                 builder: true,
                 argKey: null
             },
             trait: {
-                type: new o.InstanceOfType( o.Trait ),
+                type: o.traitType,
                 required: true
             }
         },
         methods: {
             buildType: function () {
-                var Constructor = this;
+                var self = this;
                 return new o.InstanceOfType(
-                    Constructor,
+                    self,
                     { coerce: function (val) {
-                        if (val instanceof Constructor) return val;
-                        if (val instanceof Object && val.constructor === Object)
-                            return new Constructor( val );
+                        if (o.simpleObjectType.check(val)) return new self( val );
                         return val;
                     } }
                 );
