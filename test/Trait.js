@@ -1,6 +1,31 @@
 var o = require('../o');
 var test = require('tap').test;
 
+test('requires', function (t) {
+    var trait = new o.Trait({
+        requires: ['a', 'b']
+    });
+
+    var failed;
+
+    failed = false;
+    try { trait.install({ a:1, b:2 }) }
+    catch (e) { failed = true }
+    t.is( failed, false, 'passed requires check' );
+
+    failed = false;
+    try { trait.install({ a:1, c:2 }) }
+    catch (e) { failed = true }
+    t.is( failed, true, 'failed requires check' );
+
+    failed = false;
+    try { trait.install({}) }
+    catch (e) { failed = true }
+    t.is( failed, true, 'failed requires check' );
+
+    t.end();
+});
+
 test('type', function (t) {
     var parentTrait = new o.Trait({
         attributes: { parentAttribute:{ type:o.integerType } },

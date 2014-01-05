@@ -673,6 +673,12 @@
         },
         {
             install: function (obj, args) {
+                var requires = this.requires();
+                for (var i = 0, l = requires.length; i < l; i++) {
+                    if (obj[requires[i]] !== undefined) continue;
+                    throw new Error('...');
+                }
+
                 var traits = this.traits();
                 for (var i = 0, l = traits.length; i < l; i++) {
                     traits[i].install( obj );
@@ -790,6 +796,12 @@
     );
 
     traitAttrs = [
+        {
+            key: 'requires',
+            type: new o.ArrayOfType( o.definedType ),
+            devoid: function () { return [] }
+        },
+
         {
             key: 'traits',
             type: new o.ArrayOfType( new o.InstanceOfType( o.Trait ) ),
