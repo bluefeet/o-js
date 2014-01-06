@@ -889,7 +889,7 @@
         traitAttrs[i].install( proto );
     }
 
-    var ConstructorTrait = new o.Trait({
+    var ClassTrait = new o.Trait({
         attributes: {
             type: {
                 type: o.typeType,
@@ -915,15 +915,15 @@
         }
     });
 
-    o.Constructor = o.construct(
+    o.Class = o.construct(
         function (args) {
             var trait = new o.Trait( args );
-            var Constructor = function (args) {
+            var constructor = function (args) {
                 trait.setFromArgs( this, args );
             };
-            trait.install( Constructor.prototype );
-            ConstructorTrait.install( Constructor, {trait:trait} );
-            return Constructor;
+            trait.install( constructor.prototype );
+            ClassTrait.install( constructor, {trait:trait} );
+            return constructor;
         }
     );
 }).call(this);

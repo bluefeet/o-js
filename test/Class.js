@@ -2,8 +2,8 @@ var o = require('../o');
 var test = require('tap').test;
 
 test('type', function (t) {
-    var Thing1 = new o.Constructor({});
-    var Thing2 = new o.Constructor({});
+    var Thing1 = new o.Class({});
+    var Thing2 = new o.Class({});
 
     var thing1 = new Thing1({});
     var thing2 = new Thing2({});
@@ -11,7 +11,7 @@ test('type', function (t) {
     t.is( Thing1.type().check(thing1), true, 'type passed' );
     t.is( Thing1.type().check(thing2), false, 'type failed' );
 
-    var Obj = new o.Constructor({
+    var Obj = new o.Class({
         attributes: { one: {type:Thing1.type(), coerce:true} }
     });
     var obj = new Obj({ one:{} });
@@ -22,7 +22,7 @@ test('type', function (t) {
 });
 
 test('basic', function (t) {
-    var Person = new o.Constructor({
+    var Person = new o.Class({
         attributes: {
             firstName: { type:o.nonEmptyStringType },
             lastName: { type:o.nonEmptyStringType },
