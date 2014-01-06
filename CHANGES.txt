@@ -6,8 +6,8 @@ NEXT RELEASE
    object to an object constructed with the constructor where the simple
    object are the arguments.
  - Added o.simpleObjectType for checking if an object's constructor is Object.
- - Added o.typeType, o.attributeType, and o.traitType for validating o.js's
-   built-in object types.
+ - Added o.typeType, o.attributeType, o.traitType, and o.classType for validating
+   o.js's built-in object types.
  - ArrayOfType and ObjectOfType now apply their inner type's coercions.
  - Renamed o.Constructor to o.Class, because that is what it is and it is
    less to type.

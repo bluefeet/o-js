@@ -683,6 +683,8 @@
         )
     );
 
+    o.attributeType = new o.InstanceOfType( o.Attribute );
+
     var traitAttrs = [];
 
     o.Trait = o.construct(
@@ -785,7 +787,6 @@
     );
 
     o.traitType = new o.InstanceOfType( o.Trait );
-    o.attributeType = new o.InstanceOfType( o.Attribute );
 
     traitAttrs = [
         {
@@ -895,4 +896,6 @@
             return constructor;
         }
     );
+
+    o.classType = ClassTrait.type();
 }).call(this);
