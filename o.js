@@ -394,7 +394,16 @@
         return (val.constructor === Object) ? true : false;
     });
 
-    o.typeType = new o.InstanceOfType( o.Type );
+    o.typeType = new o.InstanceOfType(
+        o.Type,
+        { coerce: function (args) {
+            if (o.classType && o.classType.check(args)) return args;
+            return (
+                o.simpleObjectType.check(args) ||
+                o.functionType.check(args)
+            ) ? new o.Type(args) : args;
+        }}
+    );
 
     o.DuckType = o.augment(
         o.Type,
@@ -673,6 +682,8 @@
                     }
 
                     if (value) this.setValue( obj, value );
+
+                    return obj;
                 },
 
                 rebuild: function (args) {
@@ -688,7 +699,12 @@
         )
     );
 
-    o.attributeType = new o.InstanceOfType( o.Attribute );
+    o.attributeType = new o.InstanceOfType(
+        o.Attribute,
+        { coerce: function (args) {
+            return o.simpleObjectType.check(args) ? new o.Attribute(args) : args;
+        }}
+    );
 
     var traitAttrs = [];
 
@@ -737,6 +753,8 @@
                 }
 
                 if (args) this.setFromArgs( obj, args );
+
+                return obj;
             },
 
             setFromArgs: function (obj, args) {
@@ -791,7 +809,12 @@
         }
     );
 
-    o.traitType = new o.InstanceOfType( o.Trait );
+    o.traitType = new o.InstanceOfType(
+        o.Trait,
+        { coerce: function (args) {
+            return o.simpleObjectType.check(args) ? new o.Trait(args) : args;
+        }}
+    );
 
     traitAttrs = [
         {
@@ -902,5 +925,9 @@
         }
     );
 
-    o.classType = ClassTrait.type();
+    o.classType = ClassTrait.type().subtype({
+        coerce: function (args) {
+            return o.simpleObjectType.check(args) ? new o.Class(args) : args
+        }
+    });
 }).call(this);
