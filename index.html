@@ -51,7 +51,7 @@
             <h3>Compatible</h3>
             <p>
                 o.js is designed to extend JavaScript's native prototype system, not
-                replace it.  This means that o.js constructors, traits, attributes,
+                replace it.  This means that o.js classes, traits, attributes,
                 types, and objects are automatically compatible with existing JavaScript
                 libraries.
             </p>
@@ -116,13 +116,13 @@
     <div class="row">
     <div class="col-md-6">
 
-    <h2>Constructors</h2>
-    <p>Define constructors using <code>new o.Constructor(...)</code> which
-    creates a standard JavaScript function constructor.  These constructors
+    <h2>Classes</h2>
+    <p>Define classes using <code>new o.Class(...)</code> which
+    creates a standard JavaScript function constructor.  A class
     can have attributes, methods, method overrides, and a number of other
-    features.  A constructor, at its core (take a look at the source code)
-    is a very simple wrapper around a trait.</p>
-<pre><code>var Person = new o.Constructor({
+    features.  A class, at its core (take a look at the source code) is a
+    very simple wrapper around a trait.</p>
+<pre><code>var Person = new o.Class({
     attributes: {
         name: { type:o.nonEmptyStringType },
         age: { type:o.integerType }
@@ -139,21 +139,21 @@ var baggins = new Person({
 });
 baggins.log_name();</code></pre>
     <p>Read more in the
-    <a href="https://github.com/bluefeet/o-js/wiki/o.Constructor">o.Constructor</a>
+    <a href="https://github.com/bluefeet/o-js/wiki/o.Class">o.Class</a>
     documentation.</p>
 
     </div><div class="col-md-6">
 
     <h2>Traits</h2>
     <p>Traits are created with <code>new o.Trait(...)</code> which creates
-    a new Trait object.  Traits can be included in Constructors or installed
+    a new Trait object.  Traits can be included in Classes or installed
     directly on to existing objects.</p>
 <pre><code>var productTrait = new o.Trait({
     attributes: {
         price: { type:o.numberType }
     }
 });
-var Sheet = new o.Constructor({
+var Sheet = new o.Class({
     attributes: {
         threadCount: { type:o.integerType }
     },
@@ -173,7 +173,7 @@ var mySheet = new Sheet({
 
     <h2>Attributes</h2>
     <p>Attribute can be created directly via <code>new o.Attribute(...)</code>
-    and re-used, or inderectly in Constructor and Trait definitions.</p>
+    and re-used, or inderectly in Class and Trait definitions.</p>
 <pre><code>var fullNameAttr = new o.Attribute({
     type: o.nonEmptyStringType,
     required: true
@@ -202,7 +202,7 @@ var mySheet = new Sheet({
 
     <h2>Plumbing</h2>
     <p>A rich array of plumbing functions exist which provide the moving
-    pieces that make Constructors, Traits, Attributes, and Types work.
+    pieces that make Classes, Traits, Attributes, and Types work.
     Plumbing functions include <code>o.construct()</code>, <code>o.augment()</code>,
     <code>o.merge()</code>, <code>o.clone()</code>, <code>o.has()</code>,
     <code>o.before()</code>, <code>o.after()</code>, <code>o.around()</code>,
