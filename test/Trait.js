@@ -35,53 +35,37 @@ test('type', function (t) {
     var trait = new o.Trait({
         traits: [ parentTrait ],
         attributes: {
-            type: { type:o.integerType },
-            augments: { augments:Number },
-            both: { type:o.integerType, augments:Number },
-            none: { }
+            attribute: { },
+            _attribute: { }
         },
-        methods: { method:function(){} },
-        after: { after:function(){} },
-        before: { before:function(){} },
-        around: { around:function(){} },
+        methods: { method:function(){} }
     });
 
     var type = trait.type();
     var parentType = parentTrait.type();
 
     t.is( parentType.check({}), false, 'parent type failed on empty object' );
-    t.is( parentType.check({ _parentAttribute:32, parentMethod:function(){} }), true, 'parent type passed object');
+    t.is( parentType.check({ parentAttribute:function(){}, parentMethod:function(){} }), true, 'parent type passed object');
 
     var good = {
-        _parentAttribute: 32,
+        parentAttribute: function(){},
         parentMethod: function(){},
-
-        _type: 103,
-        _augments: new Number( 32.45 ),
-        _both: new Number( 103 ),
-        _none: null,
-
-        method: function(){},
-        after: function(){},
-        before: function(){},
-        around: function(){}
+        attribute: function(){},
+        method: function(){}
     };
     t.is( type.check(good), true, 'type passed' );
 
-    var bad1 = o.merge({}, good, {_type:null});
+    var bad1 = o.merge({}, good, {attribute:null});
     t.is( type.check(bad1), false, 'type failed' );
 
-    var bad2 = o.merge({}, good, {method:'foo'});
+    var bad2 = o.merge({}, good, {method:null});
     t.is( type.check(bad2), false, 'type failed' );
 
-    var bad3 = o.merge({}, good, {_augments:32.45});
+    var bad3 = o.merge({}, good, {parentAttribute:null});
     t.is( type.check(bad3), false, 'type failed' );
 
-    var bad4 = o.merge({}, good, {_both:new Number(103.1)});
+    var bad4 = o.merge({}, good, {parentMethod:null});
     t.is( type.check(bad4), false, 'type failed' );
-
-    var bad5 = o.merge({}, good, {_parentAttribute:'foo'});
-    t.is( type.check(bad5), false, 'type failed' );
 
     t.end();
 });

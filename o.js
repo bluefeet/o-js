@@ -755,50 +755,19 @@
                 var attributes = this.attributes();
                 for (var name in attributes) {
                     var attribute = attributes[name];
-
-                    // No type to declare, skip.
-                    var type = attribute.type();
-                    var augments = attribute.augments();
-                    if (!(type || augments)) continue;
-
-                    var valueKey = attribute.valueKey();
-                    var required = attribute.required();
-
-                    var augmentsType = augments ? new o.InstanceOfType(augments) : null;
-
-                    var typeType = o.typeType.check(type) ? type
-                                 : o.functionType.check(type) ? new o.Type({ validate:type })
-                                 : type ? new o.TypeOfType( type )
-                                 : null;
-
-                    var type = (augmentsType && typeType) ? new o.AllType([ augmentsType, typeType ])
-                             : augmentsType ? augmentsType
-                             : typeType;
-
-                    if (!required) {
-                        type = new o.AnyType([
-                            o.undefinedType,
-                            type
-                        ]);
-                    }
-
-                    duck[valueKey] = type;
+                    if (attribute.reader()) duck[attribute.reader()] = o.functionType;
+                    if (attribute.writer()) duck[attribute.writer()] = o.functionType;
+                    if (attribute.predicate()) duck[attribute.predicate()] = o.functionType;
+                    if (attribute.clearer()) duck[attribute.clearer()] = o.functionType;
                 }
 
                 for (var name in this.methods()) {
                     duck[name] = o.functionType;
                 }
 
-                for (var name in this.around()) {
-                    duck[name] = o.functionType;
-                }
-
-                for (var name in this.before()) {
-                    duck[name] = o.functionType;
-                }
-
-                for (var name in this.after()) {
-                    duck[name] = o.functionType;
+                var isPrivate = /^_/m;
+                for (var name in duck) {
+                    if (name.match(isPrivate)) delete duck[name];
                 }
 
                 duck = new o.DuckType( duck );
