@@ -336,9 +336,14 @@
         o.Type,
         function (parent, constructor, args) {
             args = args || {};
-            args.validate = function (val) {
-                return (val instanceof constructor) ? true : false;
+            args.validate = function (obj) {
+                return (obj instanceof constructor) ? true : false;
             };
+            if (o.classType && o.classType.check(constructor)) {
+                args.coerce = function (args) {
+                    return o.simpleObjectType.check(args) ? new constructor(args) : args;
+                };
+            }
             parent( args );
         }
     );
