@@ -1,17 +1,18 @@
 NEXT RELEASE
+ Classes:
  - Renamed o.Constructor to o.Class, because that is what it is and it is
    less to type.
- - Added o.simpleObjectType for checking if an object's constructor is Object.
- - o.Class's type declares a coercion that will convert a simple
-   object to an object constructed with the constructor where the simple
-   object is the arguments.
+ Traits:
  - Added requires attribute to o.Trait so that traits can declare a
    base-line interface that they require to be installed onto an
    object.
+ Types:
+ - Added o.simpleObjectType for checking if an object's constructor is Object.
  - Added o.typeType, o.attributeType, o.traitType, and o.classType for validating
-   and coercing o.js's built-in object types.
+   and coercing o.js's built-in object types.  Each of which supports a coercion
+   from the simpleObject type.
  - ArrayOfType and ObjectOfType now apply their inner type's coercions.
- - Greatly simplify the trait types.
+ - Greatly simplify the trait type.
  - InstanceOfType declares a simpleObject to instance coercion if the
    instance constructor was created with o.Class.
 
