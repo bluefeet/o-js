@@ -1,4 +1,6 @@
 NEXT RELEASE
+ Global:
+ - Better error messaging across the board (no more "..." errors).
  Classes:
  - Renamed o.Constructor to o.Class, because that is what it is and it is
    less to type.

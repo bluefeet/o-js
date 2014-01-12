@@ -21,8 +21,20 @@
         return o;
     };
 
-    // This is here so that the throw()s are minified well.
+    // Basic printf support for errors.  Only supports %s for now.
     var error = function (msg) {
+        var args = arguments;
+        var index = 0;
+        msg = msg.replace(
+            /%s/g,
+            function () {
+                index++;
+                if (!(index in args)) return '';
+                var value = args[index];
+                if (value === undefined || value === null) return value;
+                return '"' + value + '"';
+            }
+        );
         return new Error( msg );
     };
 
@@ -49,7 +61,7 @@
 
         return function () {
             if (!def.predicate.call( this )) {
-                if (def.required) throw error('...');
+                if (def.required) throw error('Property %s is required and cannot be read.', key);
                 else if (def.devoid) {
                     var val = def.devoid;
                     if (val instanceof Function) val = val.call( this );
@@ -73,11 +85,11 @@
 
             if (def.type) {
                 if (typeof def.type === 'string' || def.type instanceof String) {
-                    if (typeof val !== def.type) throw error('...');
+                    if (typeof val !== def.type) throw error('Property %s cannot be set to %s because it is not typeof %s.', key, val, def.type);
                 }
                 else if (def.type instanceof Function) {
                     if (!def.type( val )) {
-                        throw error('...');
+                        throw error('Property %s cannot be to set to %s because it does not pass validation.', key, val);
                     }
                 }
                 else if (def.type instanceof o.Type) {
@@ -89,13 +101,13 @@
                     }
                 }
                 else {
-                    throw error('...');
+                    throw error('Property %s has unknown type %s.', key, def.type);
                 }
             }
 
             if (def.augments) {
                 if (!(val instanceof def.augments)) {
-                    throw error('...');
+                    throw error('Property %s cannot be set to %s because it is not an instanceof %s.', key, val, def.augments);
                 }
             }
 
@@ -213,7 +225,7 @@
             if (typeof args === 'function') { args = { validate: args } }
 
             if (args.validate) { this._validateMethod = args.validate }
-            else { throw error('...') }
+            else { throw error('No validate argument was passed to the o.Type constructor.') }
 
             if (args.message) this._messageMethod = args.message;
             if (args.coerce) this._coerceMethod = args.coerce;
@@ -227,12 +239,12 @@
             },
             validate: function (val) {
                 if (this._parent) this._parent.validate( val );
-                if (!this._validateMethod( val )) throw error('...');
+                if (!this._validateMethod( val )) throw this._error( val );
                 return true;
             },
             coerce: function (val) {
                 val = this.coerceOnly( val );
-                if (!this.check( val )) throw error('...');
+                if (!this.check( val )) throw this._error( val );
                 return val;
             },
             coerceOnly: function (val) {
@@ -240,9 +252,9 @@
                 if (this._coerceMethod) val = this._coerceMethod( val );
                 return val;
             },
-            error: function (val) {
-                if (this._messageMethod) { throw error( this._messageMethod(val) ) }
-                throw error( 'Validation failed for value "' + val + '"' );
+            _error: function (val) {
+                if (this._messageMethod) return error( this._messageMethod(val) );
+                return error('Validation failed for value %s.', val);
             },
             subtype: function (args) {
                 if (typeof args === 'function') { args = { validate: args } }
@@ -726,7 +738,7 @@
                 var requires = this.requires();
                 for (var i = 0, l = requires.length; i < l; i++) {
                     if (obj[requires[i]] !== undefined) continue;
-                    throw error('...');
+                    throw error('Trait requires property %s to be set in order to be installed.', requires[i]);
                 }
 
                 var traits = this.traits();
