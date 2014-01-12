@@ -21,6 +21,11 @@ test('basic', function (t) {
     t.is( o.positiveType.check(0), false, 'zero is not positive' );
     t.is( o.positiveType.check(2), true, 'positive is positive' );
 
+    t.is( o.positiveIntType.check(-2), false, 'negative is not positive int' );
+    t.is( o.positiveIntType.check(0), false, 'zero is not positive int' );
+    t.is( o.positiveIntType.check(1.2), false, '1.2 is not positive int' );
+    t.is( o.positiveIntType.check(2), true, '2 is positive int' );
+
     t.is( o.negativeType.check(-2), true, 'negative is negative' );
     t.is( o.negativeType.check(0), false, 'zero is not negative' );
     t.is( o.negativeType.check(2), false, 'positive is not negative' );

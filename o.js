@@ -376,6 +376,8 @@
         return (val > 0) ? true : false;
     });
 
+    o.positiveIntType = new o.AllType([ o.integerType, o.positiveType ]);
+
     o.negativeType = o.numberType.subtype( function (val) {
         return (val < 0) ? true : false;
     });
