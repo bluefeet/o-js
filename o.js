@@ -21,6 +21,11 @@
         return o;
     };
 
+    // This is here so that the throw()s are minified well.
+    var error = function (msg) {
+        return new Error( msg );
+    };
+
     o.local = function (obj, prop, func) {
         var hasProp = o.has( obj, prop );
         var origVal = obj[prop];
@@ -44,7 +49,7 @@
 
         return function () {
             if (!def.predicate.call( this )) {
-                if (def.required) throw new Error('...');
+                if (def.required) throw error('...');
                 else if (def.devoid) {
                     var val = def.devoid;
                     if (val instanceof Function) val = val.call( this );
@@ -68,11 +73,11 @@
 
             if (def.type) {
                 if (typeof def.type === 'string' || def.type instanceof String) {
-                    if (typeof val !== def.type) throw new Error('...');
+                    if (typeof val !== def.type) throw error('...');
                 }
                 else if (def.type instanceof Function) {
                     if (!def.type( val )) {
-                        throw new Error('...');
+                        throw error('...');
                     }
                 }
                 else if (def.type instanceof o.Type) {
@@ -84,13 +89,13 @@
                     }
                 }
                 else {
-                    throw new Error('...');
+                    throw error('...');
                 }
             }
 
             if (def.augments) {
                 if (!(val instanceof def.augments)) {
-                    throw new Error('...');
+                    throw error('...');
                 }
             }
 
@@ -208,7 +213,7 @@
             if (typeof args === 'function') { args = { validate: args } }
 
             if (args.validate) { this._validateMethod = args.validate }
-            else { throw new Error('...') }
+            else { throw error('...') }
 
             if (args.message) this._messageMethod = args.message;
             if (args.coerce) this._coerceMethod = args.coerce;
@@ -222,12 +227,12 @@
             },
             validate: function (val) {
                 if (this._parent) this._parent.validate( val );
-                if (!this._validateMethod( val )) throw new Error('...');
+                if (!this._validateMethod( val )) throw error('...');
                 return true;
             },
             coerce: function (val) {
                 val = this.coerceOnly( val );
-                if (!this._validateMethod( val )) throw new Error('...');
+                if (!this.check( val )) throw error('...');
                 return val;
             },
             coerceOnly: function (val) {
@@ -236,8 +241,8 @@
                 return val;
             },
             error: function (val) {
-                if (this._messageMethod) { throw new Error( this._messageMethod(val) ) }
-                throw new Error( 'Validation failed for value "' + val + '"' );
+                if (this._messageMethod) { throw error( this._messageMethod(val) ) }
+                throw error( 'Validation failed for value "' + val + '"' );
             },
             subtype: function (args) {
                 if (typeof args === 'function') { args = { validate: args } }
@@ -721,7 +726,7 @@
                 var requires = this.requires();
                 for (var i = 0, l = requires.length; i < l; i++) {
                     if (obj[requires[i]] !== undefined) continue;
-                    throw new Error('...');
+                    throw error('...');
                 }
 
                 var traits = this.traits();
