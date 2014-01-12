@@ -16,6 +16,8 @@ NEXT RELEASE
  - InstanceOfType declares a simpleObject to instance coercion if the
    instance constructor was created with o.Class.
  - Added o.positiveIntType due to this type being a common case.
+ Plumbing:
+ - Exposed o.ucFirst to the public.
 
 0.0.8 : 2014-01-03
  - In addition to accepting an Array, o.DuckType now accepts an Object,

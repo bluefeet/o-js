@@ -488,9 +488,9 @@
         }
     );
 
-    function ucFirst (str) {
+    o.ucFirst = function (str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+    };
 
     var booleanOrNonEmptyStringType = new o.AnyType([
         o.booleanType,
@@ -515,7 +515,7 @@
         builder: {
             type: booleanOrNonEmptyStringType,
             devoid: false,
-            filter: function (val) { if (val === true) val = 'build' + ucFirst( this.key() ); return val }
+            filter: function (val) { if (val === true) val = 'build' + o.ucFirst( this.key() ); return val }
         },
         required: { type: o.booleanType, devoid: false },
         type: {
@@ -543,12 +543,12 @@
         predicate: {
             type: booleanOrNonEmptyStringType,
             devoid: false,
-            filter: function (val) { if (val === true) val = 'has' + ucFirst( this.key() ); return val }
+            filter: function (val) { if (val === true) val = 'has' + o.ucFirst( this.key() ); return val }
         },
         clearer: {
             type: booleanOrNonEmptyStringType,
             devoid: false,
-            filter: function (val) { if (val === true) val = 'clear' + ucFirst( this.key() ); return val }
+            filter: function (val) { if (val === true) val = 'clear' + o.ucFirst( this.key() ); return val }
         },
         proxies: { type: new o.ObjectOfType( o.nonEmptyStringType ) }
     };
