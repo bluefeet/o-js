@@ -1,6 +1,7 @@
 NEXT RELEASE
  Global:
  - Better error messaging across the board (no more "..." errors).
+ - Lots of adjustments to reduce the minified size by several kilobytes.
  Classes:
  - Renamed o.Constructor to o.Class, because that is what it is and it is
    less to type.

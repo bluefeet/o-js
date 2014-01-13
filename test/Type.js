@@ -1,20 +1,13 @@
 var o = require('../o');
 var test = require('tap').test;
 
-test('arguments', function (t) {
-    t.throws( function(){ new o.Type() }, 'new without arguments fails' );
-    t.throws( function(){ new o.Type([]) }, 'new with non-object arguments fails' );
-    t.throws( function(){ new o.Type({}) }, 'new without validate argument fails' );
-    t.end();
-});
-
 test('validation', function (t) {
     var number = new o.Type({
         validate: function (val) {
             return (typeof val === 'number') ? true : false;
         }
     });
-    t.is( number.validate(123), true, 'number passes validation' );
+    t.is( number.check(123), true, 'number passes validation' );
     t.is( number.check('abc'), false, 'string fails validation' );
     t.throws( function(){ number.validate('abc') }, 'validate throws an exception' );
     t.end();
