@@ -1,5 +1,7 @@
 NEXT RELEASE
  Global:
+ - Migrated everything to CommonJS format modules (no more hacks for the
+   web, those will be handled independently).
  - Better error messaging across the board (no more "..." errors).
  - Lots of adjustments to reduce the minified size by several kilobytes.
  Classes:
@@ -12,12 +14,11 @@ NEXT RELEASE
  Types:
  - Added o.simpleObjectType for checking if an object's constructor is Object.
  - Added o.typeType, o.attributeType, o.traitType, and o.classType for validating
-   and coercing o.js's built-in object types.  Each of which supports a coercion
-   from the simpleObject type.
+   and coercing o.js's built-in object types.
  - ArrayOfType and ObjectOfType now apply their inner type's coercions.
  - Greatly simplify the trait type.
- - InstanceOfType declares a simpleObject to instance coercion if the
-   instance constructor was created with o.Class.
+ - InstanceOfType declares a coercion that will create a new instance using
+   the value as arguments to the constructor.
  - Added o.positiveIntType due to this type being a common case.
  Plumbing:
  - Exposed o.ucFirst to the public.

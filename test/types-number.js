@@ -1,15 +1,7 @@
-var o = require('../o');
+var o = require('../lib/o.js');
 var test = require('tap').test;
 
 test('basic', function (t) {
-    t.is( o.numberPrimitiveType.check('abc'), false, 'string is not a primitive' );
-    t.is( o.numberPrimitiveType.check(new Number()), false, 'Number is not a primitive' );
-    t.is( o.numberPrimitiveType.check(2), true, 'number is a primitive' );
-
-    t.is( o.numberObjectType.check('abc'), false, 'string is not an object' );
-    t.is( o.numberObjectType.check(2), false, 'number is not an object' );
-    t.is( o.numberObjectType.check(new Number()), true, 'Number is an object' );
-
     t.is( o.numberType.check('abc'), false, 'string is not a number' );
     t.is( o.numberType.check(2), true, 'number is a number' );
     t.is( o.numberType.check(new Number()), true, 'Number is a number' );

@@ -1,5 +1,4 @@
-
-var o = require('../o');
+var o = require('../lib/o.js');
 var test = require('tap').test;
 
 test('basic', function (t) {
