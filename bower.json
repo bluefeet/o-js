@@ -18,6 +18,7 @@
   "ignore": [
     "test",
     "package.json",
+    ".npmignore",
     ".travis.yml",
     ".gitignore"
   ]
