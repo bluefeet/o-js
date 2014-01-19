@@ -13,7 +13,7 @@
         "url":  "https://raw.github.com/bluefeet/o-js/master/LICENSE.txt"
     }],
 
-    "main": "o.js",
+    "main": "lib/o.js",
 
     "devDependencies": {
         "tap": ">=0.4.0"
