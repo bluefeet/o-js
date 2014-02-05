@@ -21,7 +21,7 @@ if ($help) {
 }
 
 $src_file ||= "$Bin/../o.js";
-$min_file ||= "$Bin/../o-min.js";
+$min_file ||= "$Bin/../o.min.js";
 
 print "# src-file: $src_file\n";
 print "# min-file: $min_file\n";
@@ -88,7 +88,7 @@ minify - Minify a combined o.js file.
 
     cd o-js
     bin/minify
-    git add o-min.js
+    git add o.min.js
 
 =head1 DESCRIPTION
 
@@ -116,7 +116,7 @@ Defaults to C<$script_dir/../o.js>.
     bin/minify --min-file=<path-to-o-min-js>
 
 The file to write the minified JavaScript to.  Defaults to
-C<$script_dir/../o-min.js>.
+C<$script_dir/../o.min.js>.
 
 =head2 version
 
