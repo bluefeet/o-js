@@ -4,13 +4,40 @@
 
     "description": "JavaScript utility belt for rich objects and prototypes. Ooooh!",
     "homepage":    "http://o-js.com",
-    "keywords":    ["util", "prototypes"],
-    "author":      "Aran Deltac <bluefeet@gmail.com>",
+    "keywords":    ["util", "utility", "prototype", "prototypes", "object", "objects", "oo"],
     "repository":  {"type": "git", "url": "git@github.com:bluefeet/o-js.git"},
     "bugs":        { "url": "https://github.com/bluefeet/o-js/issues" },
+    "github": "https://github.com/bluefeet/o-js",
+
+    "jam": {
+        "main": "o.js",
+        "include": [
+            "README.md",
+            "LICENSE.txt",
+            "CHANGES.txt",
+            "o.js",
+            "o-min.js",
+            "package.json"
+        ]
+    },
+
     "licenses": [{
         "type": "MIT",
         "url":  "https://raw.github.com/bluefeet/o-js/master/LICENSE.txt"
+    }],
+
+    "author":      "Aran Deltac <bluefeet@gmail.com>",
+
+    "maintainers": [{
+        "name":  "Aran Deltac",
+        "email": "bluefeet@gmail.com",
+        "web":   "http://blog.bluefeet.net"
+    }],
+
+    "contributors": [{
+        "name":  "Aran Deltac",
+        "email": "bluefeet@gmail.com",
+        "web":   "http://blog.bluefeet.net"
     }],
 
     "main": "lib/o.js",

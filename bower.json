@@ -1,25 +1,20 @@
 {
-  "name": "o",
-  "description": "JavaScript utility belt for rich objects and prototypes. Ooooh!",
-  "homepage": "http://o-js.com",
-  "main": "o.js",
-  "version": "0.0.8",
-  "authors": [ "Aran Deltac" ],
-  "license": "MIT",
-  "keywords": [
-    "prototype",
-    "prototypes",
-    "object",
-    "objects",
-    "oo",
-    "utility",
-    "o.js"
-  ],
-  "ignore": [
-    "test",
-    "package.json",
-    ".npmignore",
-    ".travis.yml",
-    ".gitignore"
-  ]
+    "name":    "o",
+    "version": "0.0.8",
+    "main":    "o.js",
+
+    "description": "JavaScript utility belt for rich objects and prototypes. Ooooh!",
+    "homepage":    "http://o-js.com",
+    "keywords":    ["util", "utility", "prototype", "prototypes", "object", "objects", "oo"],
+
+    "authors": [ "Aran Deltac" ],
+    "license": "MIT",
+
+    "ignore": [
+        ".travis.yml",
+        ".npmignore",
+        ".gitignore",
+        "bin",
+        "package.json"
+    ]
 }

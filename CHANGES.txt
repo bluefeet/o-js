@@ -1,4 +1,4 @@
-NEXT RELEASE
+0.0.9 : 2014-02-04
  Global:
  - Migrated everything to CommonJS format modules (no more hacks for the
    web, those will be handled independently).
@@ -6,6 +6,8 @@ NEXT RELEASE
  - Lots of adjustments to reduce the minified size by several kilobytes.
  - Created several utilities in the bin directory for creating combined
    and minified versions of o.js.
+ - Combined o.js and minified o-min.js are now shipped within the o-js
+   repository.
  Classes:
  - Renamed o.Constructor to o.Class, because that is what it is and it is
    less to type.
