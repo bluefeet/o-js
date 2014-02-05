@@ -16,7 +16,7 @@
             "LICENSE.txt",
             "CHANGES.txt",
             "o.js",
-            "o-min.js",
+            "o.min.js",
             "package.json"
         ]
     },
