@@ -4,6 +4,8 @@ NEXT RELEASE
    web, those will be handled independently).
  - Better error messaging across the board (no more "..." errors).
  - Lots of adjustments to reduce the minified size by several kilobytes.
+ - Created several utilities in the bin directory for creating combined
+   and minified versions of o.js.
  Classes:
  - Renamed o.Constructor to o.Class, because that is what it is and it is
    less to type.

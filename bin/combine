@@ -1,0 +1,197 @@
+#!/usr/bin/env perl
+use strict;
+use warnings FATAL => 'all';
+
+use autodie;
+use FindBin qw( $Bin );
+use Getopt::Long;
+use Pod::Usage qw( pod2usage );
+
+GetOptions(
+    'help'       => \my $help,
+    'lib-dir=s'  => \my $lib_dir,
+    'out-file=s' => \my $out_file,
+    'require=s'  => \my @requires,
+    'version=s'  => \my $version,
+) or die "Unable to process options.\n";
+
+if ($help) {
+    pod2usage( -verbose => 2 );
+    exit 0;
+}
+
+$lib_dir  ||= "$Bin/../lib";
+$out_file ||= "$Bin/../o.js";
+@requires = map { split(/,/, $_) } @requires;
+
+print "# lib-dir: $lib_dir\n";
+print "# out-file: $out_file\n";
+print "# version: $version\n" if $version;
+
+if (!@requires) {
+    open(my $fh, '<', "$lib_dir/o.js");
+    my $js = do { local $/; <$fh> };
+
+    $js =~ s{
+        (\S+): \s* require\(
+    }{
+        push @requires, $1;
+        '';
+    }sxeg;
+}
+
+print '# require: ' . join(', ', @requires) . "\n";
+
+my $files = {};
+load_file( $_ ) for @requires;
+
+print "Generating version header...\n";
+my $version_command = "$Bin/version-header";
+$version_command .= " --version=$version" if $version;
+my $version_header = `$version_command`;
+die "Version header doesn't look right!" if $version_header !~ m{^//.*v\d}s;
+$version_header =~ s{\s*$}{}s;
+print "Version header generated.\n";
+
+print "Generating combined JavaScript...\n";
+
+my $names_added = {};
+my @names_sorted;
+my @names_left = sort keys %$files;
+
+while (@names_left) {
+    my $name = shift @names_left;
+    my $file = $files->{$name};
+    my $resolved = 1;
+
+    foreach my $require (@{ $file->{requires} }) {
+        $resolved = 0 if !$names_added->{$require};
+    }
+
+    if ($resolved) {
+        push @names_sorted, $name;
+        $names_added->{$name} = 1;
+    }
+    else {
+        push @names_left, $name;
+    }
+}
+
+print "Done generating.\nWriting combined JavaScript to '$out_file'...\n";
+
+open(my $fh, '>', $out_file);
+
+print $fh <<JS;
+$version_header
+
+(function() {
+
+var root = this;
+var previousO = root.o;
+var o = {};
+root.o = o;
+root.oJS = o;
+
+o.noConflict = function () {
+    root.o = previousO;
+    return o;
+};
+JS
+
+foreach my $name (@names_sorted) {
+    print $fh "\n// o.$name\n";
+    print $fh $files->{$name}->{js};
+}
+
+print $fh "\n}).call(this);\n";
+
+print "All done!\n";
+
+sub load_file {
+    my ($name) = @_;
+    return if $files->{$name};
+    my $file = $files->{$name} = {};
+
+    print "Loading o-$name module.\n";
+
+    open(my $fh, '<', "$lib_dir/o-$name.js");
+    my $js = do { local $/; <$fh> };
+
+    my @requires;
+    $js =~ s{
+        var \s+ o_(\S+) \s* = \s* require\( '\./.*?' \);
+    }{
+        push @requires, $1;
+        '';
+    }sxeg;
+
+    load_file( $_ ) for @requires;
+
+    $js =~ s{module.exports =}{var o_$name =}s;
+    $js =~ s{var o_$name = o_$name;}{}s;
+    $js =~ s{^\s*(.*?)\s*$}{$1}s;
+    $js .= "\no.$name = o_$name;";
+
+    $file->{requires} = \@requires;
+    $file->{js} = "$js\n";
+
+    return;
+}
+
+__END__
+
+=head1 NAME
+
+combine - Combine the source o.js modules into a single file.
+
+=head1 SYNOPSIS
+
+    cd o-js
+    bin/combine
+    git add o.js
+
+=head1 DESCRIPTION
+
+This script takes the various o.js source CommonJS/NPM style modules
+and creates a single JavaScript file ready for inclusion in a website.
+
+=head1 ARGUMENTS
+
+=head2 help
+
+    bin/combine --help
+
+Shows this documentation.
+
+=head2 lib-dir
+
+    bin/combine --lib-dir=<path-to-lib>
+
+The directory where the source o.js modules reside.  Defaults to
+C<$script_dir/../lib>.
+
+=head2 out-file
+
+    bin/combine --out-file=<path-to-out-js>
+
+The filename to write the resulting, combined, JavaScript to.  Defaults
+to C<$script_dir/../o.js>.
+
+=head2 require
+
+    bin/combine --require=<module>,<module>
+
+A list of required o.js modules that you would like included in the
+resulting combined JavaScript.  If a module specified has dependencies
+that are not specified then the dependencies will automatically be
+included.
+
+Defaults to all modules required by the main C<o.js> module found in
+the lib directory.
+
+=head2 version
+
+    bin/combine --version=<version-tag>
+
+Override the default version that will included in the version header
+in the combined JavaScript.
