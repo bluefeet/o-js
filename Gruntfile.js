@@ -41,5 +41,20 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['node_tap']);
     grunt.registerTask('minify', ['uglify']);
 
-    grunt.registerTask('default', ['lint', 'test', 'minify']);
+    grunt.registerTask('combine', 'Combine lib/*.js into a single o.js.', function() {
+        var done = this.async();
+        var exec = require('child_process').execFile;
+
+        exec('bin/combine', function (err, std) {
+            if (!err) {
+                done( true )
+            }
+            else {
+                grunt.log.write( std );
+                done( false );
+            }
+        });
+    });
+
+    grunt.registerTask('default', ['lint', 'test', 'combine', 'minify']);
 };
