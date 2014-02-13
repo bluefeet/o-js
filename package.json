@@ -43,7 +43,11 @@
     "main": "lib/o.js",
 
     "devDependencies": {
-        "tap": ">=0.4.0"
+        "tap": "~0.4.8",
+        "grunt": "~0.4.2",
+        "grunt-contrib-jshint": "~0.8.0",
+        "grunt-node-tap": "~0.1.52",
+        "grunt-contrib-uglify": "~0.3.2"
     },
 
     "scripts": {

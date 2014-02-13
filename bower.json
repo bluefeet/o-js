@@ -15,6 +15,8 @@
         ".npmignore",
         ".gitignore",
         "bin",
-        "package.json"
+        "package.json",
+        "Gruntfile.js",
+        ".jshintrc"
     ]
 }

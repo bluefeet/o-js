@@ -1,3 +1,7 @@
+NEXT VERSION
+ Global:
+ - Using Grunt for build tools.
+
 0.0.9 : 2014-02-04
  Global:
  - Migrated everything to CommonJS format modules (no more hacks for the
