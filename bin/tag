@@ -39,7 +39,7 @@ print "The version for this tag will be $version.\n";
 exit 0 if !$u->ask_yn('Continue and insert this version into files? [y/N]', 'n');
 
 inject_version();
-print $u->repo_run('diff', "$repo_dir/") if $u->ask_yn('Show git diff? [Y/n]', 'y');
+print $u->git_run('diff', "$repo_dir/") if $u->ask_yn('Show git diff? [Y/n]', 'y');
 
 exit 0 if !$u->ask_yn('Continue and stage all changes for commit? [y/N]', 'n');
 stage_changes();
@@ -62,10 +62,10 @@ sub inject_version {
     my $changes_re = qr{^(DEVELOPMENT VERSION)};
 
     # package.json and bower.json should have a "version":"..." field.
-    my $json_re = qr{("version"\s*:\s*")(")};
+    my $json_re = qr{("version"\s*:\s*").*?(")};
 
     # The combined and minified sources should have a banner.
-    my $js_re = qr{(o.js : )DEVELOPMENT VERSION( : http)};
+    my $js_re = qr{(o.js : ).*?( : http)};
 
     my $changes_txt = $u->slurp('CHANGES.txt');
     die "ERROR: CHANGES.txt looks broken.\n"
