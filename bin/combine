@@ -1,18 +1,19 @@
 #!/usr/bin/env perl
 use strict;
-use warnings FATAL => 'all';
-
+use warnings;
 use autodie;
+
 use FindBin qw( $Bin );
 use Getopt::Long;
 use Pod::Usage qw( pod2usage );
 
+use lib $Bin;
+use Util;
+
 GetOptions(
     'help'       => \my $help,
-    'lib-dir=s'  => \my $lib_dir,
-    'out-file=s' => \my $out_file,
+    'repo-dir=s' => \my $repo_dir,
     'require=s'  => \my @requires,
-    'version=s'  => \my $version,
 ) or die "Unable to process options.\n";
 
 if ($help) {
@@ -20,17 +21,12 @@ if ($help) {
     exit 0;
 }
 
-$lib_dir  ||= "$Bin/../lib";
-$out_file ||= "$Bin/../o.js";
+my $u = Util->new( $repo_dir ? (repo_dir => $repo_dir) : () );
+$repo_dir = $u->repo_dir();
+
 @requires = map { split(/,/, $_) } @requires;
-
-print "# lib-dir: $lib_dir\n";
-print "# out-file: $out_file\n";
-print "# version: $version\n" if $version;
-
 if (!@requires) {
-    open(my $fh, '<', "$lib_dir/o.js");
-    my $js = do { local $/; <$fh> };
+    my $js = $u->slurp("lib/o.js");
 
     $js =~ s{
         (\S+): \s* require\(
@@ -40,18 +36,8 @@ if (!@requires) {
     }sxeg;
 }
 
-print '# require: ' . join(', ', @requires) . "\n";
-
 my $files = {};
 load_file( $_ ) for @requires;
-
-print "Generating version header...\n";
-my $version_command = "$Bin/version-header";
-$version_command .= " --version=$version" if $version;
-my $version_header = `$version_command`;
-die "Version header doesn't look right!" if $version_header !~ m{^//.*v\d}s;
-$version_header =~ s{\s*$}{}s;
-print "Version header generated.\n";
 
 print "Generating combined JavaScript...\n";
 
@@ -77,12 +63,12 @@ while (@names_left) {
     }
 }
 
-print "Done generating.\nWriting combined JavaScript to '$out_file'...\n";
+print "Done generating.\n";
 
-open(my $fh, '>', $out_file);
+print "Writing combined JavaScript...\n";
 
-print $fh <<JS;
-$version_header
+my $js = <<JS;
+// o.js : DEVELOPMENT VERSION : http://o-js.com : MIT License
 
 (function() {
 
@@ -99,11 +85,13 @@ o.noConflict = function () {
 JS
 
 foreach my $name (@names_sorted) {
-    print $fh "\n// o.$name\n";
-    print $fh $files->{$name}->{js};
+    $js .= "\n// o.$name\n";
+    $js .= $files->{$name}->{js};
 }
 
-print $fh "\n}).call(this);\n";
+$js .= "\n}).call(this);\n";
+
+$u->spew('o.js', $js);
 
 print "All done!\n";
 
@@ -114,8 +102,7 @@ sub load_file {
 
     print "Loading o-$name module.\n";
 
-    open(my $fh, '<', "$lib_dir/o-$name.js");
-    my $js = do { local $/; <$fh> };
+    my $js = $u->slurp("lib/o-$name.js");
 
     my @requires;
     $js =~ s{
@@ -163,19 +150,19 @@ and creates a single JavaScript file ready for inclusion in a website.
 
 Shows this documentation.
 
-=head2 lib-dir
+=head2 repo-dir
 
-    bin/combine --lib-dir=<path-to-lib>
+    bin/combine --repo-dir=<path-to-o-js-repo>
 
-The directory where the source o.js modules reside.  Defaults to
-C<$script_dir/../lib>.
+The directory where the o-js git repo is cloned.  Defaults to
+C<script-dir/..>.
 
 =head2 out-file
 
     bin/combine --out-file=<path-to-out-js>
 
 The filename to write the resulting, combined, JavaScript to.  Defaults
-to C<$script_dir/../o.js>.
+to C<repo-dir/o.js>.
 
 =head2 require
 
@@ -188,10 +175,3 @@ included.
 
 Defaults to all modules required by the main C<o.js> module found in
 the lib directory.
-
-=head2 version
-
-    bin/combine --version=<version-tag>
-
-Override the default version that will included in the version header
-in the combined JavaScript.
