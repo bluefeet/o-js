@@ -16,6 +16,7 @@ GetOptions(
     'version=s'  => \my $version,
     'repo-dir=s' => \my $repo_dir,
     'force'      => \my $force,
+    'no-prompt'  => \my $no_prompt,
 ) or die "ERROR: Unable to process options.\n";
 
 if ($help) {
@@ -36,21 +37,21 @@ $version ||= $u->current_version();
 $version = $u->next_version( $version, $next ) if $next;
 
 print "The version for this tag will be $version.\n";
-exit 0 if !$u->ask_yn('Continue and insert this version into files? [y/N]', 'n');
+exit 0 unless $no_prompt or $u->ask_yn('Continue and insert this version into files? [y/N]', 'n');
 
 inject_version();
-print $u->git_run('diff', '-U0', "$repo_dir/") if $u->ask_yn('Show git diff? [Y/n]', 'y');
+print $u->git_run('diff', '-U0', "$repo_dir/") unless $no_prompt or !$u->ask_yn('Show git diff? [Y/n]', 'y');
 
-exit 0 if !$u->ask_yn('Continue and stage all changes for commit? [y/N]', 'n');
+exit 0 unless $no_prompt or $u->ask_yn('Continue and stage all changes for commit? [y/N]', 'n');
 stage_changes();
 
-exit 0 if !$u->ask_yn('Continue and commit all staged changes? [y/N]', 'n');
+exit 0 unless $no_prompt or $u->ask_yn('Continue and commit all staged changes? [y/N]', 'n');
 commit_changes();
 
-exit 0 if !$u->ask_yn('Continue and create the tag? [y/N]', 'n');
+exit 0 unless $no_prompt or $u->ask_yn('Continue and create the tag? [y/N]', 'n');
 create_tag();
 
-exit 0 if !$u->ask_yn('Continue and push tag to origin? [y/N]', 'n');
+exit 0 unless $no_prompt or $u->ask_yn('Continue and push tag to origin? [y/N]', 'n');
 push_tag();
 
 print "All done, happy releasing!\n";

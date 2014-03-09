@@ -67,7 +67,7 @@ module.exports = function(grunt) {
     grunt.registerTask(
         'tag',
         'Determine next version, modify files to reference it, and commit the tag.',
-        function(next) { exec('bin/tag --next=' + next, this.async()); }
+        function(next) { exec('bin/tag --no-prompt --next=' + next, this.async()); }
     );
 
     grunt.registerTask('default', ['lint', 'test', 'combine', 'minify']);
