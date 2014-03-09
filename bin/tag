@@ -116,7 +116,7 @@ sub create_tag {
 }
 
 sub push_tag {
-    $u->git_run('push', '--tags');
+    $u->git_run('push', '--follow-tags');
 }
 
 __END__
