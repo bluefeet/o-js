@@ -1,4 +1,4 @@
-// o.js : v0.0.9 : http://o-js.com : MIT License
+// o.js : DEVELOPMENT VERSION : http://o-js.com : MIT License
 
 (function() {
 
@@ -54,6 +54,13 @@ var o_clearer = function (key) {
 };
 o.clearer = o_clearer;
 
+// o.getPrototypeOf
+var o_getPrototypeOf = function (obj) {
+    if (Object.getPrototypeOf) return Object.getPrototypeOf(obj);
+    return Object.__proto__; // jshint ignore:line
+};
+o.getPrototypeOf = o_getPrototypeOf;
+
 // o.has
 var o_has = function (obj, key) {
     return Object.prototype.hasOwnProperty.call( obj, key );
@@ -70,8 +77,8 @@ var o_local = function (obj, prop, func) {
         ret = func();
     }
     finally {
-        if (hasProp) { obj[prop] = origVal }
-        else { delete obj[prop] }
+        if (hasProp) { obj[prop] = origVal; }
+        else { delete obj[prop]; }
     }
 
     return ret;
@@ -155,9 +162,9 @@ o.writer = o_writer;
 
 // o.clone
 var o_clone = function (obj) {
-    var newObj = o_merge( {}, obj );
-    newObj.__proto__ = obj.__proto__;
+    var newObj = Object.create( o_getPrototypeOf(obj) );
     newObj.constructor = obj.constructor;
+    o_merge( newObj, obj );
     return newObj;
 };
 o.clone = o_clone;
@@ -205,7 +212,7 @@ o_Type = o_construct(
     },
     {
         check: function (val) {
-            if (this._parent) { if (!this._parent.check(val)) return false }
+            if (this._parent) { if (!this._parent.check(val)) return false; }
             if (!this._validateMethod) return true;
             if (!this._validateMethod( val )) return false;
             return true;
@@ -224,7 +231,7 @@ o_Type = o_construct(
             return val;
         },
         subtype: function (args) {
-            if (typeof args === 'function') { args = { validate: args } }
+            if (typeof args === 'function') { args = { validate: args }; }
             return new o_Type(
                 o_merge( {parent:this}, args )
             );
@@ -253,12 +260,10 @@ var o_augment = function (parent, constructor, proto) {
         constructor
     );
 
-    proto = proto
-            ? o_merge( {}, constructor.prototype, proto )
-            : o_clone( constructor.prototype );
+    childProto = Object.create( parent.prototype );
+    if (proto) o_merge( childProto, proto );
 
-    proto.__proto__ = parent.prototype;
-    child.prototype = proto;
+    child.prototype = childProto;
 
     return child;
 };
@@ -576,18 +581,18 @@ var attrAttrs = {
     },
     argKey: {
         type: new o_AnyType([ o_nonEmptyStringType, o_nullType ]),
-        devoid: function () { return this.key() }
+        devoid: function () { return this.key(); }
     },
     valueKey: {
         type: o_nonEmptyStringType,
-        devoid: function () { return '_' + this.key() }
+        devoid: function () { return '_' + this.key(); }
     },
 
     devoid: { type: o_definedType },
     builder: {
         type: booleanOrNonEmptyStringType,
         devoid: false,
-        filter: function (val) { if (val === true) val = 'build' + o_ucFirst( this.key() ); return val }
+        filter: function (val) { if (val === true) val = 'build' + o_ucFirst( this.key() ); return val; }
     },
     required: { type: o_booleanType, devoid: false },
     type: {
@@ -605,22 +610,22 @@ var attrAttrs = {
     reader: {
         type: booleanOrNonEmptyStringType,
         devoid: true,
-        filter: function (val) { if (val === true) val = this.key(); return val }
+        filter: function (val) { if (val === true) val = this.key(); return val; }
     },
     writer: {
         type: booleanOrNonEmptyStringType,
         devoid: false,
-        filter: function (val) { if (val === true) val = this.key(); return val }
+        filter: function (val) { if (val === true) val = this.key(); return val; }
     },
     predicate: {
         type: booleanOrNonEmptyStringType,
         devoid: false,
-        filter: function (val) { if (val === true) val = 'has' + o_ucFirst( this.key() ); return val }
+        filter: function (val) { if (val === true) val = 'has' + o_ucFirst( this.key() ); return val; }
     },
     clearer: {
         type: booleanOrNonEmptyStringType,
         devoid: false,
-        filter: function (val) { if (val === true) val = 'clear' + o_ucFirst( this.key() ); return val }
+        filter: function (val) { if (val === true) val = 'clear' + o_ucFirst( this.key() ); return val; }
     },
     proxies: { type: new o_ObjectOfType( o_nonEmptyStringType ) }
 };
@@ -636,7 +641,7 @@ var o_Attribute = o_construct(
     function (args) {
         this._originalArgs = o_clone( args );
         // Write the "key" attribute first as some filters depend on it.
-        attrWriters['key'].call( this, args['key'] );
+        attrWriters.key.call( this, args.key );
         for (var key in args) {
             attrWriters[key].call( this, args[key] );
         }
@@ -790,39 +795,41 @@ o_Trait = o_construct(
     },
     {
         install: function (obj, args) {
+            var i, l, name;
+
             var requires = this.requires();
-            for (var i = 0, l = requires.length; i < l; i++) {
+            for (i = 0, l = requires.length; i < l; i++) {
                 if (obj[requires[i]] !== undefined) continue;
                 throw new Error( required[i] + ' is required.' );
             }
 
             var traits = this.traits();
-            for (var i = 0, l = traits.length; i < l; i++) {
+            for (i = 0, l = traits.length; i < l; i++) {
                 traits[i].install( obj );
             }
 
             var attributes = this.attributes();
-            for (var name in attributes) {
+            for (name in attributes) {
                 attributes[name].install( obj );
             }
 
             var methods = this.methods();
-            for (var name in methods) {
+            for (name in methods) {
                 obj[name] = methods[name];
             }
 
             var around = this.around();
-            for (var name in around) {
+            for (name in around) {
                 obj[name] = o_around( obj[name], around[name] );
             }
 
             var before = this.before();
-            for (var name in before) {
+            for (name in before) {
                 obj[name] = o_before( obj[name], before[name] );
             }
 
             var after = this.after();
-            for (var name in after) {
+            for (name in after) {
                 obj[name] = o_after( obj[name], after[name] );
             }
 
@@ -836,13 +843,14 @@ o_Trait = o_construct(
             // that any filters that depend on other attributes are set
             // last.  Avoids a common race conditions when using filters.
             var attributes = this.attributes();
+            var name;
 
-            for (var name in attributes) {
+            for (name in attributes) {
                 if (attributes[name].filter()) continue;
                 attributes[name].setValueFromArgs( obj, args );
             }
 
-            for (var name in attributes) {
+            for (name in attributes) {
                 if (!attributes[name].filter()) continue;
                 attributes[name].setValueFromArgs( obj, args );
             }
@@ -850,9 +858,10 @@ o_Trait = o_construct(
 
         buildType: function () {
             var duck = {};
+            var name;
 
             var attributes = this.attributes();
-            for (var name in attributes) {
+            for (name in attributes) {
                 var attribute = attributes[name];
                 if (attribute.reader()) duck[attribute.reader()] = o_functionType;
                 if (attribute.writer()) duck[attribute.writer()] = o_functionType;
@@ -860,12 +869,12 @@ o_Trait = o_construct(
                 if (attribute.clearer()) duck[attribute.clearer()] = o_functionType;
             }
 
-            for (var name in this.methods()) {
+            for (name in this.methods()) {
                 duck[name] = o_functionType;
             }
 
             var isPrivate = /^_/m;
-            for (var name in duck) {
+            for (name in duck) {
                 if (name.match(isPrivate)) delete duck[name];
             }
 
@@ -887,19 +896,19 @@ traitAttrs = [
     {
         key: 'requires',
         type: new o_ArrayOfType( o_definedType ),
-        devoid: function () { return [] }
+        devoid: function () { return []; }
     },
 
     {
         key: 'traits',
         type: new o_ArrayOfType( new o_InstanceOfType( o_Trait ) ),
-        devoid: function () { return [] }
+        devoid: function () { return []; }
     },
 
     {
         key: 'attributes',
         type: new o_ObjectOfType( o_attributeType ),
-        devoid: function () { return {} },
+        devoid: function () { return {}; },
         filter: function (val) {
             var attributes = {};
             for (var key in val) {
@@ -919,25 +928,25 @@ traitAttrs = [
     {
         key: 'methods',
         type: new o_ObjectOfType( o_functionType ),
-        devoid: function () { return {} }
+        devoid: function () { return {}; }
     },
 
     {
         key: 'around',
         type: new o_ObjectOfType( o_functionType ),
-        devoid: function () { return {} }
+        devoid: function () { return {}; }
     },
 
     {
         key: 'before',
         type: new o_ObjectOfType( o_functionType ),
-        devoid: function () { return {} }
+        devoid: function () { return {}; }
     },
 
     {
         key: 'after',
         type: new o_ObjectOfType( o_functionType ),
-        devoid: function () { return {} }
+        devoid: function () { return {}; }
     },
 
     {
