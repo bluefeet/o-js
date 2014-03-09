@@ -1,4 +1,4 @@
-// o.js : DEVELOPMENT VERSION : http://o-js.com : MIT License
+// o.js : 0.0.10 : http://o-js.com : MIT License
 
 (function() {
 

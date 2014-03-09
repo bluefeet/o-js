@@ -1,6 +1,6 @@
 {
     "name":    "o",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "main":    "o.js",
 
     "description": "JavaScript utility belt for rich objects and prototypes. Ooooh!",
