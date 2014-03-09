@@ -1,8 +1,9 @@
+DEVELOPMENT VERSION
+
 0.0.10 : 2014-03-09
  Global:
- - Using Grunt for build tools.
+ - Use Grunt for build tools.
  - Lots of reworking of the build tools - much less room for human error.
- - Removed all references to __proto__.
  - Created an Object.getPrototypeOf() shim which calls __proto__ if not
    available in order to support older browsers.  This is available as the
    plumbing function o.getPrototypeOf().
