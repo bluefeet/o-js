@@ -39,7 +39,7 @@ print "The version for this tag will be $version.\n";
 exit 0 if !$u->ask_yn('Continue and insert this version into files? [y/N]', 'n');
 
 inject_version();
-print $u->git_run('diff', "$repo_dir/") if $u->ask_yn('Show git diff? [Y/n]', 'y');
+print $u->git_run('diff', '-U0', "$repo_dir/") if $u->ask_yn('Show git diff? [Y/n]', 'y');
 
 exit 0 if !$u->ask_yn('Continue and stage all changes for commit? [y/N]', 'n');
 stage_changes();
