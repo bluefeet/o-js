@@ -67,7 +67,7 @@ module.exports = function(grunt) {
     grunt.registerTask(
         'tag',
         'Determine next version, modify files to reference it, and commit the tag.',
-        function(next) { exec('bin/tag --no-prompt --next=' + next, this.async()); }
+        function (next) { exec('bin/tag --no-prompt --next=' + next, this.async()); }
     );
 
     grunt.registerTask('default', ['lint', 'test', 'combine', 'minify']);
@@ -76,5 +76,19 @@ module.exports = function(grunt) {
     grunt.registerTask('release-minor', ['default', 'tag:minor']);
     grunt.registerTask('release-patch', ['default', 'tag:patch']);
 
-    /// grunt.registerTask('publish', ['publish-npm', 'publish-jam', 'publish-bower']);
+    grunt.registerTask(
+        'publish-npm',
+        'Publish current checked out release to NPM.',
+        function () { exec('npm publish', this.async()); }
+    );
+
+    grunt.registerTask(
+        'publish-jam',
+        'Publish current checked out release to Jam.',
+        function () { exec('jam publish', this.async()); }
+    );
+
+    // Note that Bower does not need a publish task as it automatically
+    // finds new releases by looking at the tags in GitHub.
+    grunt.registerTask('publish', ['publish-npm', 'publish-jam']);
 };
