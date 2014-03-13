@@ -17,6 +17,7 @@
         "bin",
         "package.json",
         "Gruntfile.js",
-        ".jshintrc"
+        ".jshintrc",
+        ".lvimrc"
     ]
 }

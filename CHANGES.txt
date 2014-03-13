@@ -1,4 +1,7 @@
 DEVELOPMENT VERSION
+ Global:
+ - Added a .lvimrc file to enforce indentation style (requires the
+   vim-localvimrc plugin).
 
 0.0.10 : 2014-03-09
  Global:
