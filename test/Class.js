@@ -59,3 +59,28 @@ test('basic', function (t) {
 
     t.end();
 });
+
+test('traits', function (t) {
+    var trait = new o.Trait({
+        attributes: {
+            traitAttr: {}
+        }
+    });
+
+    var Class = new o.Class({
+        traits: [ trait ],
+        attributes: {
+            classAttr: {}
+        }
+    });
+
+    var obj = new Class({
+        traitAttr: 'foo',
+        classAttr: 'bar'
+    });
+
+    t.is( obj.traitAttr(), 'foo', 'ok' );
+    t.is( obj.classAttr(), 'bar', 'ok' );
+
+    t.end();
+});

@@ -2,6 +2,10 @@ DEVELOPMENT VERSION
  Global:
  - Added a .lvimrc file to enforce indentation style (requires the
    vim-localvimrc plugin).
+ Traits:
+ - Recursively set child trait attribute arguments when calling setFromArgs.
+   This means that when making a class instance that arguments for child
+   trait attributes will now be applied as they should have been.
 
 0.0.10 : 2014-03-09
  Global:
