@@ -37,7 +37,7 @@
     "contributors": [{
         "name":  "Aran Deltac",
         "email": "bluefeet@gmail.com",
-        "web":   "http://blog.bluefeet.net"
+        "web":   "http://bluefeet.net"
     }],
 
     "main": "lib/o.js",

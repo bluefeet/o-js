@@ -2,6 +2,8 @@ DEVELOPMENT VERSION
  Global:
  - Added a .lvimrc file to enforce indentation style (requires the
    vim-localvimrc plugin).
+ - Default o.Class, o.Trait, and o.Attribute constructor arguments to
+   an empty object (o.Type was already doing this).
  Traits:
  - Recursively set child trait attribute arguments when calling setFromArgs.
    This means that when making a class instance that arguments for child

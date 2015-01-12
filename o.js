@@ -639,6 +639,7 @@ for (var key in attrAttrs) {
 
 var o_Attribute = o_construct(
     function (args) {
+        args = args || {};
         this._originalArgs = o_clone( args );
         // Write the "key" attribute first as some filters depend on it.
         attrWriters.key.call( this, args.key );
@@ -789,6 +790,7 @@ var o_Trait;
 
 o_Trait = o_construct(
     function (args) {
+        args = args || {};
         for (var i = 0, l = traitAttrs.length; i < l; i++) {
             traitAttrs[i].setValueFromArgs( this, args );
         }
@@ -1004,6 +1006,7 @@ var o_Class = o_construct(
     function (args) {
         var trait = new o_Trait( args );
         var constructor = function (args) {
+            args = args || {};
             trait.setFromArgs( this, args );
         };
         trait.install( constructor.prototype );
