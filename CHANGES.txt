@@ -8,6 +8,13 @@ DEVELOPMENT VERSION
  - Recursively set child trait attribute arguments when calling setFromArgs.
    This means that when making a class instance that arguments for child
    trait attributes will now be applied as they should have been.
+ Attributes:
+ - Use the new identifier type instead of the nonEmptyString type for various
+   arguments such as key, predicate, etc.
+ Types:
+ - Added an identifier type to match against valid JavaScript idenitfiers
+   rules (does not currently support unicode characters), per:
+   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Values,_variables,_and_literals#Variables
 
 0.0.10 : 2014-03-09
  Global:
