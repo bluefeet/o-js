@@ -18,6 +18,7 @@
         "package.json",
         "Gruntfile.js",
         ".jshintrc",
-        ".lvimrc"
+        ".lvimrc",
+        "doc"
     ]
 }

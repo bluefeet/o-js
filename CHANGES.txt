@@ -4,6 +4,8 @@ DEVELOPMENT VERSION
    vim-localvimrc plugin).
  - Default o.Class, o.Trait, and o.Attribute constructor arguments to
    an empty object (o.Type was already doing this).
+ - Moved wiki documentation into the main repo so that it is versioned
+   along with the code.
  Traits:
  - Recursively set child trait attribute arguments when calling setFromArgs.
    This means that when making a class instance that arguments for child
