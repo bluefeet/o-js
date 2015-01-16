@@ -540,6 +540,10 @@ o.PatternType = o_PatternType;
 var o_definedType = new o_NotType( o_undefinedType );
 o.definedType = o_definedType;
 
+// o.identifierType
+var o_identifierType = new o_PatternType(/^[A-Za-z_$][A-Za-z_$0-9]*$/);
+o.identifierType = o_identifierType;
+
 // o.integerType
 var o_integerType = o_numberType.subtype( function (val) {
     return (Math.floor(val) === val + 0) ? true : false;
@@ -569,28 +573,28 @@ var o_positiveIntType = new o_AllType([ o_integerType, o_positiveType ]);
 o.positiveIntType = o_positiveIntType;
 
 // o.Attribute
-var booleanOrNonEmptyStringType = new o_AnyType([
+var booleanOrIdentifierType = new o_AnyType([
     o_booleanType,
-    o_nonEmptyStringType
+    o_identifierType
 ]);
 
 var attrAttrs = {
     key: {
-        type: o_nonEmptyStringType,
+        type: o_identifierType,
         required: true
     },
     argKey: {
-        type: new o_AnyType([ o_nonEmptyStringType, o_nullType ]),
+        type: new o_AnyType([ o_identifierType, o_nullType ]),
         devoid: function () { return this.key(); }
     },
     valueKey: {
-        type: o_nonEmptyStringType,
+        type: o_identifierType,
         devoid: function () { return '_' + this.key(); }
     },
 
     devoid: { type: o_definedType },
     builder: {
-        type: booleanOrNonEmptyStringType,
+        type: booleanOrIdentifierType,
         devoid: false,
         filter: function (val) { if (val === true) val = 'build' + o_ucFirst( this.key() ); return val; }
     },
@@ -608,26 +612,26 @@ var attrAttrs = {
     chain: { type: o_booleanType, devoid: false },
 
     reader: {
-        type: booleanOrNonEmptyStringType,
+        type: booleanOrIdentifierType,
         devoid: true,
         filter: function (val) { if (val === true) val = this.key(); return val; }
     },
     writer: {
-        type: booleanOrNonEmptyStringType,
+        type: booleanOrIdentifierType,
         devoid: false,
         filter: function (val) { if (val === true) val = this.key(); return val; }
     },
     predicate: {
-        type: booleanOrNonEmptyStringType,
+        type: booleanOrIdentifierType,
         devoid: false,
         filter: function (val) { if (val === true) val = 'has' + o_ucFirst( this.key() ); return val; }
     },
     clearer: {
-        type: booleanOrNonEmptyStringType,
+        type: booleanOrIdentifierType,
         devoid: false,
         filter: function (val) { if (val === true) val = 'clear' + o_ucFirst( this.key() ); return val; }
     },
-    proxies: { type: new o_ObjectOfType( o_nonEmptyStringType ) }
+    proxies: { type: new o_ObjectOfType( o_identifierType ) }
 };
 
 var attrWriters = {};
