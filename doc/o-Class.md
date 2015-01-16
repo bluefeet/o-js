@@ -1,3 +1,6 @@
+o.Class
+=======
+
 `o.Class` is a thin wrapper around a `o.Trait` and accepts all the same arguments.  The
 underlying trait of the class is installed on the class's prototype so that any objects
 created by the class have the trait automatically applied.
@@ -23,7 +26,7 @@ var bilbo = new Person({
 console.log( bilbo.fullName() ); // Bilbo Baggins
 ```
 
-See the [o.Trait Documentation](Trait.md) for what arguments this accepts.
+See the [o.Trait Documentation](o-Trait.md) for what arguments this accepts.
 
 Constructors created by `o.Class` have an internal-only trait assigned to them called
 `ClassTrait` which exposes a `type` and a `trait` attribute.
