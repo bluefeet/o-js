@@ -6,12 +6,12 @@ JavaScript utility belt for rich objects and prototypes. Ooooh!
 # Resources
 
 - [The o-js.com Site](http://o-js.com)
-- [o.Class Documentation](doc/Class)
-- [o.Trait Documentation](doc/Trait)
-- [o.Attribute Documentation](doc/Attribute)
-- [o.Type Documentation](doc/Type)
-- [Types Documentation](doc/Types)
-- [Plumbing Documentation](doc/Plumbing)
+- [o.Class Documentation](doc/Class.md)
+- [o.Trait Documentation](doc/Trait.md)
+- [o.Attribute Documentation](doc/Attribute.md)
+- [o.Type Documentation](doc/Type.md)
+- [Types Documentation](doc/Types.md)
+- [Plumbing Documentation](doc/Plumbing.md)
 
 # Custom Builds
 

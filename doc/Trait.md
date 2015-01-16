@@ -53,7 +53,7 @@ attributes: {
 }
 ```
 
-An object containing [o.Attribute](o.Attribute) objects, or arguments to create them,
+An object containing [o.Attribute](Attribute.md) objects, or arguments to create them,
 where the key will be used as the attribute's `key` argument.  If an attribute object
 is passed, rather than arguments for one, and the attribute's key does not match then
 the attribute's `rebuild()` method will be called to create a new attribute object with

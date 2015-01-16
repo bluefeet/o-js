@@ -84,7 +84,7 @@ the writer, or via devoid) must pass.
 Validation can be specified in three forms, 1) by passing a string which will pass if
 calling `typeof` on the value returns the same string, 2) by passing a function which
 will be called with the value as its only argument and is expected to return true or
-false, or 3) an [o.Type](o.Type) object.
+false, or 3) an [o.Type](Type.md) object.
 
 ## coerce
 
