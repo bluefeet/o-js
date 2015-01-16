@@ -1,7 +1,6 @@
-Types
-=====
+# Types
 
-# Objects
+## Objects
 
 Many type objects are already defined for all of the built-in JavaScript types.  Below is
 the list of the types that are currently available.  These type objects are all instances
@@ -64,7 +63,7 @@ obj = new o.Trait({});
 obj = o.traitType.coerce({});
 ```
 
-# Classes
+## Classes
 
 Type classes are used to construct complex types that solve common problems.  These
 classes all inherit from the [o.Type](o-Type.md) class and support all its arguments
@@ -74,7 +73,7 @@ These classes all accept two arguments.  The first argument is defined by the
 individual class and is required.  The second argument is optional and, if present,
 must be an object containing arguments as accepted by [o.Type](o.Type).
 
-## EqualType
+### EqualType
 
     <type> = new o.EqualType( <value>, [<arguments>] )
 
@@ -87,7 +86,7 @@ if (!greenType.check('blue')) console.log('blue is not green');
 Creates a type that validates that the passed in value passes a strict comparison
 against the `<value>` argument.
 
-## AnyType
+### AnyType
 
     <type> = new o.AnyType( <typesArray>, [<arguments>] )
 
@@ -101,21 +100,21 @@ if (!numOrStrType.check(null)) console.log('null is not a num or str');
 This type class creates a type that verifies that the passed in value passes at least
 one of the types in `<typesArray>`.
 
-## AllType
+### AllType
 
     <type> = new o.AllType( <typesArray>, [<arguments>] )
 
 Similar to `o.AnyType`, this type class verifies that the passed in value passes every
 single one of the types in `<typesArray>`.
 
-## NoneType
+### NoneType
 
     <type> = new o.NoneType( <typesArray>, [<arguments>] )
 
 This is the opposite of `o.AllType` in that value must not pass any of the types in
 `<typesArray>`.
 
-## NotType
+### NotType
 
     <type> = new o.NotType( <type>, [<arguments>] );
 
@@ -129,7 +128,7 @@ if (notNullType.check(1)) console.log('1 is not null');
 This inverts the given `<type>`'s validation, causing it to return `true` if it would
 have returned `false`, and `false` if it would have returned `true`.
 
-## EnumType
+### EnumType
 
     <type> = new o.EnumType( <valuesArray>, [<arguments>] )
 
@@ -142,7 +141,7 @@ if (!rgbType.check('purple')) console.log('purple is not rgb');
 Creates an enum type where the value must strictly match one of the
 values in `<valuesArray>`.
 
-## TypeOfType
+### TypeOfType
 
     <type> = new o.TypeOfType( <typeofString>, [<arguments>] )
 
@@ -159,7 +158,7 @@ actually how all the pre-defined primitive types are created, such as
 Considering that all the types that `typeof` checks already have a corresponding
 pre-defined type, there should be no need to use this type.
 
-## InstanceOfType
+### InstanceOfType
 
     <type> = new o.InstanceOfType( <constructor>, [<arguments>] )
 
@@ -183,7 +182,7 @@ If the `constructor` was created by `o.Class` then a coercion will be declared o
 created type which will check if the value is a `simpleObject`, and if it is, it will
 use the value as arguments to the constructor to create an instance.
 
-## DuckType
+### DuckType
 
     <type> = new o.DuckType( <propertiesArray>, [<arguments>] )
     <type> = new o.DuckType( <propertiesObject>, [<arguments>] )
@@ -211,7 +210,7 @@ Duck types are a great way to validate objects as they check that the object sup
 an interface that you depend on, abstracting away what the object is, and focusing
 on what the object does.
 
-## ArrayOfType
+### ArrayOfType
 
     <type> = new o.ArrayOfType( <type>, [<arguments>] )
 
@@ -227,7 +226,7 @@ match the `<type>`.
 A coercion is declared on this type wich will coerce any values within the array using
 the inner type's coercion logic (if any).
 
-## ObjectOfType
+### ObjectOfType
 
     <type> = new o.ObjectOfType( <type>, [<arguments>] )
 
@@ -237,7 +236,7 @@ within the object match the `<type>`.
 A coercion is declared on this tye which will coerce any values within the object using
 the inner type's coercion logic (if any).
 
-## PatternType
+### PatternType
 
     <type> = new o.PatternType( <RegExp>, [<arguments>] )
 
@@ -249,7 +248,7 @@ if (!nameType.check('george')) console.log('george does not look like a name');
 
 Creates a type that checks that the values passes the `<RegExp>` pattern.
 
-# Using Types Standalone
+## Using Types Standalone
 
 Types can be used independently of the rest of o.js, such as in conjunction with
 form validation libraries.  If you'd like to check if a value is valid, or not,
