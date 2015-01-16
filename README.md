@@ -1,9 +1,8 @@
-o.js
-====
+# o.js
 
 JavaScript utility belt for rich objects and prototypes. Ooooh!
 
-# Resources
+## Resources
 
 - [The o-js.com Site](http://o-js.com)
 - [o.Class Documentation](doc/o-Class.md)
@@ -13,7 +12,7 @@ JavaScript utility belt for rich objects and prototypes. Ooooh!
 - [Types Documentation](doc/Types.md)
 - [Plumbing Documentation](doc/Plumbing.md)
 
-# Custom Builds
+## Custom Builds
 
 Custom builds of o.js, containing only the features you need, can be created easily by cloning the o-js repo, getting your environment setup (see Developer Setup below), and using the `bin/combine` tool like this:
 
@@ -27,7 +26,7 @@ Make sure that you know which version of o.js you are creating a build of.  If y
 
 Then when you run `bin/combine` you'll be using the code from that version.
 
-# Contributing
+## Contributing
 
 Changes to o.js must be minimal and deliberate.  Currently the focus is contradictory - add helpful features, increase browser/platform support, and reduce the minified size.
 
@@ -40,7 +39,7 @@ The typical way to contribute changes to o.js is by forking the GitHub repositor
 - Use the same coding style as the rest of the code base.
 - Run `grunt` which will lint your changes, run all tests, and integrate your changes with the combined o.js and uglified o.min.js.
 
-# Developer Setup
+## Developer Setup
 
 In order to run the tests, minify the javascript, and/or create a custom build you'll want to install some development tools.
 
@@ -52,7 +51,7 @@ In order to run the tests, minify the javascript, and/or create a custom build y
  - `npm install -g grunt-cli tap`
 - Make sure everything works by running `grunt`.
 
-# Media
+## Media
 
 Currently the only branding that o.js has is the icon which is used for the site's `favicon.png` and, slightly modified, for the `apple-touch-icon.png`.
 

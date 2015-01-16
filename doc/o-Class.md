@@ -1,5 +1,4 @@
-o.Class
-=======
+# o.Class
 
 `o.Class` is a thin wrapper around a `o.Trait` and accepts all the same arguments.  The
 underlying trait of the class is installed on the class's prototype so that any objects

@@ -1,9 +1,8 @@
-Plumbing
-========
+# Plumbing
 
-# Utilities
+## Utilities
 
-## construct
+### construct
 
     <constructor> = o.construct( <constructor>, <prototype> );
 
@@ -22,7 +21,7 @@ console.log( bilbo.hoursOld() ); // 972,360
 
 Provides shorthand for creating a new constructor with a prototype.  The `prototype` will be merged in to the `constructor`'s prototype.
 
-## augment
+### augment
 
     <newConstructor> = o.augment( <parentConstructor>, <constructor>, [<prototype>] )
 
@@ -41,7 +40,7 @@ Uses `o.around` where `parentConstructor` is the `origFunction` and `constructor
 
 Typically, in JavaScript inheritance, all that is setup is prototype inheritance.  This function takes this a step further by also inheriting the constructor function so that construction logic is maintained in the inheriting constructor.
 
-## merge
+### merge
 
     <object1> = o.merge( <object1>, <object2> [...] );
 
@@ -52,7 +51,7 @@ var merged = o.merge({a:1,b:1}, {b:2,c:2}, {c:3,d:3});
 
 Takes the first object and merges all subsequent objects in to it.  The farther right in the list the object is, the higher its precedence is.  Returns the first object.
 
-## clone
+### clone
 
     <newObject> = o.clone( <object> );
 
@@ -64,7 +63,7 @@ console.log( obj2.foo ); // 'bar'
 
 Clones the object by returning a new one with the same keys and values, constructor, and prototype.
 
-## has
+### has
 
     <boolean> = o.has( <object>, <key> );
 
@@ -75,7 +74,7 @@ if (o.has(obj, 'foo')) { /* do something */ }
 
 This is just shorthand for calling `hasOwnProperty`.
 
-## local
+### local
 
     o.local( <object>, <property>, <function> );
 
@@ -99,11 +98,11 @@ If an exception is thrown during the function's execution the exception will be 
 the property will still be restored to its original value, and the exception will be
 rethrown.
 
-## ucFirst
+### ucFirst
 
-# Function Modifiers
+## Function Modifiers
 
-## before
+### before
 
     <newFunction> = o.before( <origFunction>, <beforeFunction> );
 
@@ -116,7 +115,7 @@ combined(); // Logs "before", then "main".
 
 Creates a new function where the `beforeFunction` will be called before the `origFunction`.
 
-## after
+### after
 
     <newFunction> = o.after( <origFunction>, <afterFunction> );
 
@@ -129,7 +128,7 @@ combined(); // Logs "main", then "after".
 
 Creates a new function where the `afterFunction` will be called after the `origFunction`.
 
-## around
+### around
 
     <newFunction> = o.around( <origFunction>, <aroundFunction> );
 
@@ -142,17 +141,17 @@ combined(2); // Logs 3.
 
 Creates a new function where the `aroundFunction` will be called with an extra first argument, a function that will call the origFunction.
 
-# Properties
+## Properties
 
-## reader
+### reader
 
-## writer
+### writer
 
-## accessor
+### accessor
 
-## predicate
+### predicate
 
-## clearer
+### clearer
 
-## proxy
+### proxy
 

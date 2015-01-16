@@ -1,5 +1,4 @@
-o.Attribute
-===========
+# o.Attribute
 
 Attributes provide the majority of the features provided by o.js.  Attributes manage
 a single value of an object by providing validation, filtering, access restriction,
@@ -20,16 +19,16 @@ var Contract = new o.Class({
 });
 ```
 
-# Arguments
+## Arguments
 
-## key
+### key
 
     key: <string>
 
 This is the only required argument when creating an attribute and it is used as the
 basis of the defaults of many of the other arguments.
 
-## argKey
+### argKey
 
     [argKey: <string>]
 
@@ -37,7 +36,7 @@ The key in the arguments that this attribute should pull its value from.  Defaul
 to the `key` argument.  If you set this to `null` then the attribute will not get a
 value from the arguments.
 
-## valueKey
+### valueKey
 
     [valueKey: <string>]
 
@@ -45,7 +44,7 @@ The key name that will be used to store the value in the object.  By default thi
 will be the `key` with an underscore prepended.  So, if the key was `color` then the
 valueKey would default to `_color`.
 
-## devoid
+### devoid
 
     [devoid: <value|function>]
 
@@ -59,7 +58,7 @@ read (it is lazy).
 If you'd like the default itself to be a function then your devoid should be a
 function that returns a function.
 
-## builder
+### builder
 
     [builder: <methodName>]
 
@@ -67,7 +66,7 @@ Declare a method name to be called to assign the default value for the attribute
 none is provided by the arguments.  This is an alternative to `devoid` and typically
 is cleaner to use.
 
-## required
+### required
 
     [required: <true|false>]
 
@@ -77,7 +76,7 @@ JavaScript's null **is** considered a defined value).
 Note that the required check is only evaluated when the attribute value is read (it
 is lazy).
 
-## type
+### type
 
     [type: <typeOfString|function|TypeObject>
 
@@ -89,7 +88,7 @@ calling `typeof` on the value returns the same string, 2) by passing a function 
 will be called with the value as its only argument and is expected to return true or
 false, or 3) an [o.Type](o-Type.md) object.
 
-## coerce
+### coerce
 
     [coerce: <true|false>]
 
@@ -98,7 +97,7 @@ supports coercion).
 
 Defaults to false.
 
-## filter
+### filter
 
     [filter: <function>]
 
@@ -110,7 +109,7 @@ This argument is provided for the sake of simple one-off filtering.  If you want
 reuse the filtering you should probably just make a type and use coercions for your
 filtering.
 
-## augments
+### augments
 
     [augments: <constructor>]
 
@@ -120,14 +119,14 @@ Given a constructor function this will validate that the value being written is 
 The same functionality can be had be creating a new `o.InstanceOfType` and assigning
 the type argument to it.
 
-## chain
+### chain
 
     [chain: <true|false>]
 
 Be default, when writing a value, the old value is returned by the writer.  But, if
 chain is true the object will be returned instead, allowing you to chain together writes.
 
-## reader
+### reader
 
     [reader: <string>]
 
@@ -136,7 +135,7 @@ Defaults to the value of `key`.
 
 Set to `false` to disable the creation of the reader method.
 
-## writer
+### writer
 
     [writer: <string>]
 
@@ -149,7 +148,7 @@ Setting to `true` will cause the writer to be the same as `key`.
 the method acts like a typical accessor where it acts as a reader if an argument is not
 passed, and acts as a writer if an argument is passed.
 
-## predicate
+### predicate
 
     [predicate: <string>]
 
@@ -161,7 +160,7 @@ If you set the predicate to `true` then the predicate method will default to the
 with `has` prefixed to it, so if the key was `age` then the predicate, when set to
 `true`, would default to `hasAge`.
 
-## clearer
+### clearer
 
     [clearer: <string>]
 
@@ -173,7 +172,7 @@ If you set the clearer to `true` then the clearer method will default to the `ke
 `clear` prefixed to it, so if the key was `age` then the clearer, when set to `true`,
 would default to `clearAge`.
 
-## proxies
+### proxies
 
     [proxies: <mappingObject>]
 
@@ -201,39 +200,39 @@ Given an object this will proxy specified method calls on the object to calls on
 
 Proxying methods can be a much cleaner and more flexible way of extending another object's functionality without having to inherit from it.
 
-# Methods
+## Methods
 
-## getValue
+### getValue
 
     <attribute>.getValue( <object> );
 
 Given an object, this returns the value of the attribute on that object.
 
-## setValue
+### setValue
 
     <attribute>.setValue( <object>, <value> );
 
 Given an object, this sets the value of the attribute on the object.
 
-## hasValue
+### hasValue
 
     <attribute>.hasValue( <object> );
 
 Returns `true` if the object has the attribute value set (not `undefined`), false otherwise.
 
-## clearValue
+### clearValue
 
     <attribute>.clearValue( <object> );
 
 Clears the attribute value on the object, leaving it in an `undefined` state.
 
-## setValueFromArgs
+### setValueFromArgs
 
     <attribute>.setValueFromArgs( <object>, <arguments> );
 
 Given an object and arguments this will find the appropriate arguments for this attribute and set it on the object.
 
-## install
+### install
 
     <attribute>.install( <object>, [<arguments>] );
 
@@ -243,7 +242,7 @@ the object.
 If `<arguments>` are passed then `setValueFromArgs` will be called after the attribute
 is installed.
 
-## rebuild
+### rebuild
 
     <newAttribute> = <attribute>.rebuild( <args> );
 

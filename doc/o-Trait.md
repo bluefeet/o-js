@@ -1,5 +1,4 @@
-o.Trait
-=======
+# o.Trait
 
 `o.Trait` creates a trait object which can be applied to other objects,
 extending their functionality with the trait's interface.  Trait objects
@@ -43,9 +42,9 @@ var customPlayer = { id:3 };
 PlayerTrait.install( customPlayer );
 ```
 
-# Arguments
+## Arguments
 
-## attributes
+### attributes
 
     [attributes: <objectOfAttributes>]
 
@@ -62,7 +61,7 @@ is passed, rather than arguments for one, and the attribute's key does not match
 the attribute's `rebuild()` method will be called to create a new attribute object with
 the specified key.
 
-## traits
+### traits
 
     [traits: <arrayOfTraits>]
 
@@ -72,7 +71,7 @@ traits: [ TraitOne, TraitTwo ]
 
 An array of traits which will be installed to the target object before this trait is installed.
 
-## requires
+### requires
 
     [requires: <arrayOfPropertyNames>]
 
@@ -83,7 +82,7 @@ requires: ['propOne', 'propTwo']
 When the trait is being installed onto an object the specified properties must be defined or
 an error will be thrown.
 
-## methods
+### methods
 
     [methods: <objectOfMethods>]
 
@@ -97,7 +96,7 @@ methods: {
 
 An object containing functions where the key will be the name of the function.
 
-## around
+### around
 
     [around: <objectOfAroundModifiers>]
 
@@ -114,7 +113,7 @@ around: {
 Wraps the the specified method in a function, allowing you to do things before and
 after the method call, change the argument, or even decide not to call the original method.
 
-## before
+### before
 
     [before: <objectOfBeforeModifiers>]
 
@@ -126,7 +125,7 @@ before: {
 
 Calls the specified function before calling the underlying method.
 
-## after
+### after
 
     [after: <objectOfAfterModifiers>]
 
@@ -138,13 +137,13 @@ after: {
 
 Calls the specified function after calling the underlying method.
 
-# Attributes
+## Attributes
 
-## type
+### type
 
-# Methods
+## Methods
 
-## install
+### install
 
     <trait>.install( <object>, [<arguments>] )
 
@@ -156,7 +155,7 @@ MyTrait.install( myObject );
 Installs the trait's interface onto an object.  If an arguments object is passed then
 then `setFromArgs` will be called for you after the install is done.
 
-## setFromArgs
+### setFromArgs
 
     <trait>.setFromArgs( <object>, <arguments> )
 

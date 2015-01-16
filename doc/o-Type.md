@@ -1,31 +1,30 @@
-o.Type
-======
+#o.Type
 
 ```javascript
 var 
 ```
 
-# Arguments
+## Arguments
 
-## validate
+### validate
 
-## message
+### message
 
-## coerce
+### coerce
 
-## parent
+### parent
 
-# Methods
+## Methods
 
-## check
+### check
 
-## validate
+### validate
 
-## coerce
+### coerce
 
-## coerceOnly
+### coerceOnly
 
-## error
+### error
 
-## subtype
+### subtype
 
