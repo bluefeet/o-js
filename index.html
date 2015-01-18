@@ -146,7 +146,7 @@ baggins.log_name();</code></pre>
 
     <h2>Traits</h2>
     <p>Traits are created with <code>new o.Trait(...)</code> which creates
-    a new Trait object.  Traits can be included in Classes or installed
+    a new Trait object.  Traits can be included in classes or installed
     directly on to existing objects.</p>
 <pre><code>var productTrait = new o.Trait({
     attributes: {
@@ -173,7 +173,7 @@ var mySheet = new Sheet({
 
     <h2>Attributes</h2>
     <p>Attribute can be created directly via <code>new o.Attribute(...)</code>
-    and re-used, or inderectly in Class and Trait definitions.</p>
+    and re-used, or inderectly in class and trait definitions.</p>
 <pre><code>var fullNameAttr = new o.Attribute({
     type: o.nonEmptyStringType,
     required: true
@@ -186,7 +186,7 @@ var mySheet = new Sheet({
 
     <h2>Types</h2>
     <p>Type objects validate and coerce attribute arguments.  New types can
-    be created via <code>new o.Type(...)</code> and used in Attribute
+    be created via <code>new o.Type(...)</code> and used in attribute
     definitions.</p>
 <pre><code>var ageType = new o.AllType([
     o.integerType,
@@ -202,7 +202,7 @@ var mySheet = new Sheet({
 
     <h2>Plumbing</h2>
     <p>A rich array of plumbing functions exist which provide the moving
-    pieces that make Classes, Traits, Attributes, and Types work.
+    pieces that make classes, traits, attributes, and types work.
     Plumbing functions include <code>o.construct()</code>, <code>o.augment()</code>,
     <code>o.merge()</code>, <code>o.clone()</code>, <code>o.has()</code>,
     <code>o.before()</code>, <code>o.after()</code>, <code>o.around()</code>,
