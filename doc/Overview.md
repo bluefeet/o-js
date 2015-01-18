@@ -49,6 +49,24 @@ In order to run the tests, minify the javascript, and/or create a custom build y
  - `npm install -g grunt-cli tap`
 - Make sure everything works by running `grunt`.
 
+## Releasing and Publishing
+
+To make a new release:
+
+    grunt release-patch
+    # Or: release-minor, release-major
+
+The above will run the defaults tasks (`lint`, `test`, `combine`, `minify`),
+runs the `tag` task which updates various files to contain the new version
+number, commits the changes, creates a git tag, and pushes it all up to
+origin (GitHub).
+
+Once a new release has been made the release needs to be deployed to NPM
+and Jam:
+
+    grunt publish-npm
+    grunt publish-jam
+
 ## Media
 
 Currently the only branding that o.js has is the icon which is used for the site's `favicon.png` and, slightly modified, for the `apple-touch-icon.png`.
@@ -58,5 +76,4 @@ You can download a [full size PNG](http://o-js.com/icon.png) (593x593) or the [o
 <img src="http://o-js.com/icon-180x180.png" width="90" height="90">
 
 The <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/StillImage" property="dct:title" rel="dct:type">o.js Icon</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Aran Deltac</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
-
 
