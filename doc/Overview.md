@@ -18,11 +18,17 @@ Custom builds of o.js, containing only the features you need, can be created eas
 
 The above would include the `Type` and `augment` modules, and their dependencies.  You could then run `grunt minify` to produce a `o.min.js` ready for your use.
 
-Make sure that you know which version of o.js you are creating a build of.  If you've just cloned the o-js repo then you are on the master branch with all the latest development work, which could very well be broken.  To get yourself pointed at a particular release version you'll want to reset to whatever version you'd like your custom build based on.  For example:
+Make sure that you know which version of o.js you are creating a build of.  If you've just cloned the o-js repo then you are on the master branch with all the latest development work, which could very well be broken.  To get yourself pointed at the latest released code checkout the `current` branch:
 
-    git reset --hard v0.0.10
+    git fetch
+    git checkout current
+    git pull --ff-only
 
-Then when you run `bin/combine` you'll be using the code from that version.
+Then when you run `bin/combine` you'll be using the code from the latest stable release.
+
+## The current Branch
+
+This branch contains the latest released version, making it easier to create links to the latest official documentation.
 
 ## Contributing
 
@@ -56,10 +62,10 @@ To make a new release:
     grunt release-patch
     # Or: release-minor, release-major
 
-The above will run the defaults tasks (`lint`, `test`, `combine`, `minify`),
+The above will run the `default` task (`lint`, `test`, `combine`, `minify`),
 runs the `tag` task which updates various files to contain the new version
-number, commits the changes, creates a git tag, and pushes it all up to
-origin (GitHub).
+number, commits the changes, creates a git tag, pushes the tag up to
+origin (GitHub), and updates the `current` branch.
 
 Once a new release has been made the release needs to be deployed to NPM
 and Jam:

@@ -54,6 +54,9 @@ create_tag();
 exit 0 unless $no_prompt or $u->ask_yn('Continue and push tag to origin? [y/N]', 'n');
 push_tag();
 
+exit 0 unless $no_prompt or $u->ask_yn('Continue and push to the current branch on origin? [y/N]', 'n');
+push_current();
+
 print "All done, happy releasing!\n";
 
 sub inject_version {
@@ -118,6 +121,10 @@ sub create_tag {
 
 sub push_tag {
     $u->git_run('push', '--follow-tags');
+}
+
+sub push_current {
+    $u->git_run('push', '-f', 'origin', 'HEAD:refs/heads/current');
 }
 
 __END__
