@@ -1,3 +1,7 @@
+DEVELOPMENT VERSION
+ - Added a current branch to the GitHub repo for tracking the latest
+   release from a single ref.
+
 0.0.11 : 2015-01-16
  Global:
  - Added a .lvimrc file to enforce indentation style (requires the
@@ -6,8 +10,6 @@
    an empty object (o.Type was already doing this).
  - Moved wiki documentation into the main repo so that it is versioned
    along with the code.
- - Added a current branch to the GitHub repo for tracking the latest
-   release from a single ref.
  Traits:
  - Recursively set child trait attribute arguments when calling setFromArgs.
    This means that when making a class instance that arguments for child
