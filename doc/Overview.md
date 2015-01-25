@@ -10,6 +10,15 @@
 - [Types Documentation](Types.md)
 - [Plumbing Documentation](Plumbing.md)
 
+## Support
+
+The best way to get support is to hop on over to the
+[o.js Gitter Channel](https://gitter.im/bluefeet/o-js) and ask there.  Alternatively
+you can open a [GitHub Issue](https://github.com/bluefeet/o-js/issues), or
+better yet fork the repo and make a pull request.
+
+See [Contributing](#contributing), below, for more information.
+
 ## Custom Builds
 
 Custom builds of o.js, containing only the features you need, can be created easily by cloning the o-js repo, getting your environment setup (see Developer Setup below), and using the `bin/combine` tool like this:
