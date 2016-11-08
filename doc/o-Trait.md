@@ -137,6 +137,33 @@ after: {
 
 Calls the specified function after calling the underlying method.
 
+## Declarative Interface
+
+Instead of passing an object as the argument you may pass an anonymous function
+which will be called with a custom `this` variable containing functions for
+declaring your trait's properties.  So, for example, you could write this:
+
+```javascript
+var PlayerTrait = new o.Trait(function(){
+    this.attribute( 'id', { type:o.integerType, required:true } );
+});
+```
+
+The following functions are available when using the declarative syntax:
+
+```javascript
+this.require( propertyName );
+this.trait( trait );
+this.attribute( name, args );
+this.method( name, function );
+this.around( name, function );
+this.before( name, function );
+this.after( name. function );
+```
+
+This declarative syntax, while slightly more verbose, gives a lot more
+flexibility for dynamically constructing traits and classes.
+
 ## Attributes
 
 ### type

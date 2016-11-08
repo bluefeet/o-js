@@ -1,5 +1,6 @@
 DEVELOPMENT VERSION
 
+ - Add a declarative interface for defining new traits and classes.
  - Use a more condenced for loop, using `in`, when going over arrays.
  - Added a current branch to the GitHub repo for tracking the latest
    release from a single ref.
