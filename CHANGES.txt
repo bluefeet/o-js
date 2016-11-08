@@ -1,8 +1,11 @@
 DEVELOPMENT VERSION
+
+ - Use a more condenced for loop, using `in`, when going over arrays.
  - Added a current branch to the GitHub repo for tracking the latest
    release from a single ref.
 
 0.0.11 : 2015-01-16
+
  Global:
  - Added a .lvimrc file to enforce indentation style (requires the
    vim-localvimrc plugin).
@@ -10,19 +13,23 @@ DEVELOPMENT VERSION
    an empty object (o.Type was already doing this).
  - Moved wiki documentation into the main repo so that it is versioned
    along with the code.
+
  Traits:
  - Recursively set child trait attribute arguments when calling setFromArgs.
    This means that when making a class instance that arguments for child
    trait attributes will now be applied as they should have been.
+
  Attributes:
  - Use the new identifier type instead of the nonEmptyString type for various
    arguments such as key, predicate, etc.
+
  Types:
  - Added an identifier type to match against valid JavaScript idenitfiers
    rules (does not currently support unicode characters), per:
    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Values,_variables,_and_literals#Variables
 
 0.0.10 : 2014-03-09
+
  Global:
  - Use Grunt for build tools.
  - Lots of reworking of the build tools - much less room for human error.
@@ -31,6 +38,7 @@ DEVELOPMENT VERSION
    plumbing function o.getPrototypeOf().
 
 0.0.9 : 2014-02-04
+
  Global:
  - Migrated everything to CommonJS format modules (no more hacks for the
    web, those will be handled independently).
@@ -40,13 +48,16 @@ DEVELOPMENT VERSION
    and minified versions of o.js.
  - Combined o.js and minified o-min.js are now shipped within the o-js
    repository.
+
  Classes:
  - Renamed o.Constructor to o.Class, because that is what it is and it is
    less to type.
+
  Traits:
  - Added requires attribute to o.Trait so that traits can declare a
    base-line interface that they require to be installed onto an
    object.
+
  Types:
  - Added o.simpleObjectType for checking if an object's constructor is Object.
  - Added o.typeType, o.attributeType, o.traitType, and o.classType for validating
@@ -56,10 +67,12 @@ DEVELOPMENT VERSION
  - InstanceOfType declares a coercion that will create a new instance using
    the value as arguments to the constructor.
  - Added o.positiveIntType due to this type being a common case.
+
  Plumbing:
  - Exposed o.ucFirst to the public.
 
 0.0.8 : 2014-01-03
+
  - In addition to accepting an Array, o.DuckType now accepts an Object,
    allowing for type checking.
  - Added o.PatternType for creating types that match against a RegExp.
@@ -83,6 +96,7 @@ DEVELOPMENT VERSION
    the trait.
 
 0.0.7 : 2013-06-18
+
  - Attributes on Traits (and Constructors) can now be pre-made o.Attribute
    objects which may be re-used.
  - Optimize some bits to produce a smaller minified output.
@@ -91,6 +105,7 @@ DEVELOPMENT VERSION
  - Support Travis CI.
 
 0.0.6 : 2013-05-27
+
  - Merge o-types and o-attributes in to the main library.
  - New Trait and Constructor objects.
  - Redesign types so that each type is an object with coercions.
@@ -107,9 +122,11 @@ DEVELOPMENT VERSION
    the value, before being coerced, will often times fail a parent's validation.
 
 0.0.5 : 2013-04-14
+
  - Fix trailing commas in o-attribute.js breaking minification.
 
 0.0.4 : 2013-04-14
+
  - Remove the option definition property.
  - Rename o.extend to o.augment.
  - Rename the default definition property to devoid.
@@ -124,9 +141,11 @@ DEVELOPMENT VERSION
  - Add versions and version checking to the libraries.
 
 0.0.3 : 2013-03-24
+
  - New types extension (o-types.js).
 
 0.0.2 : 2013-03-18
+
  - Added o.construct.
  - o.extend now accepts a third argument to specify properties for the
    prototype.
@@ -137,4 +156,5 @@ DEVELOPMENT VERSION
  - Default isa to "object" if extends is set.
 
 0.0.1 : 2013-03-10
+
  - First release!
