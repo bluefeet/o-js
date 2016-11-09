@@ -13,7 +13,8 @@ A typical use case would be to define a shared interface between a set of classe
 ```js
 var PlayerTrait = new o.Trait({
     attributes: {
-        id: { type:o.integerType, required:true }
+        id: { type:o.integerType, required:true },
+        name: { type:o.nonEmptyStringType, required:true }
     }
 });
 
@@ -25,14 +26,11 @@ var Computer = new o.Class({
 });
 
 var Human = new o.Class({
-    traits: [ PlayerTrait ],
-    attributes: {
-        name: { type:o.nonEmptyStringType, required:true }
-    }
+    traits: [ PlayerTrait ]
 });
 
 var human = new Human({ id:1, name:'Fischer' });
-var computer = new Computer({ id:2, name:'Blue' });
+var computer = new Computer({ id:2, name:'Blue', difficulty:'hard' });
 ```
 
 Or, a trait can be applied to an existing object if that is what you want.

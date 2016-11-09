@@ -37,7 +37,7 @@ DEVELOPMENT VERSION
    arguments such as key, predicate, etc.
 
  Types:
- - Added an identifier type to match against valid JavaScript idenitfiers
+ - Added an identifier type to match against valid JavaScript identifiers
    rules (does not currently support unicode characters), per:
    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Values,_variables,_and_literals#Variables
 
