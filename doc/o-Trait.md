@@ -10,7 +10,7 @@ technique.
 
 A typical use case would be to define a shared interface between a set of classes.
 
-```javascript
+```js
 var PlayerTrait = new o.Trait({
     attributes: {
         id: { type:o.integerType, required:true }
@@ -37,7 +37,7 @@ var computer = new Computer({ id:2, name:'Blue' });
 
 Or, a trait can be applied to an existing object if that is what you want.
 
-```javascript
+```js
 var customPlayer = { id:3 };
 PlayerTrait.install( customPlayer );
 ```
@@ -48,7 +48,7 @@ PlayerTrait.install( customPlayer );
 
     [attributes: <objectOfAttributes>]
 
-```javascript
+```js
 attributes: {
    attrOne: attrObject, // An o.Attribute object.
    attrTwo: { /* o.Attribute arguments */ }
@@ -65,7 +65,7 @@ the specified key.
 
     [traits: <arrayOfTraits>]
 
-```javascript
+```js
 traits: [ TraitOne, TraitTwo ]
 ```
 
@@ -86,7 +86,7 @@ an error will be thrown.
 
     [methods: <objectOfMethods>]
 
-```javascript
+```js
 methods: {
     increase: function (amount) {
         this.value( this.value() + amount );
@@ -100,7 +100,7 @@ An object containing functions where the key will be the name of the function.
 
     [around: <objectOfAroundModifiers>]
 
-```javascript
+```js
 around: {
     save: function (orig, data) {
         console.log('Saving ' + data + '...');
@@ -117,7 +117,7 @@ after the method call, change the argument, or even decide not to call the origi
 
     [before: <objectOfBeforeModifiers>]
 
-```javascript
+```js
 before: {
    save: function () { console.log('Saving...') }
 }
@@ -129,7 +129,7 @@ Calls the specified function before calling the underlying method.
 
     [after: <objectOfAfterModifiers>]
 
-```javascript
+```js
 after: {
    save: function () { console.log('Saved!') }
 }
@@ -143,7 +143,7 @@ Instead of passing an object as the argument you may pass an anonymous function
 which will be called with a custom `this` variable containing functions for
 declaring your trait's properties.  So, for example, you could write this:
 
-```javascript
+```js
 var PlayerTrait = new o.Trait(function(){
     this.attribute( 'id', { type:o.integerType, required:true } );
 });
@@ -151,7 +151,7 @@ var PlayerTrait = new o.Trait(function(){
 
 The following functions are available when using the declarative syntax:
 
-```javascript
+```js
 this.require( propertyName );
 this.trait( trait );
 this.attribute( name, args );
@@ -174,7 +174,7 @@ flexibility for dynamically constructing traits and classes.
 
     <trait>.install( <object>, [<arguments>] )
 
-```javascript
+```js
 MyTrait.install( myObject );
 // Now myObject has all the attributes, methods, etc, provided by MyTrait.
 ```
@@ -186,7 +186,7 @@ then `setFromArgs` will be called for you after the install is done.
 
     <trait>.setFromArgs( <object>, <arguments> )
 
-```javascript
+```js
 MyTrait.setFromArgs( myObject, { /* arguments */ } );
 ```
 

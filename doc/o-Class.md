@@ -4,7 +4,7 @@
 underlying trait of the class is installed on the class's prototype so that any objects
 created by the class have the trait automatically applied.
 
-```javascript
+```js
 var Person = new o.Class({
     attributes: {
         firstName: { type:o.nonEmptyStringType, required:true },
@@ -30,7 +30,7 @@ See the [o.Trait Documentation](o-Trait.md) for what arguments this accepts.
 Constructors created by `o.Class` have an internal-only trait assigned to them called
 `ClassTrait` which exposes a `type` and a `trait` attribute.
 
-```javascript
+```js
     Person.type.check( bilbo ); // true
     var frodo = Person.type.coerce({ firstName:'Frodo', lastName:'Baggins', age:33 });
     Person.trait.type.check( frodo ); // true

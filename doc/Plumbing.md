@@ -6,7 +6,7 @@
 
     <constructor> = o.construct( <constructor>, <prototype> );
 
-```javascript
+```js
 var Person = o.construct(
     function (args) { this.age = args.age },
     {
@@ -25,7 +25,7 @@ Provides shorthand for creating a new constructor with a prototype.  The `protot
 
     <newConstructor> = o.augment( <parentConstructor>, <constructor>, [<prototype>] )
 
-```javascript
+```js
 var Point2D = function(x, y){ this.x=x; this.y=y };
 var Point3D = o.augment(
     Point2D,
@@ -44,7 +44,7 @@ Typically, in JavaScript inheritance, all that is setup is prototype inheritance
 
     <object1> = o.merge( <object1>, <object2> [...] );
 
-```javascript
+```js
 var merged = o.merge({a:1,b:1}, {b:2,c:2}, {c:3,d:3});
 // {a:1, b:2, c:3, d:3}
 ```
@@ -55,7 +55,7 @@ Takes the first object and merges all subsequent objects in to it.  The farther 
 
     <newObject> = o.clone( <object> );
 
-```javascript
+```js
 var obj1 = {foo:'bar'};
 var obj2 = o.clone( obj1 );
 console.log( obj2.foo ); // 'bar'
@@ -67,7 +67,7 @@ Clones the object by returning a new one with the same keys and values, construc
 
     <boolean> = o.has( <object>, <key> );
 
-```javascript
+```js
 var obj = {foo:'bar'};
 if (o.has(obj, 'foo')) { /* do something */ }
 ```
@@ -78,7 +78,7 @@ This is just shorthand for calling `hasOwnProperty`.
 
     o.local( <object>, <property>, <function> );
 
-```javascript
+```js
 var obj = { foo: 32 };
 o.local( obj, 'foo', function(){
     console.log( obj.foo ); // 32
@@ -106,7 +106,7 @@ rethrown.
 
     <newFunction> = o.before( <origFunction>, <beforeFunction> );
 
-```javascript
+```js
 var main = function () { console.log('main') };
 var before = function () { console.log('before') };
 var combined = o.before( main, before );
@@ -119,7 +119,7 @@ Creates a new function where the `beforeFunction` will be called before the `ori
 
     <newFunction> = o.after( <origFunction>, <afterFunction> );
 
-```javascript
+```js
 var main = function () { console.log('main') };
 var after = function () { console.log('after') };
 var combined = o.after( main, after );
@@ -132,7 +132,7 @@ Creates a new function where the `afterFunction` will be called after the `origF
 
     <newFunction> = o.around( <origFunction>, <aroundFunction> );
 
-```javascript
+```js
 var main = function (number) { console.log(number) };
 var around = function (orig, number) { return orig(number + 1) };
 var combined = o.around( main, around );

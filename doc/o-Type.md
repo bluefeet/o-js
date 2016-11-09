@@ -1,6 +1,6 @@
 #o.Type
 
-```javascript
+```js
 var 
 ```
 

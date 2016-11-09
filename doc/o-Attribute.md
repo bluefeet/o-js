@@ -4,7 +4,7 @@ Attributes provide the majority of the features provided by o.js.  Attributes ma
 a single value of an object by providing validation, filtering, access restriction,
 argument handling, and a host of other features.
 
-```javascript
+```js
 var date = new o.Attribute({
     type: o.dateType,
     required: true
@@ -176,7 +176,7 @@ would default to `clearAge`.
 
     [proxies: <mappingObject>]
 
-```javascript
+```js
 var Queue = new o.Class({
     attributes: {
         items: {

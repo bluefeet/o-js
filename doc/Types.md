@@ -58,7 +58,7 @@ constuctors.  Each of these types has a coercion defined which checks if the val
 is a `simpleObject`, and if it is it uses the value as arguments for creating
 an appropriate object.  So, for example these two lines do the same thing:
 
-```javascript
+```js
 obj = new o.Trait({});
 obj = o.traitType.coerce({});
 ```
