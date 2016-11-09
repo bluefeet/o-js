@@ -60,10 +60,10 @@ The following functions are available when using the declarative syntax:
 this.require( propertyName );
 this.trait( trait );
 this.attribute( name, args );
-this.method( name, function );
-this.around( name, function );
-this.before( name, function );
-this.after( name. function );
+this.method( name, func );
+this.around( name, func );
+this.before( name, func );
+this.after( name. func );
 ```
 
 This declarative syntax, while slightly more verbose, gives a lot more
