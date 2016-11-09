@@ -8,6 +8,10 @@ DEVELOPMENT VERSION
  Traits:
  - Add a declarative interface for defining new traits and classes.
 
+ Types:
+ - Added an o.disableTypeValidation() function for situations where validation
+   may be traded for better performance.
+
 0.0.11 : 2015-01-16
 
  Global:

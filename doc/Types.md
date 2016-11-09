@@ -280,3 +280,29 @@ var value = 2.5;
 value = roundNum.coerce( value ); // 3
 ```
 
+## Disabling Validation
+
+Validation may be disabled by calling:
+
+```js
+o.disableTypeValidation();
+```
+
+Doing this depends heavily on what validation means to you.  If validation is a tool
+for which you depend on during development and testing to find bugs before deployment
+then you may find that the performance gain of disabling validation in production may
+be worth the loss of early error detection you get by enabling validation.
+
+Another workflow is to disable validation for specific blocks of code:
+
+```js
+// Validation is enabled here.
+o.disableTypeValidation(function(){
+    // Validation is disabled here.
+});
+// Validation is enabled here.
+```
+
+Doing the above may be useful if you have certain pieces of code which spawn many
+objects and the performance gain of disabling validation within a scope is worth it.
+
