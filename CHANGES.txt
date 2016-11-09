@@ -1,4 +1,4 @@
-DEVELOPMENT VERSION
+0.1.0 : 2016-11-08
 
  Global:
  - Use a more condenced for loop, using `in`, when going over arrays.
