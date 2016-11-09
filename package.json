@@ -9,18 +9,6 @@
     "bugs":        { "url": "https://github.com/bluefeet/o-js/issues" },
     "github": "https://github.com/bluefeet/o-js",
 
-    "jam": {
-        "main": "o.js",
-        "include": [
-            "README.md",
-            "LICENSE.txt",
-            "CHANGES.txt",
-            "o.js",
-            "o.min.js",
-            "package.json"
-        ]
-    },
-
     "licenses": [{
         "type": "MIT",
         "url":  "https://raw.github.com/bluefeet/o-js/master/LICENSE.txt"

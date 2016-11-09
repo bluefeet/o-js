@@ -76,11 +76,9 @@ runs the `tag` task which updates various files to contain the new version
 number, commits the changes, creates a git tag, pushes the tag up to
 origin (GitHub), and updates the `current` branch.
 
-Once a new release has been made the release needs to be deployed to NPM
-and Jam:
+Once a new release has been made the release needs to be deployed to NPM:
 
     grunt publish-npm
-    grunt publish-jam
 
 ## Media
 

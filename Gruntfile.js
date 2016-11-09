@@ -82,13 +82,7 @@ module.exports = function(grunt) {
         function () { exec('npm publish', this.async()); }
     );
 
-    grunt.registerTask(
-        'publish-jam',
-        'Publish current checked out release to Jam.',
-        function () { exec('jam publish', this.async()); }
-    );
-
     // Note that Bower does not need a publish task as it automatically
     // finds new releases by looking at the tags in GitHub.
-    grunt.registerTask('publish', ['publish-npm', 'publish-jam']);
+    grunt.registerTask('publish', ['publish-npm']);
 };
