@@ -1,4 +1,4 @@
-// o.js : 0.0.11 : http://o-js.com : MIT License
+// o.js : DEVELOPMENT VERSION : http://o-js.com : MIT License
 
 (function() {
 
@@ -202,6 +202,7 @@ o.reader = o_reader;
 
 // o.Type
 var o_Type;
+
 o_Type = o_construct(
     function (args) {
         args = args || {};
@@ -212,6 +213,7 @@ o_Type = o_construct(
     },
     {
         check: function (val) {
+            if (o_Type.validationDisabled) return true;
             if (this._parent) { if (!this._parent.check(val)) return false; }
             if (!this._validateMethod) return true;
             if (!this._validateMethod( val )) return false;
@@ -238,6 +240,8 @@ o_Type = o_construct(
         }
     }
 );
+
+o_Type.validationDisabled = false;
 o.Type = o_Type;
 
 // o.accessor
@@ -269,13 +273,31 @@ var o_augment = function (parent, constructor, proto) {
 };
 o.augment = o_augment;
 
+// o.disableTypeValidation
+var o_disableTypeValidation = function (func) {
+    if (!func) {
+        o_Type.validationDisabled = true;
+        return;
+    }
+
+    return o_local(
+        o_Type,
+        'validationDisabled',
+        function(){
+            o_Type.validationDisabled = true;
+            return func();
+        }
+    );
+};
+o.disableTypeValidation = o_disableTypeValidation;
+
 // o.AllType
 var o_AllType = o_augment(
     o_Type,
     function (parent, types, args) {
         args = args || {};
         args.validate = function (val) {
-            for (var i = 0, l = types.length; i < l; i++) {
+            for (var i in types) {
                 if (!types[i].check(val)) return false;
             }
             return true;
@@ -307,7 +329,7 @@ var o_EnumType = o_augment(
     function (parent, values, args) {
         args = args || {};
         args.validate = function (val) {
-            for (var i = 0, l = values.length; i < l; i++) {
+            for (var i in values) {
                 if (val === values[i]) return true;
             }
             return false;
@@ -454,14 +476,14 @@ var o_ArrayOfType = o_augment(
         args = args || {};
         args.validate = function (ary) {
             if (!o_arrayType.check(ary)) return false;
-            for (var i = 0, l = ary.length; i < l; i++) {
+            for (var i in ary) {
                 if (!type.check(ary[i])) return false;
             }
             return true;
         };
         args.coerce = function (ary) {
             if (!this.check(ary)) return ary;
-            for (var i = 0, l = ary.length; i < l; i++) {
+            for (var i in ary) {
                 ary[i] = type.coerce( ary[i] );
             }
             return ary;
@@ -479,7 +501,7 @@ var o_DuckType = o_augment(
         args.validate = function (val) {
             if (!o_objectType.check(val)) return false;
             if (o_arrayType.check(properties)) {
-                for (var i = 0, l = properties.length; i < l; i++) {
+                for (var i in properties) {
                     if (val[properties[i]] === undefined) return false;
                 }
                 return true;
@@ -794,23 +816,50 @@ var o_Trait;
 
 o_Trait = o_construct(
     function (args) {
+        if (typeof args === 'function') args = this.functionToArgs( args );
+
         args = args || {};
-        for (var i = 0, l = traitAttrs.length; i < l; i++) {
+        for (var i in traitAttrs) {
             traitAttrs[i].setValueFromArgs( this, args );
         }
     },
     {
+        functionToArgs: function (func) {
+            var args = {
+                requires: [],
+                traits: [],
+                attributes: {},
+                methods: {},
+                around: {},
+                before: {},
+                after: {}
+            };
+
+            var scope = {
+                require: function (name) { args.requires.push(name); },
+                trait: function (name) { args.traits.push(name); },
+                attribute: function (name,props) { args.attributes[name] = props; },
+                method: function (name,func) { args.methods[name] = func; },
+                around: function (name,func) { args.around[name] = func; },
+                before: function (name,func) { args.before[name] = func; },
+                after: function (name,func) { args.after[name] = func; }
+            };
+
+            func.apply( scope );
+
+            return args;
+        },
         install: function (obj, args) {
-            var i, l, name;
+            var i, name;
 
             var requires = this.requires();
-            for (i = 0, l = requires.length; i < l; i++) {
+            for (i in requires) {
                 if (obj[requires[i]] !== undefined) continue;
                 throw new Error( required[i] + ' is required.' );
             }
 
             var traits = this.traits();
-            for (i = 0, l = traits.length; i < l; i++) {
+            for (i in traits) {
                 traits[i].install( obj );
             }
 
@@ -850,7 +899,7 @@ o_Trait = o_construct(
             // last.  Avoids a common race conditions when using filters.
             var attributes = this.attributes();
             if (!ignores) ignores = {};
-            var name;
+            var i, name;
 
             for (name in attributes) {
                 if (ignores[name]) continue;
@@ -867,14 +916,14 @@ o_Trait = o_construct(
             }
 
             var traits = this.traits();
-            for (i = 0, l = traits.length; i < l; i++) {
+            for (i in traits) {
                 traits[i].setFromArgs( obj, args, ignores );
             }
         },
 
         buildType: function () {
             var duck = {};
-            var name;
+            var i, name;
 
             var attributes = this.attributes();
             for (name in attributes) {
@@ -899,7 +948,7 @@ o_Trait = o_construct(
             if (!traits.length) return duck;
 
             var ducks = [ duck ];
-            for (var i = 0, l = traits.length; i < l; i++) {
+            for (i in traits) {
                 ducks.push( traits[i].type() );
             }
 
@@ -974,7 +1023,7 @@ traitAttrs = [
 ];
 
 var traitProto = o_Trait.prototype;
-for (var i = 0, l = traitAttrs.length; i < l; i++) {
+for (var i in traitAttrs) {
     traitAttrs[i] = new o_Attribute( traitAttrs[i] );
     traitAttrs[i].install( traitProto );
 }
