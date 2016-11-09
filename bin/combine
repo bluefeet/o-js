@@ -68,7 +68,7 @@ print "Done generating.\n";
 print "Writing combined JavaScript...\n";
 
 my $js = <<JS;
-// o.js : DEVELOPMENT VERSION : http://o-js.com : MIT License
+// o.js : DEVELOPMENT VERSION : https://o-js.com : MIT License
 
 (function() {
 

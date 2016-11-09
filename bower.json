@@ -4,7 +4,7 @@
     "main":    "o.js",
 
     "description": "JavaScript utility belt for rich objects and prototypes. Ooooh!",
-    "homepage":    "http://o-js.com",
+    "homepage":    "https://o-js.com",
     "keywords":    ["util", "utility", "prototype", "prototypes", "object", "objects", "oo"],
 
     "authors": [ "Aran Deltac" ],

@@ -2,7 +2,7 @@
 
 ## Resources
 
-- [The o-js.com Site](http://o-js.com)
+- [The o-js.com Site](https://o-js.com)
 - [o.Class Documentation](o-Class.md)
 - [o.Trait Documentation](o-Trait.md)
 - [o.Attribute Documentation](o-Attribute.md)
@@ -84,9 +84,9 @@ Once a new release has been made the release needs to be deployed to NPM:
 
 Currently the only branding that o.js has is the icon which is used for the site's `favicon.png` and, slightly modified, for the `apple-touch-icon.png`.
 
-You can download a [full size PNG](http://o-js.com/icon.png) (593x593) or the [original Pixelmator image](http://o-js.com/icon.pxm).  If you're loading the Pixelmator image make sure you grab the Lato Normal 400 font over at [Google Fonts](http://www.google.com/fonts/specimen/Lato).  You can use [SkyFonts](https://skyfonts.com/) to easly install the font (its free for Google fonts).
+You can download a [full size PNG](https://o-js.com/icon.png) (593x593) or the [original Pixelmator image](https://o-js.com/icon.pxm).  If you're loading the Pixelmator image make sure you grab the Lato Normal 400 font over at [Google Fonts](http://www.google.com/fonts/specimen/Lato).  You can use [SkyFonts](https://skyfonts.com/) to easly install the font (its free for Google fonts).
 
-<img src="http://o-js.com/icon-180x180.png" width="90" height="90">
+<img src="https://o-js.com/icon-180x180.png" width="90" height="90">
 
 The <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/StillImage" property="dct:title" rel="dct:type">o.js Icon</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Aran Deltac</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
 
