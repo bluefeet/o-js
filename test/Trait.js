@@ -9,12 +9,12 @@ test('requires', function (t) {
     var failed;
 
     failed = false;
-    try { trait.install({ a:1, b:2 }) }
+    try { trait.install({ a:function(){}, b:function(){} }) }
     catch (e) { failed = true }
     t.is( failed, false, 'passed requires check' );
 
     failed = false;
-    try { trait.install({ a:1, c:2 }) }
+    try { trait.install({ a:function(){}, c:function(){} }) }
     catch (e) { failed = true }
     t.is( failed, true, 'failed requires check' );
 
@@ -22,6 +22,18 @@ test('requires', function (t) {
     try { trait.install({}) }
     catch (e) { failed = true }
     t.is( failed, true, 'failed requires check' );
+
+    t.end();
+});
+
+test('requires-object', function (t) {
+    var trait = new o.Trait({
+        requires: {a:o.stringType}
+    });
+
+    trait.install({ a:'abc' });
+
+    t.throws( function(){ trait.install({ a:123 }) }, 'failed type check threw an exception' );
 
     t.end();
 });

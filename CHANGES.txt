@@ -3,6 +3,12 @@ DEVELOPMENT VERSION
  Global:
  - RIP Jam.
 
+ Traits:
+ - BREAKING: The requires argument, when passed an array, now validates that
+   the properties are functions rather than just defined.
+ - The requires argument now accepts an object whos keys are the property
+   now and values are type objects.
+
 0.1.0 : 2016-11-08
 
  Global:

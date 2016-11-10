@@ -233,7 +233,7 @@ the inner type's coercion logic (if any).
 Like `o.ArrayOfType`, but checks that the value is an object and that the key values
 within the object match the `<type>`.
 
-A coercion is declared on this tye which will coerce any values within the object using
+A coercion is declared on this type which will coerce any values within the object using
 the inner type's coercion logic (if any).
 
 ### PatternType

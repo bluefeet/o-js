@@ -98,14 +98,17 @@ An array of traits which will be installed to the target object before this trai
 
 ### requires
 
-    [requires: <arrayOfPropertyNames>]
+    [requires: <arrayOfFunctionPropertyNames>]
+    [requires: <objectOfPropertyNameAndTypes>]
 
-```javscript
+```js
 requires: ['propOne', 'propTwo']
+requires: {propOne:o.stringType, propTwo:o.functionType]
 ```
 
-When the trait is being installed onto an object the specified properties must be defined or
-an error will be thrown.
+When the trait is being installed onto an object the specified properties must be functions,
+or if an object is passed they must pass the specified type constaint, or an error will be
+thrown.
 
 ### methods
 
