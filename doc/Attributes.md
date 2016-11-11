@@ -86,7 +86,7 @@ the writer, or via devoid) must pass.
 Validation can be specified in three forms, 1) by passing a string which will pass if
 calling `typeof` on the value returns the same string, 2) by passing a function which
 will be called with the value as its only argument and is expected to return true or
-false, or 3) an [o.Type](o-Type.md) object.
+false, or 3) an `o.Type` object.
 
 ### coerce
 
@@ -196,45 +196,48 @@ $q->enqueue( 'bar' );
 $q->dequeue(); // foo
 ```
 
-Given an object this will proxy specified method calls on the object to calls on the attribute's value (which should be an object that supports the proxied methods).
+Given an object this will proxy specified method calls on the object to calls on the
+attribute's value (which should be an object that supports the proxied methods).
 
-Proxying methods can be a much cleaner and more flexible way of extending another object's functionality without having to inherit from it.
+Proxying methods can be a much cleaner and more flexible way of extending another
+object's functionality without having to inherit from it.
 
 ## Methods
 
 ### getValue
 
-    <attribute>.getValue( <object> );
+    <value> = <attribute>.getValue( <object> )
 
 Given an object, this returns the value of the attribute on that object.
 
 ### setValue
 
-    <attribute>.setValue( <object>, <value> );
+    <attribute>.setValue( <object>, <value> )
 
 Given an object, this sets the value of the attribute on the object.
 
 ### hasValue
 
-    <attribute>.hasValue( <object> );
+    <bool> = <attribute>.hasValue( <object> )
 
 Returns `true` if the object has the attribute value set (not `undefined`), false otherwise.
 
 ### clearValue
 
-    <attribute>.clearValue( <object> );
+    <attribute>.clearValue( <object> )
 
 Clears the attribute value on the object, leaving it in an `undefined` state.
 
 ### setValueFromArgs
 
-    <attribute>.setValueFromArgs( <object>, <arguments> );
+    <attribute>.setValueFromArgs( <object>, <arguments> )
 
-Given an object and arguments this will find the appropriate arguments for this attribute and set it on the object.
+Given an object and arguments this will find the appropriate arguments for this attribute
+and set it on the object.
 
 ### install
 
-    <attribute>.install( <object>, [<arguments>] );
+    <attribute>.install( <object>, [<arguments>] )
 
 Installs the attribute's methods (reader, writer, predicate, clearer, proxies) on to
 the object.
@@ -244,7 +247,10 @@ is installed.
 
 ### rebuild
 
-    <newAttribute> = <attribute>.rebuild( <args> );
+    <newAttribute> = <attribute>.rebuild( <args> )
 
-Rebuilds the attribute by combining the attribute's original arguments with the passed in arguments and returning a new attribute object.  This is used internally to change the `key` of an attribute when an existing attribute object is used when creating traits and classes.
+Rebuilds the attribute by combining the attribute's original arguments with the passed
+in arguments and returning a new attribute object.  This is used internally to change
+the `key` of an attribute when an existing attribute object is used when creating traits
+and classes.
 

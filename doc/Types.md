@@ -4,7 +4,7 @@
 
 Many type objects are already defined for all of the built-in JavaScript types.  Below is
 the list of the types that are currently available.  These type objects are all instances
-of the [o.Type](o-Type.md) class.
+of the `o.Type` class.
 
 ```text
 undefined
@@ -66,8 +66,7 @@ obj = o.traitType.coerce({});
 ## Classes
 
 Type classes are used to construct complex types that solve common problems.  These
-classes all inherit from the [o.Type](o-Type.md) class and support all its arguments
-and methods.
+classes all inherit from the `o.Type` class and support all its arguments and methods.
 
 These classes all accept two arguments.  The first argument is defined by the
 individual class and is required.  The second argument is optional and, if present,
@@ -263,6 +262,11 @@ if (!nameType.check('george')) console.log('george does not look like a name');
 ```
 
 Creates a type that checks that the values passes the `<RegExp>` pattern.
+
+### Type
+
+See the [Custom Types doc](CustomTypes.md) for information about how to define custom
+validation rules and even create your own type classes.
 
 ## Using Types Standalone
 
