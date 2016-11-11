@@ -98,17 +98,17 @@ An array of traits which will be installed to the target object before this trai
 
 ### requires
 
-    [requires: <arrayOfFunctionPropertyNames>]
-    [requires: <objectOfPropertyNameAndTypes>]
+    [requires: <duckType>]
 
 ```js
 requires: ['propOne', 'propTwo']
 requires: {propOne:o.stringType, propTwo:o.functionType]
 ```
 
-When the trait is being installed onto an object the specified properties must be functions,
-or if an object is passed they must pass the specified type constaint, or an error will be
-thrown.
+If this is set to an instance of `o.DuckType` the object that the trait is installed onto
+must pass the duck type check.  This argument support coercion, so if you pass arguments
+which are supported by the `o.DuckType` constructor they will be automatically used to
+create an `o.DuckType` object for you.
 
 ### methods
 

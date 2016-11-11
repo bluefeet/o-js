@@ -4,10 +4,11 @@ DEVELOPMENT VERSION
  - RIP Jam.
 
  Traits:
- - BREAKING: The requires argument, when passed an array, now validates that
-   the properties are functions rather than just defined.
- - The requires argument now accepts an object whos keys are the property
-   now and values are type objects.
+ - The requires argument now uses the DuckType to validate the object which
+   the trait is being applied to.  This is backwards compatible because a
+   duck type given an array works just like how requires worked with an array.
+   But, now, an object may be passed as well which can be used to require not
+   only the existence of the property, but its type.
 
 0.1.0 : 2016-11-08
 

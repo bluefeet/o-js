@@ -853,10 +853,7 @@ o_Trait = o_construct(
             var i, name;
 
             var requires = this.requires();
-            for (name in requires) {
-                if (requires[name].check( obj[name] )) continue;
-                throw new Error( i + ' is required.' );
-            }
+            if (requires) requires.validate( obj );
 
             var traits = this.traits();
             for (i in traits) {
@@ -960,20 +957,8 @@ o_Trait = o_construct(
 traitAttrs = [
     {
         key: 'requires',
-        type: new o_AnyType([
-            new o_ArrayOfType( o_definedType ),
-            new o_ObjectOfType( o_typeType )
-        ]),
-        devoid: function () { return {}; },
-        filter: function (val) {
-            if (! (val instanceof Array)) return val;
-
-            var requires = {};
-            for (var i in val) {
-                requires[val[i]] = o_functionType;
-            }
-            return requires;
-        }
+        type: new o_InstanceOfType( o_DuckType ),
+        coerce: true
     },
 
     {
