@@ -3,10 +3,9 @@
 ## Resources
 
 - [The o-js.com Site](https://o-js.com)
-- [o.Class Documentation](o-Class.md)
-- [o.Trait Documentation](o-Trait.md)
-- [o.Attribute Documentation](o-Attribute.md)
-- [o.Type Documentation](o-Type.md)
+- [o.Class Documentation](Classes.md)
+- [o.Trait Documentation](Traits.md)
+- [o.Attribute Documentation](Attributes.md)
 - [Types Documentation](Types.md)
 - [Plumbing Documentation](Plumbing.md)
 

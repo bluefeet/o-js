@@ -25,7 +25,7 @@ var bilbo = new Person({
 console.log( bilbo.fullName() ); // Bilbo Baggins
 ```
 
-See the [o.Trait Documentation](o-Trait.md) for what arguments this accepts.
+See the [Traits Documentation](Traits.md) for what arguments this accepts.
 
 Constructors created by `o.Class` have an internal-only trait assigned to them called
 `ClassTrait` which exposes a `type` and a `trait` attribute.
