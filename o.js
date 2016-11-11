@@ -558,6 +558,33 @@ var o_PatternType = o_augment(
 );
 o.PatternType = o_PatternType;
 
+// o.TupleType
+var o_TupleType = o_augment(
+    o_Type,
+    function (parent, types, args) {
+        args = args || {};
+        args.validate = function (ary) {
+            if (!o_arrayType.check(ary)) return false;
+            if (ary.length != types.length) return false;
+            for (var i in ary) {
+                if (!types[i]) return false;
+                if (!types[i].check(ary[i])) return false;
+            }
+            return true;
+        };
+        args.coerce = function (ary) {
+            if (!this.check(ary)) return ary;
+            for (var i in ary) {
+                if (!types[i]) continue;
+                ary[i] = types[i].coerce( ary[i] );
+            }
+            return ary;
+        };
+        parent( args );
+    }
+);
+o.TupleType = o_TupleType;
+
 // o.definedType
 var o_definedType = new o_NotType( o_undefinedType );
 o.definedType = o_definedType;

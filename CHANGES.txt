@@ -10,6 +10,9 @@ DEVELOPMENT VERSION
    But, now, an object may be passed as well which can be used to require not
    only the existence of the property, but its type.
 
+ Types:
+ - Added the new o.TupleType.
+
 0.1.0 : 2016-11-08
 
  Global:

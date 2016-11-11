@@ -236,6 +236,22 @@ within the object match the `<type>`.
 A coercion is declared on this type which will coerce any values within the object using
 the inner type's coercion logic (if any).
 
+### TupleType
+
+    <type> = new o.TupleType( <typesArray>, [<arguments>] )
+
+```js
+var type = new o.TupleType([ o.stringType, o.numberType ]);
+if (type.check('abc',123)) console.log('abc,123 is my tuple');
+if (!type.check(123,'abc')) console.log('123,abc is NOT my tuple');
+```
+
+Creates a type which validates that the passed array is a tuple where the ordered values
+match the ordered types.  Too few values or two many will also cause the check the fail.
+
+A coercion is declared on this type wich will coerce any values within the array using
+the inner type's coercion logic (if any).
+
 ### PatternType
 
     <type> = new o.PatternType( <RegExp>, [<arguments>] )
