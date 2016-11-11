@@ -1,8 +1,8 @@
-# o.Attribute
+# Attributes
 
-Attributes provide the majority of the features provided by o.js.  Attributes manage
-a single value of an object by providing validation, filtering, access restriction,
-argument handling, and a host of other features.
+The `o.Attribute` class provide the majority of the features provided by o.js.
+Attributes manage a single value of an object by providing validation, filtering,
+access restriction, argument handling, and a host of other features.
 
 ```js
 var date = new o.Attribute({
@@ -239,7 +239,7 @@ and set it on the object.
 
     <attribute>.install( <object>, [<arguments>] )
 
-Installs the attribute's methods (reader, writer, predicate, clearer, proxies) on to
+Installs the attribute's methods (reader, writer, predicate, clearer, proxies) onto
 the object.
 
 If `<arguments>` are passed then `setValueFromArgs` will be called after the attribute

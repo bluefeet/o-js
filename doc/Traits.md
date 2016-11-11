@@ -1,4 +1,4 @@
-# o.Trait
+# Traits
 
 `o.Trait` creates a trait object which can be applied to other objects,
 extending their functionality with the trait's interface.  Trait objects
