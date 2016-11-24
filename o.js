@@ -882,6 +882,11 @@ o_Trait = o_construct(
             var requires = this.requires();
             if (requires) requires.validate( obj );
 
+            var methods = this.methods();
+            for (name in methods) {
+                obj[name] = methods[name];
+            }
+
             var traits = this.traits();
             for (i in traits) {
                 traits[i].install( obj );
@@ -890,11 +895,6 @@ o_Trait = o_construct(
             var attributes = this.attributes();
             for (name in attributes) {
                 attributes[name].install( obj );
-            }
-
-            var methods = this.methods();
-            for (name in methods) {
-                obj[name] = methods[name];
             }
 
             var around = this.around();

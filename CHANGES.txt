@@ -1,7 +1,15 @@
 DEVELOPMENT VERSION
 
+ BREAKING:
+ - Methods will now be installed *before* traits rather than after.  This means
+   that a trait's requires setting may require methods, which is just about the
+   most important use of requires.  This also means that a trait's
+   around/before/after modfiers will be applied to the object which is being
+   installed to.  Note that attributes are still applied after traits.
+
  Global:
  - RIP Jam.
+ - Lots of documentation cleanup.
 
  Traits:
  - The requires argument now uses the DuckType to validate the object which
