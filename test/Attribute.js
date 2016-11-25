@@ -1,6 +1,26 @@
 var o = require('../lib/o.js');
 var test = require('tap').test;
 
+test('traits', function (t) {
+    var t1 = new o.Trait({
+        methods: { foo: function(){ return 'FOO'; } }
+    });
+    var t2 = new o.Trait({
+        attributes: { bar:{} }
+    });
+
+    var attr = new o.Attribute({
+        key: 'baz',
+        traits: [t1, t2],
+        bar: 'BAR'
+    });
+
+    t.is( attr.foo(), 'FOO', 'method from trait' );
+    t.is( attr.bar(), 'BAR', 'attribute from trait' );
+
+    t.end();
+});
+
 test('key', function (t) {
     var attr = new o.Attribute({
         key: 'foo'

@@ -202,6 +202,17 @@ attribute's value (which should be an object that supports the proxied methods).
 Proxying methods can be a much cleaner and more flexible way of extending another
 object's functionality without having to inherit from it.
 
+### traits
+
+    [traits: <arrayOfTraits>]
+
+```js
+traits: [ TraitOne, TraitTwo ]
+```
+
+An array of `o.Trait` objects which will be applied to the constructed attribute
+object.
+
 ## Methods
 
 ### getValue

@@ -694,9 +694,20 @@ var o_Attribute = o_construct(
     function (args) {
         args = args || {};
         this._originalArgs = o_clone( args );
+
+        if (args.traits) {
+            var traits = [].concat( args.traits );
+            var trait = traits.shift();
+            if (trait) {
+                if (traits.length) trait = trait.addTraits( traits );
+                trait.install( this, args );
+            }
+        }
+
         // Write the "key" attribute first as some filters depend on it.
         attrWriters.key.call( this, args.key );
         for (var key in args) {
+            if (!attrWriters[key]) continue;
             attrWriters[key].call( this, args[key] );
         }
     },
@@ -1051,6 +1062,15 @@ for (var i in traitAttrs) {
     traitAttrs[i] = new o_Attribute( traitAttrs[i] );
     traitAttrs[i].install( traitProto );
 }
+
+// This is used for low-level things like o.Attibute which cannot use
+// o.Trait directly otherwise it would introduce a circular dependency.
+traitProto.addTraits = function (traits) {
+    traits = [ this ].concat( traits );
+    return new o_Trait({
+        traits: traits
+    });
+};
 o.Trait = o_Trait;
 
 // o.traitType

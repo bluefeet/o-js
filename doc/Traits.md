@@ -11,7 +11,7 @@ technique.
 A typical use case would be to define a shared interface between a set of classes.
 
 ```js
-var PlayerTrait = new o.Trait({
+var playerTrait = new o.Trait({
     attributes: {
         id: { type:o.integerType, required:true },
         name: { type:o.nonEmptyStringType, required:true }
@@ -19,14 +19,14 @@ var PlayerTrait = new o.Trait({
 });
 
 var Computer = new o.Class({
-    traits: [ PlayerTrait ],
+    traits: [ playerTrait ],
     attributes: {
         difficulty: { type:o.enumType(['easy', 'hard']), devoid:'easy' }
     }
 });
 
 var Human = new o.Class({
-    traits: [ PlayerTrait ]
+    traits: [ playerTrait ]
 });
 
 var human = new Human({ id:1, name:'Fischer' });
@@ -36,8 +36,18 @@ var computer = new Computer({ id:2, name:'Blue', difficulty:'hard' });
 Or, a trait can be applied to an existing object if that is what you want.
 
 ```js
-var customPlayer = { id:3 };
-PlayerTrait.install( customPlayer );
+var customPlayer = {};
+playerTrait.install( customPlayer, { id:3, name:'Bob' } );
+```
+
+And, finally, for advanced uses you can apply traits as part of your own constructor
+rather than using `o.Class`.
+
+```js
+var Player = function (args) {
+    playerTrait.install( this, args );
+};
+var customPlayer = new Player({ id:4, name:'Lisa' });
 ```
 
 ## Declarative Interface
