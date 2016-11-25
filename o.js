@@ -117,6 +117,10 @@ var o_proxy = function (key, method) {
 };
 o.proxy = o_proxy;
 
+// o.traitBootstrap
+var o_traitBootstrap = {};
+o.traitBootstrap = o_traitBootstrap;
+
 // o.ucFirst
 var o_ucFirst = function (str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -696,12 +700,8 @@ var o_Attribute = o_construct(
         this._originalArgs = o_clone( args );
 
         if (args.traits) {
-            var traits = [].concat( args.traits );
-            var trait = traits.shift();
-            if (trait) {
-                if (traits.length) trait = trait.addTraits( traits );
-                trait.install( this, args );
-            }
+            var trait = new o_traitBootstrap.o_Trait({ traits:args.traits });
+            trait.install( this, args );
         }
 
         // Write the "key" attribute first as some filters depend on it.
@@ -1063,14 +1063,7 @@ for (var i in traitAttrs) {
     traitAttrs[i].install( traitProto );
 }
 
-// This is used for low-level things like o.Attibute which cannot use
-// o.Trait directly otherwise it would introduce a circular dependency.
-traitProto.addTraits = function (traits) {
-    traits = [ this ].concat( traits );
-    return new o_Trait({
-        traits: traits
-    });
-};
+o_traitBootstrap.o_Trait = o_Trait;
 o.Trait = o_Trait;
 
 // o.traitType
