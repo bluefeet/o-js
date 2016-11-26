@@ -78,7 +78,7 @@ is lazy).
 
 ### type
 
-    [type: <typeOfString|function|TypeObject>
+    [type: <typeOfString|function|TypeObject>]
 
 Declares the validation that the value being written (whether via arguments, calling
 the writer, or via devoid) must pass.
