@@ -276,7 +276,7 @@ var o_AllType = o.AllType = o_augment(
     function (parent, types, args) {
         args = args || {};
         args.validate = function (val) {
-            for (var i in types) {
+            for (var i = 0, l = types.length; i < l; i++) {
                 if (!types[i].check(val)) return false;
             }
             return true;
@@ -306,7 +306,7 @@ var o_EnumType = o.EnumType = o_augment(
     function (parent, values, args) {
         args = args || {};
         args.validate = function (val) {
-            for (var i in values) {
+            for (var i = 0, l = values.length; i < l; i++) {
                 if (val === values[i]) return true;
             }
             return false;
@@ -434,14 +434,14 @@ var o_ArrayOfType = o.ArrayOfType = o_augment(
         args = args || {};
         args.validate = function (ary) {
             if (!o_arrayType.check(ary)) return false;
-            for (var i in ary) {
+            for (var i = 0, l = ary.length; i < l; i++) {
                 if (!type.check(ary[i])) return false;
             }
             return true;
         };
         args.coerce = function (ary) {
             if (!this.check(ary)) return ary;
-            for (var i in ary) {
+            for (var i = 0, l = ary.length; i < l; i++) {
                 ary[i] = type.coerce( ary[i] );
             }
             return ary;
@@ -458,7 +458,7 @@ var o_DuckType = o.DuckType = o_augment(
         args.validate = function (val) {
             if (!o_objectType.check(val)) return false;
             if (o_arrayType.check(properties)) {
-                for (var i in properties) {
+                for (var i = 0, l = properties.length; i < l; i++) {
                     if (val[properties[i]] === undefined) return false;
                 }
                 return true;
@@ -792,7 +792,7 @@ o.Trait = o_construct(
         if (typeof args === 'function') args = this.functionToArgs( args );
 
         args = args || {};
-        for (var i in traitAttrs) {
+        for (var i = 0, l = traitAttrs.length; i < l; i++) {
             traitAttrs[i].setValueFromArgs( this, args );
         }
     },
@@ -823,7 +823,7 @@ o.Trait = o_construct(
             return args;
         },
         install: function (obj, args) {
-            var i, name;
+            var i, l, name;
 
             var requires = this.requires();
             if (requires) requires.validate( obj );
@@ -834,7 +834,7 @@ o.Trait = o_construct(
             }
 
             var traits = this.traits();
-            for (i in traits) {
+            for (i = 0, l = traits.length; i < l; i++) {
                 traits[i].install( obj );
             }
 
@@ -869,7 +869,7 @@ o.Trait = o_construct(
             // last.  Avoids a common race conditions when using filters.
             var attributes = this.attributes();
             if (!ignores) ignores = {};
-            var i, name;
+            var i, l, name;
 
             for (name in attributes) {
                 if (ignores[name]) continue;
@@ -886,14 +886,14 @@ o.Trait = o_construct(
             }
 
             var traits = this.traits();
-            for (i in traits) {
+            for (i = 0, l = traits.length; i < l; i++) {
                 traits[i].setFromArgs( obj, args, ignores );
             }
         },
 
         buildType: function () {
             var duck = {};
-            var i, name;
+            var name;
 
             var attributes = this.attributes();
             for (name in attributes) {
@@ -918,7 +918,7 @@ o.Trait = o_construct(
             if (!traits.length) return duck;
 
             var ducks = [ duck ];
-            for (i in traits) {
+            for (var i = 0, l = traits.length; i < l; i++) {
                 ducks.push( traits[i].type() );
             }
 
@@ -993,7 +993,7 @@ traitAttrs = [
 ];
 
 var traitProto = o.Trait.prototype;
-for (var i in traitAttrs) {
+for (var i = 0, l = traitAttrs.length; i < l; i++) {
     traitAttrs[i] = new o_Attribute( traitAttrs[i] );
     traitAttrs[i].install( traitProto );
 }

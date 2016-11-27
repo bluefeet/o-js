@@ -14,6 +14,8 @@ DEVELOPMENT VERSION
    needs to access itself or access another module which requires it.  This
    also simplified the generation of the combined o.js slightly.
  - Enabled strict mode in the combined o.js.
+ - Undo "Use a more condenced for loop, using `in`, when going over arrays" from
+   0.1.0 - turns out that wasn't a great idea.
 
  Traits:
  - The requires argument now uses the DuckType to validate the object which
@@ -32,7 +34,7 @@ DEVELOPMENT VERSION
 0.1.0 : 2016-11-08
 
  Global:
- - Use a more condenced for loop, using `in`, when going over arrays.
+ - Use a more condensed for loop, using `in`, when going over arrays.
  - Added a current branch to the GitHub repo for tracking the latest
    release from a single ref.
 
