@@ -25,7 +25,7 @@ DEVELOPMENT VERSION
    only the existence of the property, but its type.
  - Added the `is` argument for applying built-in class traits.
  - Added the `attributesAre` and `attributeTraits` arguments for defining
-   the `is` and `traits` arguments for new traits.
+   the `is` and `traits` arguments for new attributes.
 
  Attributes:
  - Added the `is` argument for applying built-in attribute traits.
