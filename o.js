@@ -1,6 +1,7 @@
 // o.js : DEVELOPMENT VERSION : https://o-js.com : MIT License
 
 (function() {
+'use strict';
 
 var root = this;
 var previousO = root.o;
