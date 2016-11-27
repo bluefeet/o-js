@@ -342,6 +342,24 @@ var o_InstanceOfType = o.InstanceOfType = o_augment(
     }
 );
 
+// o.LazyType
+var o_LazyType = o.LazyType = o_augment(
+    o_Type,
+    function (parent, typeBuilder, args) {
+        args = args || {};
+        var type;
+        args.validate = function (val) {
+            type = type || typeBuilder();
+            return type.check(val);
+        };
+        args.coerce = function (val) {
+            type = type || typeBuilder();
+            return type.coerce(val);
+        };
+        parent( args );
+    }
+);
+
 // o.NoneType
 var o_NoneType = o.NoneType = o_augment(
     o_Type,
@@ -573,6 +591,13 @@ var booleanOrIdentifierType = new o_AnyType([
     o_identifierType
 ]);
 
+var attrTraitType = new o_LazyType(function(){
+    return new o_InstanceOfType( o.Trait );
+});
+var attrTraitsType = new o_LazyType(function(){
+    return new o_ArrayOfType( attrTraitType );
+});
+
 var attrAttrs = {
     key: {
         type: o_identifierType,
@@ -585,6 +610,18 @@ var attrAttrs = {
     valueKey: {
         type: o_identifierType,
         devoid: function () { return '_' + this.key(); }
+    },
+
+    is: {
+        type: attrTraitType,
+        filter: function (val) {
+            if (attrTraitType.check(val)) return val;
+            return o[val + 'AttributeTrait'];
+        }
+    },
+    traits: {
+        type: attrTraitsType,
+        devoid: function () { return []; }
     },
 
     devoid: { type: o_definedType },
@@ -637,18 +674,24 @@ var o_Attribute = o.Attribute = o_construct(
         args = args || {};
         this._originalArgs = o_clone( args );
 
-        if (args.is) o[args.is + 'AttributeTrait'].install( this, args );
-
-        if (args.traits) {
-            var trait = new o.Trait({ traits:args.traits });
-            trait.install( this, args );
-        }
+        var ignores = {};
 
         // Write the "key" attribute first as some filters depend on it.
         attrWriters.key.call( this, args.key );
-        for (var key in args) {
-            if (!attrWriters[key]) continue;
-            attrWriters[key].call( this, args[key] );
+        ignores.key = true;
+
+        for (var name in args) {
+            if (!attrWriters[name]) continue;
+            attrWriters[name].call( this, args[name] );
+            ignores[name] = true;
+        }
+
+        var is = this.is();
+        if (is) is.install( this, args, ignores );
+
+        var traits = this.traits();
+        for (var i = 0, l = traits.length; i < l; i++) {
+            traits[i].install( this, args, ignores );
         }
     },
     o_merge(
@@ -742,10 +785,12 @@ var o_Attribute = o.Attribute = o_construct(
                 return this.clearerMethod().call( obj );
             },
 
-            setValueFromArgs: function (obj, args) {
-                if (!this.argKey()) return;
-                if (args[this.argKey()] === undefined) return;
-                return this.setValue( obj, args[this.argKey()] );
+            setValueFromArgs: function (obj, args, ignores) {
+                var argKey = this.argKey();
+                if (!argKey) return;
+                if (args[argKey] === undefined) return;
+                if (ignores) ignores[argKey] = true;
+                return this.setValue( obj, args[argKey] );
             },
 
             install: function (obj, value) {
@@ -794,8 +839,13 @@ o.Trait = o_construct(
         if (typeof args === 'function') args = this.functionToArgs( args );
 
         args = args || {};
+        var ignores = {};
         for (var i = 0, l = traitAttrs.length; i < l; i++) {
-            traitAttrs[i].setValueFromArgs( this, args );
+            traitAttrs[i].setValueFromArgs( this, args, ignores );
+            if (traitAttrs[i].key() == 'is') {
+                var is = this.is();
+                if (is) is.install( this, args, ignores );
+            }
         }
     },
     {
@@ -803,6 +853,7 @@ o.Trait = o_construct(
             var args = {
                 requires: [],
                 traits: [],
+                attributeTraits: [],
                 attributes: {},
                 methods: {},
                 around: {},
@@ -812,7 +863,10 @@ o.Trait = o_construct(
 
             var scope = {
                 require: function (name) { args.requires.push(name); },
+                is: function (name) { args.is = name; },
                 trait: function (name) { args.traits.push(name); },
+                attributesAre: function (name) { args.attributesAre = name; },
+                attributeTrait: function (name) { args.attributeTraits.push(name); },
                 attribute: function (name,props) { args.attributes[name] = props; },
                 method: function (name,func) { args.methods[name] = func; },
                 around: function (name,func) { args.around[name] = func; },
@@ -824,7 +878,7 @@ o.Trait = o_construct(
 
             return args;
         },
-        install: function (obj, args) {
+        install: function (obj, args, ignores) {
             var i, l, name;
 
             var requires = this.requires();
@@ -860,7 +914,7 @@ o.Trait = o_construct(
                 obj[name] = o_after( obj[name], after[name] );
             }
 
-            if (args) this.setFromArgs( obj, args );
+            if (args) this.setFromArgs( obj, args, ignores );
 
             return obj;
         },
@@ -874,17 +928,13 @@ o.Trait = o_construct(
             var i, l, name;
 
             for (name in attributes) {
-                if (ignores[name]) continue;
                 if (attributes[name].filter()) continue;
-                attributes[name].setValueFromArgs( obj, args );
-                ignores[name] = true;
+                attributes[name].setValueFromArgs( obj, args, ignores );
             }
 
             for (name in attributes) {
-                if (ignores[name]) continue;
                 if (!attributes[name].filter()) continue;
-                attributes[name].setValueFromArgs( obj, args );
-                ignores[name] = true;
+                attributes[name].setValueFromArgs( obj, args, ignores );
             }
 
             var traits = this.traits();
@@ -929,6 +979,9 @@ o.Trait = o_construct(
     }
 );
 
+var traitType = new o_InstanceOfType( o.Trait );
+var traitsType = new o_ArrayOfType( traitType );
+
 traitAttrs = [
     {
         key: 'requires',
@@ -937,8 +990,30 @@ traitAttrs = [
     },
 
     {
+        key: 'is',
+        type: traitType,
+        filter: function (val) {
+            if (traitType.check(val)) return val;
+            return o[val + 'ClassTrait'];
+        }
+    },
+    {
         key: 'traits',
-        type: new o_ArrayOfType( new o_InstanceOfType( o.Trait ) ),
+        type: traitsType,
+        devoid: function () { return []; }
+    },
+
+    {
+        key: 'attributesAre',
+        type: traitType,
+        filter: function (val) {
+            if (traitType.check(val)) return val;
+            return o[val + 'AttributeTrait'];
+        }
+    },
+    {
+        key: 'attributeTraits',
+        type: traitsType,
         devoid: function () { return []; }
     },
 
@@ -954,7 +1029,19 @@ traitAttrs = [
                     if (attribute.key() !== key) attribute = attribute.rebuild({ key: key });
                 }
                 else {
-                    attribute = new o_Attribute( o_merge({}, attribute, { key:key }) );
+                    var config = {
+                        key: key,
+                        traits: this.attributeTraits()
+                    };
+                    if (this.attributesAre()) config.is = this.attributesAre();
+
+                    attribute = new o_Attribute(
+                        o_merge(
+                            {},
+                            attribute,
+                            config
+                        )
+                    );
                 }
                 attributes[key] = attribute;
             }
@@ -1008,6 +1095,13 @@ var o_liteAttributeTrait = o.liteAttributeTrait = new o_Trait({
         valueKey: function () { return this.key(); },
         reader: function () { return false; },
         writer: function () { return false; }
+    }
+});
+
+// o.liteClassTrait
+var o_liteClassTrait = o.liteClassTrait = new o_Trait({
+    methods: {
+        attributesAre: function () { return o_liteAttributeTrait; }
     }
 });
 

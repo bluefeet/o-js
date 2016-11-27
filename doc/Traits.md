@@ -66,7 +66,10 @@ The following functions are available when using the declarative syntax:
 
 ```js
 this.require( propertyName );
+this.is( classTraitName );
 this.trait( trait );
+this.attributesAre( attributeTraitName );
+this.attributeTrait( trait );
 this.attribute( name, args );
 this.method( name, func );
 this.around( name, func );
@@ -96,6 +99,18 @@ is passed, rather than arguments for one, and the attribute's key does not match
 the attribute's `rebuild()` method will be called to create a new attribute object with
 the specified key.
 
+### is
+
+    [is: <traitName>]
+
+```js
+is: 'lite'
+```
+
+Applies one of the `o.<traitName>ClassTrait` traits.  The currently available traits are:
+
+- **lite**: Sets the `is` argument for all new attributes to `lite`.
+
 ### traits
 
     [traits: <arrayOfTraits>]
@@ -105,6 +120,28 @@ traits: [ TraitOne, TraitTwo ]
 ```
 
 An array of traits which will be installed to the target object before this trait is installed.
+
+### attributesAre
+
+    [attributesAre: <traitName>]
+
+```js
+attributesAre: 'rw'
+```
+
+Setting this causes all new attributes to have their `is` argument set to
+this value.
+
+### attributeTraits
+
+    [attributeTraits: <arrayOfTraits>]
+
+```js
+attributeTraits: [ TraitOne, TraitTwo ]
+```
+
+Setting this causes all new attributes to have their `traits` argument set
+to this value.
 
 ### requires
 

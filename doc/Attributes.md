@@ -206,6 +206,10 @@ object's functionality without having to inherit from it.
 
     [is: <traitName>]
 
+```js
+is: 'rwp'
+```
+
 Applies one of the `o.<traitName>AttributeTrait` traits.  The currently available traits are:
 
 - **rw**: This one is just shorthand for setting `writer` to `true`, meaning the

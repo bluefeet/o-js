@@ -263,6 +263,19 @@ if (!nameType.check('george')) console.log('george does not look like a name');
 
 Creates a type that checks that the values passes the `<RegExp>` pattern.
 
+### LazyType
+
+    <type> = new o.LazyType( <function>, [<arguments>] );
+
+```js
+var type = new o.LazyType(function(){
+    return new someCustomType();
+});
+```
+
+This type is used internally to delay the definition of types until the moment
+they are used.
+
 ### Type
 
 See the [Custom Types doc](CustomTypes.md) for information about how to define custom
