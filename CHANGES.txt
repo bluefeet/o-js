@@ -10,6 +10,9 @@ DEVELOPMENT VERSION
  Global:
  - RIP Jam.
  - Lots of documentation cleanup.
+ - Created a new bootstrap module that is used to simplify cases where a module
+   needs to access itself or access another module which requires it.  This
+   also simplified the generation of the combined o.js slightly.
 
  Traits:
  - The requires argument now uses the DuckType to validate the object which

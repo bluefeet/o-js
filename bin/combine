@@ -74,14 +74,7 @@ my $js = <<JS;
 
 var root = this;
 var previousO = root.o;
-var o = {};
-root.o = o;
-root.oJS = o;
 
-o.noConflict = function () {
-    root.o = previousO;
-    return o;
-};
 JS
 
 foreach my $name (@names_sorted) {
@@ -89,7 +82,18 @@ foreach my $name (@names_sorted) {
     $js .= $files->{$name}->{js};
 }
 
-$js .= "\n}).call(this);\n";
+$js .= <<JS;
+
+root.o = o;
+root.oJS = o;
+
+o.noConflict = function () {
+    root.o = previousO;
+    return o;
+};
+
+}).call(this);
+JS
 
 $u->spew('o.js', $js);
 
@@ -106,7 +110,7 @@ sub load_file {
 
     my @requires;
     $js =~ s{
-        var \s+ o_(\S+) \s* = \s* require\( '\./.*?' \);
+        var \s+ \S* \s* = \s* require\( '\./o-([^.]+).*?' \);
     }{
         push @requires, $1;
         '';
@@ -114,10 +118,9 @@ sub load_file {
 
     load_file( $_ ) for @requires;
 
-    $js =~ s{module.exports =}{var o_$name =}s;
-    $js =~ s{var o_$name = o_$name;}{}s;
+    $js =~ s{^var o = require\('\./o-bootstrap\.js'\);}{}s;
+    $js =~ s{module\.exports =}{var o_$name =}s;
     $js =~ s{^\s*(.*?)\s*$}{$1}s;
-    $js .= "\no.$name = o_$name;";
 
     $file->{requires} = \@requires;
     $file->{js} = "$js\n";

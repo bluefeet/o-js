@@ -4,71 +4,32 @@
 
 var root = this;
 var previousO = root.o;
+
+
+// o.bootstrap
 var o = {};
-root.o = o;
-root.oJS = o;
-
-o.noConflict = function () {
-    root.o = previousO;
-    return o;
-};
-
-// o.after
-var o_after = function (original, func) {
-    return function () {
-        var ret = original.apply( this, arguments );
-        func.call( this );
-        return ret;
-    };
-};
-o.after = o_after;
-
-// o.around
-var o_around = function (original, func) {
-    return function () {
-        var self = this;
-        var args = Array.prototype.slice.call(arguments);
-        var wrapper = function () {
-            return original.apply( self, arguments );
-        };
-        args.unshift( wrapper );
-        return func.apply( self, args );
-    };
-};
-o.around = o_around;
-
-// o.before
-var o_before = function (original, func) {
-    return function () {
-        func.call( this );
-        return original.apply( this, arguments );
-    };
-};
-o.before = o_before;
+var o_bootstrap = o;
 
 // o.clearer
-var o_clearer = function (key) {
+var o_clearer = o.clearer = function (key) {
     return function () {
         delete this[key];
     };
 };
-o.clearer = o_clearer;
 
 // o.getPrototypeOf
-var o_getPrototypeOf = function (obj) {
+var o_getPrototypeOf = o.getPrototypeOf = function (obj) {
     if (Object.getPrototypeOf) return Object.getPrototypeOf(obj);
     return Object.__proto__; // jshint ignore:line
 };
-o.getPrototypeOf = o_getPrototypeOf;
 
 // o.has
-var o_has = function (obj, key) {
+var o_has = o.has = function (obj, key) {
     return Object.prototype.hasOwnProperty.call( obj, key );
 };
-o.has = o_has;
 
 // o.local
-var o_local = function (obj, prop, func) {
+var o_local = o.local = function (obj, prop, func) {
     var hasProp = o_has( obj, prop );
     var origVal = obj[prop];
 
@@ -83,10 +44,9 @@ var o_local = function (obj, prop, func) {
 
     return ret;
 };
-o.local = o_local;
 
 // o.merge
-var o_merge = function () {
+var o_merge = o.merge = function () {
     var fromObjs = Array.prototype.slice.call(arguments);
     var toObj = fromObjs.shift();
 
@@ -99,36 +59,28 @@ var o_merge = function () {
 
     return toObj;
 };
-o.merge = o_merge;
 
 // o.predicate
-var o_predicate = function (key) {
+var o_predicate = o.predicate = function (key) {
     return function () {
         return( o_has( this, key ) && this[key] !== undefined );
     };
 };
-o.predicate = o_predicate;
 
 // o.proxy
-var o_proxy = function (key, method) {
+var o_proxy = o.proxy = function (key, method) {
     return function () {
         return this[key][method].apply( this[key], arguments );
     };
 };
-o.proxy = o_proxy;
-
-// o.traitBootstrap
-var o_traitBootstrap = {};
-o.traitBootstrap = o_traitBootstrap;
 
 // o.ucFirst
-var o_ucFirst = function (str) {
+var o_ucFirst = o.ucFirst = function (str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 };
-o.ucFirst = o_ucFirst;
 
 // o.writer
-var o_writer = function (key, def) {
+var o_writer = o.writer = function (key, def) {
     def = def || {};
     if (def.augments) def.type = def.type || 'object';
 
@@ -162,26 +114,53 @@ var o_writer = function (key, def) {
         return original;
     };
 };
-o.writer = o_writer;
+
+// o.after
+var o_after = o.after = function (original, func) {
+    return function () {
+        var ret = original.apply( this, arguments );
+        func.call( this );
+        return ret;
+    };
+};
+
+// o.around
+var o_around = o.around = function (original, func) {
+    return function () {
+        var self = this;
+        var args = Array.prototype.slice.call(arguments);
+        var wrapper = function () {
+            return original.apply( self, arguments );
+        };
+        args.unshift( wrapper );
+        return func.apply( self, args );
+    };
+};
+
+// o.before
+var o_before = o.before = function (original, func) {
+    return function () {
+        func.call( this );
+        return original.apply( this, arguments );
+    };
+};
 
 // o.clone
-var o_clone = function (obj) {
+var o_clone = o.clone = function (obj) {
     var newObj = Object.create( o_getPrototypeOf(obj) );
     newObj.constructor = obj.constructor;
     o_merge( newObj, obj );
     return newObj;
 };
-o.clone = o_clone;
 
 // o.construct
-var o_construct = function (constructor, proto) {
+var o_construct = o.construct = function (constructor, proto) {
     o_merge( constructor.prototype, proto );
     return constructor;
 };
-o.construct = o_construct;
 
 // o.reader
-var o_reader = function (key, def) {
+var o_reader = o.reader = function (key, def) {
     def = def || {};
     def.writer = def.writer || o_writer( key, def );
     def.predicate = def.predicate || o_predicate( key );
@@ -202,12 +181,9 @@ var o_reader = function (key, def) {
         return this[key];
     };
 };
-o.reader = o_reader;
 
 // o.Type
-var o_Type;
-
-o_Type = o_construct(
+o.Type = o_construct(
     function (args) {
         args = args || {};
         if (typeof args === 'function') args = { validate: args };
@@ -217,7 +193,7 @@ o_Type = o_construct(
     },
     {
         check: function (val) {
-            if (o_Type.validationDisabled) return true;
+            if (o.Type.validationDisabled) return true;
             if (this._parent) { if (!this._parent.check(val)) return false; }
             if (!this._validateMethod) return true;
             if (!this._validateMethod( val )) return false;
@@ -238,18 +214,19 @@ o_Type = o_construct(
         },
         subtype: function (args) {
             if (typeof args === 'function') { args = { validate: args }; }
-            return new o_Type(
+            return new o.Type(
                 o_merge( {parent:this}, args )
             );
         }
     }
 );
 
-o_Type.validationDisabled = false;
-o.Type = o_Type;
+o.Type.validationDisabled = false;
+
+var o_Type = o.Type;
 
 // o.accessor
-var o_accessor = function (key, def) {
+var o_accessor = o.accessor = function (key, def) {
     def = def || {};
     def.writer = def.writer || o_writer( key, def );
     def.reader = def.reader || o_reader( key, def );
@@ -259,10 +236,9 @@ var o_accessor = function (key, def) {
         return def.reader.call( this );
     };
 };
-o.accessor = o_accessor;
 
 // o.augment
-var o_augment = function (parent, constructor, proto) {
+var o_augment = o.augment = function (parent, constructor, proto) {
     var child = o_around(
         parent,
         constructor
@@ -275,10 +251,9 @@ var o_augment = function (parent, constructor, proto) {
 
     return child;
 };
-o.augment = o_augment;
 
 // o.disableTypeValidation
-var o_disableTypeValidation = function (func) {
+var o_disableTypeValidation = o.disableTypeValidation = function (func) {
     if (!func) {
         o_Type.validationDisabled = true;
         return;
@@ -293,10 +268,9 @@ var o_disableTypeValidation = function (func) {
         }
     );
 };
-o.disableTypeValidation = o_disableTypeValidation;
 
 // o.AllType
-var o_AllType = o_augment(
+var o_AllType = o.AllType = o_augment(
     o_Type,
     function (parent, types, args) {
         args = args || {};
@@ -309,10 +283,9 @@ var o_AllType = o_augment(
         parent( args );
     }
 );
-o.AllType = o_AllType;
 
 // o.AnyType
-var o_AnyType = o_augment(
+var o_AnyType = o.AnyType = o_augment(
     o_Type,
     function (parent, types, args) {
         args = args || {};
@@ -325,10 +298,9 @@ var o_AnyType = o_augment(
         parent( args );
     }
 );
-o.AnyType = o_AnyType;
 
 // o.EnumType
-var o_EnumType = o_augment(
+var o_EnumType = o.EnumType = o_augment(
     o_Type,
     function (parent, values, args) {
         args = args || {};
@@ -341,10 +313,9 @@ var o_EnumType = o_augment(
         parent( args );
     }
 );
-o.EnumType = o_EnumType;
 
 // o.EqualType
-var o_EqualType = o_augment(
+var o_EqualType = o.EqualType = o_augment(
     o_Type,
     function (parent, expected, args) {
         args = args || {};
@@ -354,10 +325,9 @@ var o_EqualType = o_augment(
         parent( args );
     }
 );
-o.EqualType = o_EqualType;
 
 // o.InstanceOfType
-var o_InstanceOfType = o_augment(
+var o_InstanceOfType = o.InstanceOfType = o_augment(
     o_Type,
     function (parent, Constructor, args) {
         args = args || {};
@@ -370,10 +340,9 @@ var o_InstanceOfType = o_augment(
         parent( args );
     }
 );
-o.InstanceOfType = o_InstanceOfType;
 
 // o.NoneType
-var o_NoneType = o_augment(
+var o_NoneType = o.NoneType = o_augment(
     o_Type,
     function (parent, types, args) {
         args = args || {};
@@ -384,19 +353,17 @@ var o_NoneType = o_augment(
         parent( args );
     }
 );
-o.NoneType = o_NoneType;
 
 // o.NotType
-var o_NotType = o_augment(
+var o_NotType = o.NotType = o_augment(
     o_NoneType,
     function (parent, type, args) {
         parent( [type], args );
     }
 );
-o.NotType = o_NotType;
 
 // o.TypeOfType
-var o_TypeOfType = o_augment(
+var o_TypeOfType = o.TypeOfType = o_augment(
     o_Type,
     function (parent, result, args) {
         args = args || {};
@@ -406,75 +373,61 @@ var o_TypeOfType = o_augment(
         parent( args );
     }
 );
-o.TypeOfType = o_TypeOfType;
 
 // o.arrayType
-var o_arrayType = new o_InstanceOfType( Array );
-o.arrayType = o_arrayType;
+var o_arrayType = o.arrayType = new o_InstanceOfType( Array );
 
 // o.booleanType
-var o_booleanType = new o_AnyType([
+var o_booleanType = o.booleanType = new o_AnyType([
     new o_TypeOfType( 'boolean' ),
     new o_InstanceOfType( Boolean )
 ]);
-o.booleanType = o_booleanType;
 
 // o.dateType
-var o_dateType = new o_InstanceOfType( Date );
-o.dateType = o_dateType;
+var o_dateType = o.dateType = new o_InstanceOfType( Date );
 
 // o.functionType
-var o_functionType = new o_InstanceOfType( Function );
-o.functionType = o_functionType;
+var o_functionType = o.functionType = new o_InstanceOfType( Function );
 
 // o.nullType
-var o_nullType = new o_EqualType( null );
-o.nullType = o_nullType;
+var o_nullType = o.nullType = new o_EqualType( null );
 
 // o.numberType
-var o_numberType = new o_AnyType([
+var o_numberType = o.numberType = new o_AnyType([
     new o_TypeOfType( 'number' ),
     new o_InstanceOfType( Number )
 ]);
-o.numberType = o_numberType;
 
 // o.objectType
-var o_objectType = new o_InstanceOfType( Object );
-o.objectType = o_objectType;
+var o_objectType = o.objectType = new o_InstanceOfType( Object );
 
 // o.positiveType
-var o_positiveType = o_numberType.subtype( function (val) {
+var o_positiveType = o.positiveType = o_numberType.subtype( function (val) {
     return (val > 0) ? true : false;
 });
-o.positiveType = o_positiveType;
 
 // o.regExpType
-var o_regExpType = new o_InstanceOfType( RegExp );
-o.regExpType = o_regExpType;
+var o_regExpType = o.regExpType = new o_InstanceOfType( RegExp );
 
 // o.simpleObjectType
-var o_simpleObjectType = o_objectType.subtype( function (val) {
+var o_simpleObjectType = o.simpleObjectType = o_objectType.subtype( function (val) {
     return (val.constructor === Object) ? true : false;
 });
-o.simpleObjectType = o_simpleObjectType;
 
 // o.stringType
-var o_stringType = new o_AnyType([
+var o_stringType = o.stringType = new o_AnyType([
     new o_TypeOfType( 'string' ),
     new o_InstanceOfType( String )
 ]);
-o.stringType = o_stringType;
 
 // o.typeType
-var o_typeType = new o_InstanceOfType( o_Type );
-o.typeType = o_typeType;
+var o_typeType = o.typeType = new o_InstanceOfType( o_Type );
 
 // o.undefinedType
-var o_undefinedType = new o_EqualType( undefined );
-o.undefinedType = o_undefinedType;
+var o_undefinedType = o.undefinedType = new o_EqualType( undefined );
 
 // o.ArrayOfType
-var o_ArrayOfType = o_augment(
+var o_ArrayOfType = o.ArrayOfType = o_augment(
     o_Type,
     function (parent, type, args) {
         args = args || {};
@@ -495,10 +448,9 @@ var o_ArrayOfType = o_augment(
         parent( args );
     }
 );
-o.ArrayOfType = o_ArrayOfType;
 
 // o.DuckType
-var o_DuckType = o_augment(
+var o_DuckType = o.DuckType = o_augment(
     o_Type,
     function (parent, properties, args) {
         args = args || {};
@@ -522,10 +474,9 @@ var o_DuckType = o_augment(
         parent( args );
     }
 );
-o.DuckType = o_DuckType;
 
 // o.ObjectOfType
-var o_ObjectOfType = o_augment(
+var o_ObjectOfType = o.ObjectOfType = o_augment(
     o_Type,
     function (parent, type, args) {
         args = args || {};
@@ -546,10 +497,9 @@ var o_ObjectOfType = o_augment(
         parent( args );
     }
 );
-o.ObjectOfType = o_ObjectOfType;
 
 // o.PatternType
-var o_PatternType = o_augment(
+var o_PatternType = o.PatternType = o_augment(
     o_Type,
     function (parent, regExp, args) {
         args = args || {};
@@ -560,10 +510,9 @@ var o_PatternType = o_augment(
         parent( args );
     }
 );
-o.PatternType = o_PatternType;
 
 // o.TupleType
-var o_TupleType = o_augment(
+var o_TupleType = o.TupleType = o_augment(
     o_Type,
     function (parent, types, args) {
         args = args || {};
@@ -587,43 +536,35 @@ var o_TupleType = o_augment(
         parent( args );
     }
 );
-o.TupleType = o_TupleType;
 
 // o.definedType
-var o_definedType = new o_NotType( o_undefinedType );
-o.definedType = o_definedType;
+var o_definedType = o.definedType = new o_NotType( o_undefinedType );
 
 // o.identifierType
-var o_identifierType = new o_PatternType(/^[A-Za-z_$][A-Za-z_$0-9]*$/);
-o.identifierType = o_identifierType;
+var o_identifierType = o.identifierType = new o_PatternType(/^[A-Za-z_$][A-Za-z_$0-9]*$/);
 
 // o.integerType
-var o_integerType = o_numberType.subtype( function (val) {
+var o_integerType = o.integerType = o_numberType.subtype( function (val) {
     return (Math.floor(val) === val + 0) ? true : false;
 });
-o.integerType = o_integerType;
 
 // o.negativeType
-var o_negativeType = o_numberType.subtype( function (val) {
+var o_negativeType = o.negativeType = o_numberType.subtype( function (val) {
     return (val < 0) ? true : false;
 });
-o.negativeType = o_negativeType;
 
 // o.nonEmptyStringType
-var o_nonEmptyStringType = o_stringType.subtype( function (val) {
+var o_nonEmptyStringType = o.nonEmptyStringType = o_stringType.subtype( function (val) {
     return (val.length > 0) ? true : false;
 });
-o.nonEmptyStringType = o_nonEmptyStringType;
 
 // o.nonZeroType
-var o_nonZeroType = o_numberType.subtype( function (val) {
+var o_nonZeroType = o.nonZeroType = o_numberType.subtype( function (val) {
     return (val !== 0) ? true : false;
 });
-o.nonZeroType = o_nonZeroType;
 
 // o.positiveIntType
-var o_positiveIntType = new o_AllType([ o_integerType, o_positiveType ]);
-o.positiveIntType = o_positiveIntType;
+var o_positiveIntType = o.positiveIntType = new o_AllType([ o_integerType, o_positiveType ]);
 
 // o.Attribute
 var booleanOrIdentifierType = new o_AnyType([
@@ -690,13 +631,13 @@ for (var key in attrAttrs) {
     attrReaders[key] = o_reader( '_' + key, o_merge( { writer: attrWriters[key] }, attrAttrs[key] ) );
 }
 
-var o_Attribute = o_construct(
+var o_Attribute = o.Attribute = o_construct(
     function (args) {
         args = args || {};
         this._originalArgs = o_clone( args );
 
         if (args.traits) {
-            var trait = new o_traitBootstrap.o_Trait({ traits:args.traits });
+            var trait = new o.Trait({ traits:args.traits });
             trait.install( this, args );
         }
 
@@ -838,17 +779,14 @@ var o_Attribute = o_construct(
         attrReaders
     )
 );
-o.Attribute = o_Attribute;
 
 // o.attributeType
-var o_attributeType = new o_InstanceOfType( o_Attribute );
-o.attributeType = o_attributeType;
+var o_attributeType = o.attributeType = new o_InstanceOfType( o_Attribute );
 
 // o.Trait
 var traitAttrs;
-var o_Trait;
 
-o_Trait = o_construct(
+o.Trait = o_construct(
     function (args) {
         if (typeof args === 'function') args = this.functionToArgs( args );
 
@@ -997,7 +935,7 @@ traitAttrs = [
 
     {
         key: 'traits',
-        type: new o_ArrayOfType( new o_InstanceOfType( o_Trait ) ),
+        type: new o_ArrayOfType( new o_InstanceOfType( o.Trait ) ),
         devoid: function () { return []; }
     },
 
@@ -1053,21 +991,19 @@ traitAttrs = [
     }
 ];
 
-var traitProto = o_Trait.prototype;
+var traitProto = o.Trait.prototype;
 for (var i in traitAttrs) {
     traitAttrs[i] = new o_Attribute( traitAttrs[i] );
     traitAttrs[i].install( traitProto );
 }
 
-o_traitBootstrap.o_Trait = o_Trait;
-o.Trait = o_Trait;
+var o_Trait = o.Trait;
 
 // o.traitType
-var o_traitType = new o_InstanceOfType( o_Trait );
-o.traitType = o_traitType;
+var o_traitType = o.traitType = new o_InstanceOfType( o_Trait );
 
 // o.classTrait
-var o_classTrait = new o_Trait({
+var o_classTrait = o.classTrait = new o_Trait({
     attributes: {
         type: {
             type: o_typeType,
@@ -1085,10 +1021,9 @@ var o_classTrait = new o_Trait({
         }
     }
 });
-o.classTrait = o_classTrait;
 
 // o.Class
-var o_Class = o_construct(
+var o_Class = o.Class = o_construct(
     function (args) {
         var trait = new o_Trait( args );
         var constructor = function (args) {
@@ -1100,14 +1035,20 @@ var o_Class = o_construct(
         return constructor;
     }
 );
-o.Class = o_Class;
 
 // o.classType
-var o_classType = o_classTrait.type().subtype({
+var o_classType = o.classType = o_classTrait.type().subtype({
     coerce: function (args) {
         return this.check(args) ? args : new o_Class(args);
     }
 });
-o.classType = o_classType;
+
+root.o = o;
+root.oJS = o;
+
+o.noConflict = function () {
+    root.o = previousO;
+    return o;
+};
 
 }).call(this);
