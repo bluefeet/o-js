@@ -1,8 +1,22 @@
-# Classes
+++++
+<table><tr>
+<td><a href="https://o-js.com">o-js.com</a></td>
+<td><a href="Overview.adoc">Overview</a></td>
+<td><a href="Cookbook.adoc">Cookbook</a></td>
+<td><strong>Classes</strong></td>
+<td><a href="Traits.adoc">Traits</a></td>
+<td><a href="Attributes.adoc">Attributes</a></td>
+<td><a href="Types.adoc">Types</a></td>
+<td><a href="Plumbing.adoc">Plumbing</a></td>
+</tr></table>
+++++
 
-`o.Class` is a thin wrapper around a `o.Trait` and accepts all the same arguments.  The
-underlying trait of the class is installed on the class's prototype so that any objects
-created by the class have the trait automatically applied.
+= Classes
+
+*link:#synopsis[Synopsis]* +
+*link:#description[Description]*
+
+== Synopsis
 
 ```js
 var Person = new o.Class({
@@ -25,7 +39,13 @@ var bilbo = new Person({
 console.log( bilbo.fullName() ); // Bilbo Baggins
 ```
 
-See the [Traits Documentation](Traits.md) for what arguments this accepts.
+== Description
+
+`o.Class` is a thin wrapper around a `o.Trait` and accepts all the same arguments.  The
+underlying trait of the class is installed on the class's prototype so that any objects
+created by the class have the trait automatically applied.
+
+See the link:Traits.adoc[Traits Documentation] for what arguments this accepts.
 
 Constructors created by `o.Class` have an internal-only trait assigned to them called
 `ClassTrait` which exposes a `type` and a `trait` attribute.

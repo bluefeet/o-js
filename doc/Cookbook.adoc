@@ -1,0 +1,131 @@
+++++
+<table><tr>
+<td><a href="https://o-js.com">o-js.com</a></td>
+<td><a href="Overview.adoc">Overview</a></td>
+<td><strong>Cookbook</strong></td>
+<td><a href="Classes.adoc">Classes</a></td>
+<td><a href="Traits.adoc">Traits</a></td>
+<td><a href="Attributes.adoc">Attributes</a></td>
+<td><a href="Types.adoc">Types</a></td>
+<td><a href="Plumbing.adoc">Plumbing</a></td>
+</tr></table>
+++++
+
+= Cookbook
+
+*link:#custom-types[Custom Types]* +
+*link:#using-types-standalone[Using Types Standalone]* +
+*link:#disabling-validation[Disabling Validation]*
+
+== Custom Types
+
+The base class for all type classes and objects is the `o.Type` class.  Under normal
+circumstances you should be able to construct custom types using the existing
+pre-defined type classes and object documented in the link:types.adic[Types doc].
+
+For example, you could create a type which validates that a number is an integer,
+and is zero or positive with:
+
+```js
+var type = new o.AllType([
+    o.integerType,
+    new o.AnyType([
+        new o.EqualType( 0 ),
+        o.positiveType
+    ])
+]);
+```
+
+But, sometimes you need to construct a type yourself using custom rules.  To do that,
+create an instance of `o.Type`:
+
+```js
+var type = new o.Type({
+    validate: function (val) {
+        if (Math.floor(val) !== val + 0) return false;
+        if (val < 0) return false;
+        return true;
+    }
+});
+```
+
+Another alternative to this is creating you own type class by augmenting the `o.Type`
+class:
+
+```js
+var MyType = o.augment(
+    o.Type,
+    function (parent, min, args) {
+        args = args || {};
+        args.validate = function (val) {
+            if (Math.floor(val) !== val + 0) return false;
+            if (val < min) return false;
+            return true;
+        };
+        parent( args );
+    }
+);
+var type = new MyType( 0 );
+```
+
+All three of the above examples produce a type which validates using the same
+rules.  Each example is more complex than the previous, but is also more powerful.
+
+== Using Types Standalone
+
+Types can be used independently of the rest of o.js, such as in conjunction with
+form validation libraries.  If you'd like to check if a value is valid, or not,
+use the `check()` function:
+
+```js
+if (o.integerType.check( value )) {
+    // Do something with the valid value.
+}
+```
+
+If you'd like an exception to be thrown you can use the `validate()` function.
+
+```js
+o.nonEmptyStringType.validate( value );
+// Do something with the valid value.
+```
+
+And if you'd like to apply coercion you can do that too with `coerce()`.  Note
+that this will throw an exception if the coerced value does not pass the type's
+validation.  While not recommended, if you'd just like to coerce and bypass
+validation you can use the `coerceOnly()` function.
+
+```js
+var roundNum = o.numberType.subtype({
+    coerce: function (val) { return Math.round(val) }
+});
+var value = 2.5;
+value = roundNum.coerce( value ); // 3
+```
+
+== Disabling Validation
+
+Validation may be disabled by calling:
+
+```js
+o.disableTypeValidation();
+```
+
+Doing this depends heavily on what validation means to you.  If validation is a tool
+for which you depend on during development and testing to find bugs before deployment
+then you may find that the performance gain of disabling validation in production may
+be worth the loss of early error detection you get by enabling validation.
+
+Another workflow is to disable validation for specific blocks of code:
+
+```js
+// Validation is enabled here.
+o.disableTypeValidation(function(){
+    // Validation is disabled here.
+});
+// Validation is enabled here.
+```
+
+Doing the above may be useful if you have certain pieces of code which spawn many
+objects and the performance gain of disabling validation within a scope is worth it.
+

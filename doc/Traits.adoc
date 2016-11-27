@@ -1,14 +1,26 @@
-# Traits
+++++
+<table><tr>
+<td><a href="https://o-js.com">o-js.com</a></td>
+<td><a href="Overview.adoc">Overview</a></td>
+<td><a href="Cookbook.adoc">Cookbook</a></td>
+<td><a href="Classes.adoc">Classes</a></td>
+<td><strong>Traits</strong></td>
+<td><a href="Attributes.adoc">Attributes</a></td>
+<td><a href="Types.adoc">Types</a></td>
+<td><a href="Plumbing.adoc">Plumbing</a></td>
+</tr></table>
+++++
 
-`o.Trait` creates a trait object which can be applied to other objects,
-extending their functionality with the trait's interface.  Trait objects
-can also be used with the `traits:[]` arguments to `o.Class` and `o.Trait`.
-Multiple traits can be applied to a single object, bypassing JavaScript's
-single-inheritance model, supporting the
-[Composition over Inheritance](http://en.wikipedia.org/wiki/Composition_over_inheritance)
-technique.
+= Traits
 
-A typical use case would be to define a shared interface between a set of classes.
+*link:#synopsis[Synopsis]* +
+*link:#description[Description]* +
+*link:#declarative-interface[Declarative Interface]* +
+*link:#arguments[Arguments]* +
+*link:#attributes[Attributes]* +
+*link:#methods[Methods]*
+
+== Synopsis
 
 ```js
 var playerTrait = new o.Trait({
@@ -33,15 +45,14 @@ var human = new Human({ id:1, name:'Fischer' });
 var computer = new Computer({ id:2, name:'Blue', difficulty:'hard' });
 ```
 
-Or, a trait can be applied to an existing object if that is what you want.
+Trait may be applied to an existing object if you are not using `o.Class`:
 
 ```js
 var customPlayer = {};
 playerTrait.install( customPlayer, { id:3, name:'Bob' } );
 ```
 
-And, finally, for advanced uses you can apply traits as part of your own constructor
-rather than using `o.Class`.
+You may even roll your own custom constructor and apply traits there:
 
 ```js
 var Player = function (args) {
@@ -50,7 +61,17 @@ var Player = function (args) {
 var customPlayer = new Player({ id:4, name:'Lisa' });
 ```
 
-## Declarative Interface
+== Description
+
+`o.Trait` creates a trait object which can be applied to other objects,
+extending their functionality with the trait's interface.  Trait objects
+can also be used with the `traits:[]` arguments to `o.Class` and `o.Trait`.
+Multiple traits can be applied to a single object, bypassing JavaScript's
+single-inheritance model, supporting the
+http://en.wikipedia.org/wiki/Composition_over_inheritance[Composition over Inheritance]
+technique.
+
+== Declarative Interface
 
 Instead of passing an object as the argument you may pass an anonymous function
 which will be called with a custom `this` variable containing functions for
@@ -80,9 +101,9 @@ this.after( name. func );
 This declarative syntax, while slightly more verbose, gives a lot more
 flexibility for dynamically constructing traits and classes.
 
-## Arguments
+== Arguments
 
-### attributes
+=== attributes
 
     [attributes: <objectOfAttributes>]
 
@@ -93,13 +114,13 @@ attributes: {
 }
 ```
 
-An object containing [o.Attribute](Attributes.md) objects, or arguments to create them,
+An object containing link:Attributes.md[Attribute] objects, or arguments to create them,
 where the key will be used as the attribute's `key` argument.  If an attribute object
 is passed, rather than arguments for one, and the attribute's key does not match then
 the attribute's `rebuild()` method will be called to create a new attribute object with
 the specified key.
 
-### is
+=== is
 
     [is: <traitName>]
 
@@ -109,9 +130,10 @@ is: 'lite'
 
 Applies one of the `o.<traitName>ClassTrait` traits.  The currently available traits are:
 
-- **lite**: Sets the `is` argument for all new attributes to `lite`.
+lite::
+    Sets the `is` argument for all new attributes to `lite`.
 
-### traits
+=== traits
 
     [traits: <arrayOfTraits>]
 
@@ -121,7 +143,7 @@ traits: [ TraitOne, TraitTwo ]
 
 An array of traits which will be installed to the target object before this trait is installed.
 
-### attributesAre
+=== attributesAre
 
     [attributesAre: <traitName>]
 
@@ -132,7 +154,7 @@ attributesAre: 'rw'
 Setting this causes all new attributes to have their `is` argument set to
 this value.
 
-### attributeTraits
+=== attributeTraits
 
     [attributeTraits: <arrayOfTraits>]
 
@@ -143,7 +165,7 @@ attributeTraits: [ TraitOne, TraitTwo ]
 Setting this causes all new attributes to have their `traits` argument set
 to this value.
 
-### requires
+=== requires
 
     [requires: <duckType>]
 
@@ -157,7 +179,7 @@ must pass the duck type check.  This argument support coercion, so if you pass a
 which are supported by the `o.DuckType` constructor they will be automatically used to
 create an `o.DuckType` object for you.
 
-### methods
+=== methods
 
     [methods: <objectOfMethods>]
 
@@ -171,7 +193,7 @@ methods: {
 
 An object containing functions where the key will be the name of the function.
 
-### around
+=== around
 
     [around: <objectOfAroundModifiers>]
 
@@ -188,7 +210,7 @@ around: {
 Wraps the the specified method in a function, allowing you to do things before and
 after the method call, change the argument, or even decide not to call the original method.
 
-### before
+=== before
 
     [before: <objectOfBeforeModifiers>]
 
@@ -200,7 +222,7 @@ before: {
 
 Calls the specified function before calling the underlying method.
 
-### after
+=== after
 
     [after: <objectOfAfterModifiers>]
 
@@ -212,13 +234,13 @@ after: {
 
 Calls the specified function after calling the underlying method.
 
-## Attributes
+== Attributes
 
-### type
+=== type
 
-## Methods
+== Methods
 
-### install
+=== install
 
     <trait>.install( <object>, [<arguments>] )
 
@@ -230,7 +252,7 @@ MyTrait.install( myObject );
 Installs the trait's interface onto an object.  If an arguments object is passed then
 then `setFromArgs` will be called for you after the install is done.
 
-### setFromArgs
+=== setFromArgs
 
     <trait>.setFromArgs( <object>, <arguments> )
 

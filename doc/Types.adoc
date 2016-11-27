@@ -1,6 +1,24 @@
-# Types
+++++
+<table><tr>
+<td><a href="https://o-js.com">o-js.com</a></td>
+<td><a href="Overview.adoc">Overview</a></td>
+<td><a href="Cookbook.adoc">Cookbook</a></td>
+<td><a href="Classes.adoc">Classes</a></td>
+<td><a href="Traits.adoc">Traits</a></td>
+<td><a href="Attributes.adoc">Attributes</a></td>
+<td><strong>Types</strong></td>
+<td><a href="Plumbing.adoc">Plumbing</a></td>
+</tr></table>
+++++
 
-## Objects
+= Types
+
+*link:#objects[Objects]* +
+*link:#classes[Classes]* +
+*link:#arguments[Arguments]* +
+*link:#methods[Methods]*
+
+== Objects
 
 Many type objects are already defined for all of the built-in JavaScript types.  Below is
 the list of the types that are currently available.  These type objects are all instances
@@ -63,16 +81,16 @@ obj = new o.Trait({});
 obj = o.traitType.coerce({});
 ```
 
-## Classes
+== Classes
 
 Type classes are used to construct complex types that solve common problems.  These
 classes all inherit from the `o.Type` class and support all its arguments and methods.
 
 These classes all accept two arguments.  The first argument is defined by the
 individual class and is required.  The second argument is optional and, if present,
-must be an object containing arguments as accepted by [o.Type](o.Type).
+must be an object containing arguments as accepted by link:#type[o.Type].
 
-### EqualType
+=== EqualType
 
     <type> = new o.EqualType( <value>, [<arguments>] )
 
@@ -85,7 +103,7 @@ if (!greenType.check('blue')) console.log('blue is not green');
 Creates a type that validates that the passed in value passes a strict comparison
 against the `<value>` argument.
 
-### AnyType
+=== AnyType
 
     <type> = new o.AnyType( <typesArray>, [<arguments>] )
 
@@ -99,21 +117,21 @@ if (!numOrStrType.check(null)) console.log('null is not a num or str');
 This type class creates a type that verifies that the passed in value passes at least
 one of the types in `<typesArray>`.
 
-### AllType
+=== AllType
 
     <type> = new o.AllType( <typesArray>, [<arguments>] )
 
 Similar to `o.AnyType`, this type class verifies that the passed in value passes every
 single one of the types in `<typesArray>`.
 
-### NoneType
+=== NoneType
 
     <type> = new o.NoneType( <typesArray>, [<arguments>] )
 
 This is the opposite of `o.AllType` in that value must not pass any of the types in
 `<typesArray>`.
 
-### NotType
+=== NotType
 
     <type> = new o.NotType( <type>, [<arguments>] );
 
@@ -127,7 +145,7 @@ if (notNullType.check(1)) console.log('1 is not null');
 This inverts the given `<type>`'s validation, causing it to return `true` if it would
 have returned `false`, and `false` if it would have returned `true`.
 
-### EnumType
+=== EnumType
 
     <type> = new o.EnumType( <valuesArray>, [<arguments>] )
 
@@ -140,7 +158,7 @@ if (!rgbType.check('purple')) console.log('purple is not rgb');
 Creates an enum type where the value must strictly match one of the
 values in `<valuesArray>`.
 
-### TypeOfType
+=== TypeOfType
 
     <type> = new o.TypeOfType( <typeofString>, [<arguments>] )
 
@@ -157,7 +175,7 @@ actually how all the pre-defined primitive types are created, such as
 Considering that all the types that `typeof` checks already have a corresponding
 pre-defined type, there should be no need to use this type.
 
-### InstanceOfType
+=== InstanceOfType
 
     <type> = new o.InstanceOfType( <constructor>, [<arguments>] )
 
@@ -181,7 +199,7 @@ If the `constructor` was created by `o.Class` then a coercion will be declared o
 created type which will check if the value is a `simpleObject`, and if it is, it will
 use the value as arguments to the constructor to create an instance.
 
-### DuckType
+=== DuckType
 
     <type> = new o.DuckType( <propertiesArray>, [<arguments>] )
     <type> = new o.DuckType( <propertiesObject>, [<arguments>] )
@@ -198,7 +216,7 @@ the value is an object and that the object has the specified properties defined.
 ```js
 var personType = new o.DuckType( {name:o.stringType, age:o.integerType} );
 if (personType.check({name:'Fred', age:34})) console.log('fred looks like a person');
-if (personType.check({name:'Ted', age:'98'})) console.log('ted does not look like a person.);
+if (personType.check({name:'Ted', age:'98'})) console.log('ted does not look like a person.');
 ```
 
 Instead of `<propertiesArray>` you can specify `<propertiesObject>` where the object
@@ -209,7 +227,7 @@ Duck types are a great way to validate objects as they check that the object sup
 an interface that you depend on, abstracting away what the object is, and focusing
 on what the object does.
 
-### ArrayOfType
+=== ArrayOfType
 
     <type> = new o.ArrayOfType( <type>, [<arguments>] )
 
@@ -225,7 +243,7 @@ match the `<type>`.
 A coercion is declared on this type wich will coerce any values within the array using
 the inner type's coercion logic (if any).
 
-### ObjectOfType
+=== ObjectOfType
 
     <type> = new o.ObjectOfType( <type>, [<arguments>] )
 
@@ -235,7 +253,7 @@ within the object match the `<type>`.
 A coercion is declared on this type which will coerce any values within the object using
 the inner type's coercion logic (if any).
 
-### TupleType
+=== TupleType
 
     <type> = new o.TupleType( <typesArray>, [<arguments>] )
 
@@ -251,7 +269,7 @@ match the ordered types.  Too few values or two many will also cause the check t
 A coercion is declared on this type wich will coerce any values within the array using
 the inner type's coercion logic (if any).
 
-### PatternType
+=== PatternType
 
     <type> = new o.PatternType( <RegExp>, [<arguments>] )
 
@@ -263,7 +281,7 @@ if (!nameType.check('george')) console.log('george does not look like a name');
 
 Creates a type that checks that the values passes the `<RegExp>` pattern.
 
-### LazyType
+=== LazyType
 
     <type> = new o.LazyType( <function>, [<arguments>] );
 
@@ -276,66 +294,66 @@ var type = new o.LazyType(function(){
 This type is used internally to delay the definition of types until the moment
 they are used.
 
-### Type
+=== Type
 
-See the [Custom Types doc](CustomTypes.md) for information about how to define custom
-validation rules and even create your own type classes.
+    <type> = new o.Type( <arguments> );
 
-## Using Types Standalone
+The `o.Type` class is the base class for all type classes and objects.  More information
+about how to interact with this class can be found below at link:#arguments[Arguments]
+and link:#methods[Methods], as well as at
+link:Cookbook.adoc#custom-types[Custom Type Recipes].
 
-Types can be used independently of the rest of o.js, such as in conjunction with
-form validation libraries.  If you'd like to check if a value is valid, or not,
-use the `check()` function:
+== Arguments
+
+These are the arguments which all type classes support.
+
+=== validate
+
+    validate: <function>
 
 ```js
-if (o.integerType.check( value )) {
-    // Do something with the valid value.
+validate: function (val) {
+    if (valPassesSomeCondition) return true;
+    return false;
 }
 ```
 
-If you'd like an exception to be thrown you can use the `validate()` function.
+The validate function is the heart of types.  It is what confirms whether or not a
+value satisfies a constraint.  The validate function will be passed the value
+to be checked and is expected to return `true` if it passes and `false` if not.
+
+=== coerce
+
+    [coerce: <function>]
 
 ```js
-o.nonEmptyStringType.validate( value );
-// Do something with the valid value.
+coerce: function (val) {
+    if (valPassesSomeCondition) return val;
+    return changeValToMatchCondition( val );
+}
 ```
 
-And if you'd like to apply coercion you can do that too with `coerce()`.  Note
-that this will throw an exception if the coerced value does not pass the type's
-validation.  While not recommended, if you'd just like to coerce and bypass
-validation you can use the `coerceOnly()` function.
+The coerce function is used to coerce a value which would not normally pass the
+validation constraint.  This function should return the original, invalid, value
+if it cannot be coerced.
+
+=== parent
+
+    [parent: <parentTypeObject>]
+
+The parent type.  The parent type is used in validation and coercion.
+
+== Methods
+
+These are the methods which all type classes support.
+
+=== check
+
+    <type>.check( <value> )
 
 ```js
-var roundNum = o.numberType.subtype({
-    coerce: function (val) { return Math.round(val) }
-});
-var value = 2.5;
-value = roundNum.coerce( value ); // 3
+if (type.check(val)) doSomething();
 ```
 
-## Disabling Validation
-
-Validation may be disabled by calling:
-
-```js
-o.disableTypeValidation();
-```
-
-Doing this depends heavily on what validation means to you.  If validation is a tool
-for which you depend on during development and testing to find bugs before deployment
-then you may find that the performance gain of disabling validation in production may
-be worth the loss of early error detection you get by enabling validation.
-
-Another workflow is to disable validation for specific blocks of code:
-
-```js
-// Validation is enabled here.
-o.disableTypeValidation(function(){
-    // Validation is disabled here.
-});
-// Validation is enabled here.
-```
-
-Doing the above may be useful if you have certain pieces of code which spawn many
-objects and the performance gain of disabling validation within a scope is worth it.
-
+Returns `true` if the passed value passes validation.  If the `parent` argument
+has been set then the parent's validation will also be checked.

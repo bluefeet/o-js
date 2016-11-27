@@ -1,0 +1,175 @@
+++++
+<table><tr>
+<td><a href="https://o-js.com">o-js.com</a></td>
+<td><strong>Overview</strong></td>
+<td><a href="Cookbook.adoc">Cookbook</a></td>
+<td><a href="Classes.adoc">Classes</a></td>
+<td><a href="Traits.adoc">Traits</a></td>
+<td><a href="Attributes.adoc">Attributes</a></td>
+<td><a href="Types.adoc">Types</a></td>
+<td><a href="Plumbing.adoc">Plumbing</a></td>
+</tr></table>
+++++
+
+= Overview
+
+*link:#introduction[Introduction]* +
+*link:#support[Support]* +
+*link:#custom-builds[Custom Builds]* +
+*link:#the-current-branch[The current Branch]* +
+*link:#contributing[Contributing]* +
+*link:#developer-setup[Developer Setup]* +
+*link:#releasing-and-publishing[Releasing and Publishing]* +
+*link:#media[Media]*
+
+== Introduction
+
+When o.js was originally created back in 2013 things such as the native JavaScript
+(ECMAScript) class declaration and super keyword did not exist, or at least were not
+widely available.  o.js was created to fill this gap, to make it possible to simply
+create classes, offer property validation, and code re-use via traits.  To this day
+ECMAScript is still very low-level in these regards while o.js continues to be
+refined, optimized, and enhanced into a highly flexible tool enabling developers
+to write more organized, concise, and maintanable software.
+
+o.js lets you treat ECMAScript in a more traditional OO mindset, but with modern
+best-practices that you might expect from languages like Ruby and Perl, to name
+two well-known languages.
+
+One of the larger benefits, as you'll find, with o.js is that the amount of code
+you write will tend to be reduced while the flexibility of it will increase.  This
+is especially beneficial to large projects where encapsulation and abstraction
+reduces maintenance, as well as web sites where less code means less for the
+browser to download.
+
+=== Creating a Class
+
+In o.js a class is a constructor function which creates a function for each property.
+Properties under o.js are called attributes.  Where you might normally create a new class
+like this:
+
+    var Person = function (args) {
+        this.name = args.name;
+        this.age = args.age;
+    };
+
+In o.js you'd create it like this:
+
+    var Person = new o.Class({
+        attributes: {
+            name: {},
+            age: {}
+        }
+    });
+
+Then to create an instance of the class:
+
+    var bob = new Person({ name:'Bob', age:63 });
+
+TIP: Classes in o.js are simply a trait which is applied to a new object when the
+constructor is called.
+
+== Support
+
+The best way to get support is to hop on over to the
+https://gitter.im/bluefeet/o-js[o.js Gitter Channel]
+and ask there.  Alternatively you can open a
+https://github.com/bluefeet/o-js/issues[GitHub Issue],
+or better yet fork the repo and make a pull request.
+
+See link:#contributing[Contributing], below, for more information.
+
+== Custom Builds
+
+Custom builds of o.js, containing only the features you need, can be created easily by
+cloning the o-js repo, getting your environment setup (see Developer Setup below), and
+using the `bin/combine` tool like this:
+
+    bin/combine --require=Type,augment
+
+The above would include the `Type` and `augment` modules, and their dependencies.  You
+could then run `grunt minify` to produce a `o.min.js` ready for your use.
+
+Make sure that you know which version of o.js you are creating a build of.  If you've
+just cloned the o-js repo then you are on the master branch with all the latest development
+work, which could very well be broken.  To get yourself pointed at the latest released
+code checkout the `current` branch:
+
+    git fetch
+    git checkout current
+    git pull --ff-only
+
+Then when you run `bin/combine` you'll be using the code from the latest stable release.
+
+== The current Branch
+
+This branch contains the latest released version, making it easier to create links to the
+latest official documentation.
+
+== Contributing
+
+Changes to o.js must be minimal and deliberate.  Currently the focus is contradictory -
+add helpful features, increase browser/platform support, and reduce the minified size.
+
+If you've found a bug and have the tuits to fix it, then please do.  If you've got an
+idea for something new and shiny then a good way to start is to first
+https://github.com/bluefeet/o-js/issues[open a ticket]
+and start a discussion.
+
+The typical way to contribute changes to o.js is by forking the GitHub repository and
+sending me (Aran Deltac) a pull request in GitHub.  I'll review the pull request and ask
+for any changes that I think are necessary and then accept it if all is well.  Please
+follow these guidelines when making changes:
+
+- Always account for your changes in the tests, by adjusting existing tests and/or adding
+  new tests.
+- Update CHANGES.txt to account for what you changed.
+- Use the same coding style as the rest of the code base.
+- Run `grunt` which will lint your changes, run all tests, and integrate your changes with
+  the combined o.js and uglified o.min.js.
+
+== Developer Setup
+
+In order to run the tests, minify the javascript, and/or create a custom build you'll
+want to install some development tools.
+
+- node.js - If you are on a Mac you can use http://brew.sh/[Homebrew] to install this.
+- Perl - The build tools require Perl to create the combined `o.js` file.
+- Install the devDepencies:
+ - Open up a shell and get into the directory where you have the o-js repo cloned.
+ - `npm install`
+ - `npm install -g grunt-cli tap`
+- Make sure everything works by running `grunt`.
+
+== Releasing and Publishing
+
+To make a new release:
+
+    grunt release-patch
+    # Or: release-minor, release-major
+
+The above will run the `default` task (`lint`, `test`, `combine`, `minify`),
+runs the `tag` task which updates various files to contain the new version
+number, commits the changes, creates a git tag, pushes the tag up to
+origin (GitHub), and updates the `current` branch.
+
+Once a new release has been made the release needs to be deployed to NPM:
+
+    grunt publish-npm
+
+== Media
+
+Currently the only branding that o.js has is the icon which is used for the site's
+`favicon.png` and, slightly modified, for the `apple-touch-icon.png`.
+
+You can download a https://o-js.com/icon.png[full size PNG] (593x593) or the
+https://o-js.com/icon.pxm[original Pixelmater image].  If you're loading the
+Pixelmator image make sure you grab the Lato Normal 400 font over at
+http://www.google.com/fonts/specimen/Lato[Google Fonts].  You can use
+https://skyfonts.com/[SkyFonts] to easly install the font (its free for Google fonts).
+
+image:https://o-js.com/icon-180x180.png[width=90,height=90]
+
+++++
+The <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/StillImage" property="dct:title" rel="dct:type">o.js Icon</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Aran Deltac</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+++++

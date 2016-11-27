@@ -1,0 +1,97 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use autodie;
+
+use FindBin qw( $Bin );
+use Getopt::Long;
+use Pod::Usage qw( pod2usage );
+use Path::Tiny;
+
+use lib $Bin;
+use Util;
+
+GetOptions(
+    'help'       => \my $help,
+    'repo-dir=s' => \my $repo_dir
+) or die "Unable to process options.\n";
+
+if ($help) {
+    pod2usage( -verbose => 2 );
+    exit 0;
+}
+
+my $u = Util->new( $repo_dir ? (repo_dir => $repo_dir) : () );
+$repo_dir = path( $u->repo_dir() );
+
+my @menu = (
+    ['https://o-js.com', 'o-js.com'],
+    ['Overview.adoc',    'Overview'],
+    ['Cookbook.adoc',    'Cookbook'],
+    ['Classes.adoc',     'Classes'],
+    ['Traits.adoc',      'Traits'],
+    ['Attributes.adoc',  'Attributes'],
+    ['Types.adoc',       'Types'],
+    ['Plumbing.adoc',    'Plumbing'],
+);
+
+for my $file ($repo_dir->child('doc')->children()) {
+    next if !-f $file;
+    next if $file !~ m{\.adoc$};
+
+    print "$file\n";
+    my $contents = $file->slurp();
+
+    $contents =~ s{^.*?\n= }{= }s;
+    $contents =~ s{^(= .*?\n).*?(\n==)}{$1$2}s;
+
+    my @headers = ($contents =~ m{^== (.+?)$}msg);
+    my $toc = join(" +\n",
+        map { '*link:#' . header_to_anchor($_) . "[$_]*" }
+        @headers
+    ) . "\n";
+    $contents =~ s{^(= .*?\n\n)}{$1$toc\n};
+
+    my $menu = "++++\n<table><tr>\n";
+    $menu .= join('',
+        map {
+            ($_->[0] eq $file->basename())
+            ? "<td><strong>$_->[1]</strong></td>\n"
+            : qq[<td><a href="$_->[0]">$_->[1]</a></td>\n]
+        }
+        @menu
+    );
+    $menu .= "</tr></table>\n++++\n";
+    $contents =~ s{^(= )}{$menu\n$1};
+
+    $file->spew( $contents );
+}
+
+sub header_to_anchor {
+    my ($header) = @_;
+    $header = lc( $header );
+    $header =~ s{ }{-}g;
+    return $header;
+}
+
+__END__
+
+++++
+<table><tr>
+<td><a href="https://o-js.com">o-js.com</a></td>
+<td><a href="Overview.adoc">Overview</a></td>
+<td><a href="Cookbook.adoc">Cookbook</a></td>
+<td><a href="Classes.adoc">Classes</a></td>
+<td><a href="Traits.adoc">Traits</a></td>
+<td><a href="Attributes.adoc">Attributes</a></td>
+<td><a href="Types.adoc">Types</a></td>
+<td><a href="Plumbing.adoc">Plumbing</a></td>
+</tr></table>
+++++
+
+= Attributes
+
+*link:#synopsis[Synopsis]* +
+*link:#description[Description]* +
+*link:#arguments[Arguments]* +
+*link:#methods[Methods]*

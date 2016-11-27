@@ -1,1 +1,1 @@
-This document has moved [here](Traits.md).
+This document has moved [here](Traits.adoc).

@@ -22,7 +22,6 @@ if ($help) {
 }
 
 my $u = Util->new( $repo_dir ? (repo_dir => $repo_dir) : () );
-$repo_dir = $u->repo_dir();
 
 @requires = map { split(/,/, $_) } @requires;
 if (!@requires) {

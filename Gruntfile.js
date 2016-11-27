@@ -65,12 +65,18 @@ module.exports = function(grunt) {
     );
 
     grunt.registerTask(
+        'fix-doc-headers',
+        'Fixup doc headers to have a menu and TOC.',
+        function() { exec('bin/fix-doc-headers', this.async()); }
+    );
+
+    grunt.registerTask(
         'tag',
         'Determine next version, modify files to reference it, and commit the tag.',
         function (next) { exec('bin/tag --no-prompt --next=' + next, this.async()); }
     );
 
-    grunt.registerTask('default', ['lint', 'test', 'combine', 'minify']);
+    grunt.registerTask('default', ['lint', 'test', 'combine', 'minify', 'fix-doc-headers']);
 
     grunt.registerTask('release-major', ['default', 'tag:major']);
     grunt.registerTask('release-minor', ['default', 'tag:minor']);

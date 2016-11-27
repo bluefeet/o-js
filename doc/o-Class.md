@@ -1,1 +1,1 @@
-This document has moved [here](Classes.md).
+This document has moved [here](Classes.adoc).
