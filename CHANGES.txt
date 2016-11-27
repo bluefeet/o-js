@@ -25,7 +25,8 @@ DEVELOPMENT VERSION
    only the existence of the property, but its type.
 
  Attributes:
- - A traits argument is now supported, allowing attribute behavior to be
+ - Added the `is` argument for applying built-in attribute traits.
+ - A `traits` argument is now supported, allowing attribute behavior to be
    customized.
 
  Types:

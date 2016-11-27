@@ -202,6 +202,23 @@ attribute's value (which should be an object that supports the proxied methods).
 Proxying methods can be a much cleaner and more flexible way of extending another
 object's functionality without having to inherit from it.
 
+### is
+
+    [is: <traitName>]
+
+Applies one of the `o.<traitName>AttributeTrait` traits.  The currently available traits are:
+
+- **rw**: This one is just shorthand for setting `writer` to `true`, meaning the
+  attribute reader function will also act as a writer.
+- **rwp**: This sets writer to a privately named function by prepending `_set` to the
+  `key`.  For example, if your attribute key is `foo` then the writer function would
+  be `_setFoo`.
+- **lite**: Sets `reader` and `writer` to false and sets the `valueKey` to `key`.
+  The end result is the property is no longer wrapped up in a function and is instead
+  accessed directly.  This can speed up calls to set and get the value, as they don't
+  have to step through functions, but it also means that many aspects of attributes
+  are disabled such as `builder`, `devoid`, and post object creation validation.
+
 ### traits
 
     [traits: <arrayOfTraits>]

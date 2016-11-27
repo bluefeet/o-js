@@ -637,6 +637,8 @@ var o_Attribute = o.Attribute = o_construct(
         args = args || {};
         this._originalArgs = o_clone( args );
 
+        if (args.is) o[args.is + 'AttributeTrait'].install( this, args );
+
         if (args.traits) {
             var trait = new o.Trait({ traits:args.traits });
             trait.install( this, args );
@@ -999,6 +1001,29 @@ for (var i = 0, l = traitAttrs.length; i < l; i++) {
 }
 
 var o_Trait = o.Trait;
+
+// o.liteAttributeTrait
+var o_liteAttributeTrait = o.liteAttributeTrait = new o_Trait({
+    methods: {
+        valueKey: function () { return this.key(); },
+        reader: function () { return false; },
+        writer: function () { return false; }
+    }
+});
+
+// o.rwAttributeTrait
+var o_rwAttributeTrait = o.rwAttributeTrait = new o_Trait({
+    methods: {
+        writer: function () { return this.key(); }
+    }
+});
+
+// o.rwpAttributeTrait
+var o_rwpAttributeTrait = o.rwpAttributeTrait = new o_Trait({
+    methods: {
+        writer: function () { return '_set' + o_ucFirst( this.key() ); }
+    }
+});
 
 // o.traitType
 var o_traitType = o.traitType = new o_InstanceOfType( o_Trait );
