@@ -33,8 +33,7 @@ refined, optimized, and enhanced into a highly flexible tool enabling developers
 to write more organized, concise, and maintanable software.
 
 o.js lets you treat ECMAScript in a more traditional OO mindset, but with modern
-best-practices that you might expect from languages like Ruby and Perl, to name
-two well-known languages.
+best-practices that you'd expect from other high level languages.
 
 One of the larger benefits, as you'll find, with o.js is that the amount of code
 you write will tend to be reduced while the flexibility of it will increase.  This
@@ -48,26 +47,99 @@ In o.js a class is a constructor function which creates a function for each prop
 Properties under o.js are called attributes.  Where you might normally create a new class
 like this:
 
-    var Person = function (args) {
-        this.name = args.name;
-        this.age = args.age;
-    };
+```js
+var Person = function (args) {
+    this.name = args.name;
+    this.age = args.age;
+};
+```
 
 In o.js you'd create it like this:
 
-    var Person = new o.Class({
-        attributes: {
-            name: {},
-            age: {}
-        }
-    });
+```js
+var Person = new o.Class({
+    attributes: {
+        name: {},
+        age: {}
+    }
+});
+```
 
 Then to create an instance of the class:
 
-    var bob = new Person({ name:'Bob', age:63 });
+```js
+var dwarf = new Person({ name:'Gimli', age:139 });
+```
 
 TIP: Classes in o.js are simply a trait which is applied to a new object when the
 constructor is called.
+
+Read more about this at the link:Classes.adoc[Classes doc] and link:Traits.adco[Traits doc].
+
+=== Defining Attributes
+
+Each attribute can be configured using a large selection of arguments.  For example, the
+`chain` argument:
+
+```js
+var Person = new o.Class({
+    attributes: {
+        name: { chain:true },
+        age: { chain:true }
+    }
+});
+
+var wizard = new Person()->name('Gandalf')->age(2019);
+```
+
+Attribute arguments which you may find the most use for are `type`, `required`,
+`devoid`, and `is`.  See the full list of arguments in the
+link:Attributes.adoc[Attributes doc].
+
+=== Validating Arguments
+
+Attributes support a `type` argument which may be set to an `o.Type` object, for
+example:
+
+```js
+var Person = new o.Class({
+    attributes: {
+        name: { type:o.nonEmptyStrType },
+        age: { type:o.positiveIntType }
+    }
+});
+```
+
+If an invalid value is passed for any of there arguments that an exception will
+be thrown.  You can read more about the large selection of built-in types and well
+as how to define you own types in the link:Types.adoc[Types doc].
+
+=== Defining Methods
+
+Methods and method modifiers may be installed on classes and traits:
+
+```js
+var food = new o.Trait({
+    methods: {
+        eat: function (person) {
+            person.health( person.health() + 5 );
+        }
+    }
+});
+
+var Lembas = new o.Class({
+    traits: [ food ],
+    around: {
+        eat: function (orig, person) {
+            orig( person ); // Adds 5 health.
+            person.morale( person.morale() + 1 );
+        }
+    }
+});
+```
+
+Find out more about defining methods and method modifiers in the
+link:Traits.adoc[Traits doc].
 
 == Support
 
