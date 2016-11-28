@@ -41,7 +41,7 @@ defined
         numberObject
         integer
         positive
-        posotiveInt
+        positiveInt
         negative
         nonZero
     object
