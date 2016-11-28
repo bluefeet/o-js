@@ -102,7 +102,7 @@
             <h3>License</h3>
             <p>
                 o.js may be freely distributed under the
-                <a href="https://raw.github.com/bluefeet/o-js/master/LICENSE.txt">MIT license</a>.
+                <a href="https://raw.github.com/bluefeet/o-js/current/LICENSE.txt">MIT license</a>.
             </p>
         </div>
     </div>
@@ -119,8 +119,9 @@
     <p>Define classes using <code>new o.Class(...)</code> which
     creates a standard JavaScript function constructor.  A class
     can have attributes, methods, method overrides, and a number of other
-    features.  A class, at its core (take a look at the source code) is a
-    very simple wrapper around a trait.</p>
+    features.  A class, at its core (take a look at the 
+    <a href="https://raw.githubusercontent.com/bluefeet/o-js/current/lib/o-Class.js">source code</a>)
+    is a very simple wrapper around a trait.</p>
 <pre><code>var Person = new o.Class({
     attributes: {
         name: { type:o.nonEmptyStringType },
@@ -146,7 +147,7 @@ baggins.log_name();</code></pre>
     <h2>Traits</h2>
     <p>Traits are created with <code>new o.Trait(...)</code> which creates
     a new Trait object.  Traits can be included in classes or installed
-    directly on to existing objects.</p>
+    directly onto existing objects.</p>
 <pre><code>var productTrait = new o.Trait({
     attributes: {
         price: { type:o.numberType }
@@ -184,9 +185,8 @@ var mySheet = new Sheet({
     </div><div class="col-md-6">
 
     <h2>Types</h2>
-    <p>Type objects validate and coerce attribute arguments.  New types can
-    be created via <code>new o.Type(...)</code> and used in attribute
-    definitions.</p>
+    <p>Type objects validate and coerce attribute arguments.  A library of pre-built
+    types are included and new types may be created via <code>new o.Type(...)</code>.</p>
 <pre><code>var ageType = new o.AllType([
     o.integerType,
     o.positiveType
