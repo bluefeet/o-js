@@ -114,7 +114,7 @@ attributes: {
 }
 ```
 
-An object containing link:Attributes.md[Attribute] objects, or arguments to create them,
+An object containing link:Attributes.adoc[Attribute] objects, or arguments to create them,
 where the key will be used as the attribute's `key` argument.  If an attribute object
 is passed, rather than arguments for one, and the attribute's key does not match then
 the attribute's `rebuild()` method will be called to create a new attribute object with
@@ -132,6 +132,8 @@ Applies one of the `o.<traitName>ClassTrait` traits.  The currently available tr
 
 lite::
     Sets the `is` argument for all new attributes to `lite`.
+
+Read more about this at the link:Attributes.adoc#is[Attributes doc].
 
 === traits
 

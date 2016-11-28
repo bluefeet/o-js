@@ -15,7 +15,8 @@
 
 *link:#custom-types[Custom Types]* +
 *link:#using-types-standalone[Using Types Standalone]* +
-*link:#disabling-validation[Disabling Validation]*
+*link:#disabling-validation[Disabling Validation]* +
+*link:#lite-classes[Lite Classes]*
 
 == Custom Types
 
@@ -129,3 +130,24 @@ o.disableTypeValidation(function(){
 Doing the above may be useful if you have certain pieces of code which spawn many
 objects and the performance gain of disabling validation within a scope is worth it.
 
+== Lite Classes
+
+Classes in o.js can be a bit top-heavy for certain use cases due to every property
+being tucked behind a function call.  If you're willing to trade the benefits of the
+function call (validation, etc) for the speed of direct property access then you
+call apply the `lite` class trait:
+
+```js
+var Person = new o.Class({
+    is: 'lite',
+    attributes: { foo:{} }
+});
+
+var p = new Person({ foo:'abc' });
+console.log( p.foo ); // abc
+```
+
+This trait will *only* apply to new attributes - any attributes applied by other traits
+will be setup in whatever way they were configured in their respective trait.
+
+Read more about this at the link:Traits.adoc#is[Traits doc].
