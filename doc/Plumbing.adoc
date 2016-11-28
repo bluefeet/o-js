@@ -37,7 +37,7 @@ console.log( bilbo.hoursOld() ); // 972,360
 ```
 
 Provides shorthand for creating a new constructor with a prototype.  The `prototype` will
-be merged in to the `constructor`'s prototype.
+be merged in to the prototype of the passed `constructor`.
 
 === augment
 
@@ -55,9 +55,9 @@ var Point3D = o.augment(
 ```
 
 Uses `o.around` where `parentConstructor` is the `origFunction` and `constructor` is
-the `aroundFunction`.  The `newConstructor`'s prototype will be set to inherit from
-the `parentConstructor`'s prototype, and if `prototype` is specified then it will be
-merged into `newConstructor`'s prototype.
+the `aroundFunction`.  The prototype of the `newConstructor` will be set to inherit from
+the prototype of the `parentConstructor`, and if `prototype` is specified then it will be
+merged into the prototype of the `newConstructor`.
 
 Typically, in JavaScript inheritance, all that is setup is prototype inheritance.  This
 function takes this a step further by also inheriting the constructor function so that

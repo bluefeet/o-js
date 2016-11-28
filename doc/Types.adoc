@@ -142,8 +142,8 @@ if (!notNullType.check(null)) console.log('null is not not null');
 if (notNullType.check(1)) console.log('1 is not null');
 ```
 
-This inverts the given `<type>`'s validation, causing it to return `true` if it would
-have returned `false`, and `false` if it would have returned `true`.
+This inverts the validation of the given `<type>`, causing it to return `true` if it
+would have returned `false`, and `false` if it would have returned `true`.
 
 === EnumType
 
