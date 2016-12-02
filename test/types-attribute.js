@@ -11,7 +11,7 @@ test('basic', function (t) {
 
     attr = o.attributeType.coerce({ key:'bar' });
     t.ok( attr instanceof o.Attribute, 'coercion worked' );
-    t.is( attr.key(), 'bar', 'coerced attribute looks right' );
+    t.is( attr.key, 'bar', 'coerced attribute looks right' );
 
     t.end();
 });

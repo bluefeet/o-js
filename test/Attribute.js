@@ -25,43 +25,43 @@ test('key', function (t) {
     var attr = new o.Attribute({
         key: 'foo'
     });
-    t.is( attr.key(), 'foo', 'key was stored' );
+    t.is( attr.key, 'foo', 'key was stored' );
     t.end();
 });
 
 test('argKey', function (t) {
     var attr1 = new o.Attribute({ key:'foo' });
-    t.is( attr1.argKey(), 'foo', 'argKey defaults to key' );
+    t.is( attr1.argKey, 'foo', 'argKey defaults to key' );
 
     var attr2 = new o.Attribute({ key:'foo', argKey:'bar' });
-    t.is( attr2.argKey(), 'bar', 'argKey is settable' );
+    t.is( attr2.argKey, 'bar', 'argKey is settable' );
 
     var attr3 = new o.Attribute({ key:'foo', argKey:null });
-    t.is( attr3.argKey(), null, 'argKey is nullable' );
+    t.is( attr3.argKey, null, 'argKey is nullable' );
 
     t.end();
 });
 
 test('valueKey', function (t) {
     var attr1 = new o.Attribute({ key:'foo' });
-    t.is( attr1.valueKey(), '_foo', 'valueKey defaults to _key' );
+    t.is( attr1.valueKey, '_foo', 'valueKey defaults to _key' );
 
     var attr2 = new o.Attribute({ key:'foo', valueKey:'bar' });
-    t.is( attr2.valueKey(), 'bar', 'valueKey is settable' );
+    t.is( attr2.valueKey, 'bar', 'valueKey is settable' );
 
     t.end();
 });
 
 test('rebuild', function(t) {
     var attr1 = new o.Attribute({ key:'fooKey', writer:'setFOO', predicate:true });
-    t.is( attr1.key(), 'fooKey', 'key on original is correct' );
-    t.is( attr1.writer(), 'setFOO', 'writer on original is correct' );
-    t.is( attr1.predicate(), 'hasFooKey', 'predicate on original is correct' );
+    t.is( attr1.key, 'fooKey', 'key on original is correct' );
+    t.is( attr1.writer, 'setFOO', 'writer on original is correct' );
+    t.is( attr1.predicate, 'hasFooKey', 'predicate on original is correct' );
 
     var attr2 = attr1.rebuild({ key:'barKey' });
-    t.is( attr2.key(), 'barKey', 'key on rebuilt is correct' );
-    t.is( attr2.writer(), 'setFOO', 'writer on rebuilt is correct' );
-    t.is( attr2.predicate(), 'hasBarKey', 'predicate on rebuilt is correct' );
+    t.is( attr2.key, 'barKey', 'key on rebuilt is correct' );
+    t.is( attr2.writer, 'setFOO', 'writer on rebuilt is correct' );
+    t.is( attr2.predicate, 'hasBarKey', 'predicate on rebuilt is correct' );
 
     t.end();
 });
