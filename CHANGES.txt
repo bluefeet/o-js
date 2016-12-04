@@ -1,6 +1,9 @@
 DEVELOPMENT VERSION
 
  BREAKING:
+ - Attributes are now installed as properties instead of functions.  This means
+   o.js is more in-line with modern JavaScript practices but completely breaks
+   backwards compatibility.
  - Methods will now be installed *before* traits rather than after.  This means
    that a trait's requires setting may require methods, which is just about the
    most important use of requires.  This also means that a trait's
@@ -14,6 +17,7 @@ DEVELOPMENT VERSION
    needs to access itself or access another module which requires it.  This
    also simplified the generation of the combined o.js slightly.
  - Enabled strict mode in the combined o.js.
+ - Enabled strict mode inside of each module.
  - Undo "Use a more condenced for loop, using `in`, when going over arrays" from
    0.1.0 - turns out that wasn't a great idea.
 
@@ -28,12 +32,26 @@ DEVELOPMENT VERSION
    the `is` and `traits` arguments for new attributes.
 
  Attributes:
+ - Attributes install on objects as properties now instead of functions.  The
+   one exception is the installed clearer is still a function (because that
+   makes sense).
+ - Attribute attributes are now installed as properties.  This really only
+   matters if you interact with attribute objects directly.
  - Added the `is` argument for applying built-in attribute traits.
  - A `traits` argument is now supported, allowing attribute behavior to be
    customized.
 
  Types:
+ - Types now throw a custom o.TypeError object when validation fails.
+ - Errors thrown when validation fails now include much more information about
+   what failed and why it failed.
  - Added the new o.TupleType and o.LazyType types.
+
+ Plumbing:
+ - Adjust o.augment() to set the constructor's protoytype's constructor to
+   the parent constructor.
+ - Added o.prependIdentifier().
+ - Removed o.proxy() and o.accessor().
 
 0.1.0 : 2016-11-08
 
