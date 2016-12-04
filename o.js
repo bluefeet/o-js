@@ -120,7 +120,6 @@ var o_writer = o.writer = function (key, def) {
 
         var original = this[key];
         this[key] = val;
-        if (def.chain) return this;
         return original;
     };
 };
@@ -1062,9 +1061,6 @@ var o_Attribute = o.Attribute = (function(){
         augments: {
             type: o_functionType
         },
-        chain: {
-            type: o_booleanType
-        },
 
         reader: {
             type: booleanOrIdentifierType,
@@ -1136,8 +1132,7 @@ var o_Attribute = o.Attribute = (function(){
                         type: this.type,
                         coerce: this.coerce,
                         filter: this.filter,
-                        augments: this.augments,
-                        chain: this.chain
+                        augments: this.augments
                     }
                 );
             }

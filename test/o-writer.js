@@ -68,10 +68,3 @@ test('augments', function (t) {
     t.throws( function(){ obj.setX(new B()) }, 'augments check failed' );
     t.end();
 });
-
-test('chain', function (t) {
-    var obj = { setX: o.writer('x', {chain:true}) };
-    t.equal( obj.setX(32), obj, 'chain returned context' );
-    t.equal( obj.x, 32, 'property was set with chain' );
-    t.end();
-});
