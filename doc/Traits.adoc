@@ -133,8 +133,6 @@ Applies one of the `o.<traitName>ClassTrait` traits.  The currently available tr
 lite::
     Sets the `is` argument for all new attributes to `lite`.
 
-Read more about this at the link:Attributes.adoc#is[Attributes doc].
-
 === traits
 
     [traits: <arrayOfTraits>]
@@ -156,6 +154,8 @@ attributesAre: 'rw'
 Setting this causes all new attributes to have their `is` argument set to
 this value.
 
+Read more about this at the link:Attributes.adoc#is[Attributes doc].
+
 === attributeTraits
 
     [attributeTraits: <arrayOfTraits>]
@@ -166,6 +166,8 @@ attributeTraits: [ TraitOne, TraitTwo ]
 
 Setting this causes all new attributes to have their `traits` argument set
 to this value.
+
+Read more about this at the link:Attributes.adoc#traits[Attributes doc].
 
 === requires
 

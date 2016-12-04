@@ -79,17 +79,22 @@ Read more about this at the link:Classes.adoc[Classes doc] and link:Traits.adco[
 === Defining Attributes
 
 Each attribute can be configured using a large selection of arguments.  For example, the
-`chain` argument:
+`predicate` argument:
 
 ```js
 var Person = new o.Class({
     attributes: {
-        name: { chain:true },
-        age: { chain:true }
+        name: {},
+        age: { predicate:true }
     }
 });
 
-var wizard = new Person()->name('Gandalf')->age(2019);
+var wizard = new Person({
+    name: 'Gandalf',
+    age: 2019
+});
+
+console.log( wizard.name + ' is ' + (wizard.hasAge ? wizard.age : 'ageless') );
 ```
 
 Attribute arguments which you may find the most use for are `type`, `required`,

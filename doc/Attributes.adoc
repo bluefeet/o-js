@@ -63,8 +63,13 @@ value from the arguments.
     [valueKey: <string>]
 
 The key name that will be used to store the value in the object.  By default this
-will be the `key` with an underscore prepended.  So, if the key was `color` then the
-valueKey would default to `_color`.
+will be the `key` with two underscores prepended.  So, if the key was `color` then the
+valueKey would default to `__color`.
+
+If this is set to the same value as `key` then the attribute is what is called a "lite"
+attribute.  Lite attributes do not have their readers and writers installed and instead
+the property is made generic with no special handling (meaning, for example, that validation
+would only be applied on object creation, not when the property is changed by setting it).
 
 === devoid
 
@@ -95,8 +100,8 @@ is cleaner to use.
 Whether or not this attribute is required to have a defined value (remember that
 JavaScript's null *is* considered a defined value).
 
-Note that the required check is only evaluated when the attribute value is read (it
-is lazy).
+Note that the required check is only evaluated when the property reader is called
+(it is lazy).
 
 === type
 
@@ -138,44 +143,37 @@ filtering.
 Given a constructor function this will validate that the value being written is an
 `instanceof` the constructor.
 
-The same functionality can be had be creating a new `o.InstanceOfType` and assigning
+The same functionality can be had by creating a new `o.InstanceOfType` and assigning
 the type argument to it.
-
-=== chain
-
-    [chain: <true|false>]
-
-Be default, when writing a value, the old value is returned by the writer.  But, if
-chain is true the object will be returned instead, allowing you to chain together writes.
 
 === reader
 
     [reader: <string>]
 
-The name of the reader method for reading the value of the attribute.
+The name of the reader property for reading the value of the attribute.
 Defaults to the value of `key`.
 
-Set to `false` to disable the creation of the reader method.
+Set to `false` to disable the creation of the reader property.
 
 === writer
 
     [writer: <string>]
 
-The name of the writer method for writing the value of the attribute.  Defaults to the
+The name of the writer property for writing the value of the attribute.  Defaults to the
 value of `false`, meaning there will be no writer created.
 
 Setting to `true` will cause the writer to be the same as `key`.
 
-`reader` and `writer` may be the same value (and is the default).  If they are then
-the method acts like a typical accessor where it acts as a reader if an argument is not
-passed, and acts as a writer if an argument is passed.
+`reader` and `writer` may be the same value (and is the default, if both are set to `true`).
+If they are then the single installed property acts like a typical object property that can
+be read from and set.
 
 === predicate
 
     [predicate: <string>]
 
-The name of the predicate method.  Defaults to `false`, which means no predicate method
-will be created.  When the predicate method is called it returns `false` if the attribute
+The name of the predicate property.  Defaults to `false`, which means no predicate property
+will be created.  When the predicate property is read it returns `false` if the attribute
 value is `undefined`, and `true` otherwise.
 
 If you set the predicate to `true` then the predicate method will default to the `key`
@@ -218,10 +216,11 @@ $q->enqueue( 'bar' );
 $q->dequeue(); // foo
 ```
 
-Given an object this will proxy specified method calls on the object to calls on the
-attribute's value (which should be an object that supports the proxied methods).
+Given an object this will proxy specified property access and method calls on the object
+to calls on the attribute's value (which should be an object that supports the proxied
+properties and methods).
 
-Proxying methods can be a much cleaner and more flexible way of extending another
+Proxying can be a much cleaner and more flexible way of extending another
 object's functionality without having to inherit from it.
 
 === is
@@ -242,11 +241,10 @@ rwp::
     `key`.  For example, if your attribute key is `foo` then the writer function would
     be `_setFoo`.
 lite::
-    Sets `reader` and `writer` to false and sets the `valueKey` to `key`.
-    The end result is the property is no longer wrapped up in a function and is instead
-    accessed directly.  This can speed up calls to set and get the value, as they don't
-    have to step through functions, but it also means that many aspects of attributes
-    are disabled such as `builder`, `devoid`, and post object creation validation.
+    Sets the `valueKey` to the same as value as `key`, making the attribute "lite".  Lite
+    attributes do not install special reader and writer properties, meaning the property,
+    named after `key` is readable and writeable and no validation or other functionality is
+    added to it.
 
 === traits
 

@@ -173,11 +173,7 @@ argument, a function that will call the origFunction.
 
 === writer
 
-=== accessor
-
 === predicate
 
 === clearer
-
-=== proxy
 

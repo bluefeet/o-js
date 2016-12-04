@@ -26,7 +26,7 @@ var Person = new o.Class({
         age: { type:new o.AllType([ o.positiveType, o.integerType ]), required:true }
     },
     methods: {
-        fullName: function () { return this.firstName() + ' ' + this.lastName() }
+        fullName: function () { return this.firstName + ' ' + this.lastName }
     }
 });
 
@@ -48,11 +48,11 @@ created by the class have the trait automatically applied.
 See the link:Traits.adoc[Traits Documentation] for what arguments this accepts.
 
 Constructors created by `o.Class` have an internal-only trait assigned to them called
-`ClassTrait` which exposes a `type` and a `trait` attribute.
+`o.classTrait` which exposes a `type` and a `trait` attribute.
 
 ```js
     Person.type.check( bilbo ); // true
     var frodo = Person.type.coerce({ firstName:'Frodo', lastName:'Baggins', age:33 });
-    Person.trait.type.check( frodo ); // true
+    Person.type.check( frodo ); // true
 ```
 
