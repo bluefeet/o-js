@@ -53,8 +53,8 @@ test('type', function (t) {
         methods: { method:function(){} }
     });
 
-    var type = trait.type();
-    var parentType = parentTrait.type();
+    var type = trait.type;
+    var parentType = parentTrait.type;
 
     t.is( parentType.check({}), false, 'parent type failed on empty object' );
     t.is( parentType.check({ parentAttribute:function(){}, parentMethod:function(){} }), true, 'parent type passed object');
@@ -87,7 +87,7 @@ test('type', function (t) {
 // See o.Trait's setFromArgs function.
 test('set-from-args-race-condition', function (t) {
     var filter = function (val) {
-        return( val + this.a() + this.c() + this.e() );
+        return( val + this.a + this.c + this.e );
     };
 
     var trait = new o.Trait({
@@ -104,12 +104,12 @@ test('set-from-args-race-condition', function (t) {
     var obj = {};
     trait.install( obj, { a:'a', b:'b', c:'c', d:'d', e:'e', f:'f' } );
 
-    t.is( obj.a(), 'a' );
-    t.is( obj.b(), 'bace' );
-    t.is( obj.c(), 'c' );
-    t.is( obj.d(), 'dace' );
-    t.is( obj.e(), 'e' );
-    t.is( obj.f(), 'face' );
+    t.is( obj.a, 'a' );
+    t.is( obj.b, 'bace' );
+    t.is( obj.c, 'c' );
+    t.is( obj.d, 'dace' );
+    t.is( obj.e, 'e' );
+    t.is( obj.f, 'face' );
 
     t.end();
 });
@@ -131,11 +131,11 @@ test('existing-attributes', function (t) {
     var obj = {};
     trait.install( obj );
 
-    obj.hair('green');
-    obj.fur('pink');
+    obj.hair = 'green';
+    obj.fur = 'pink';
 
-    t.is( obj._hair, 'greenFOO' );
-    t.is( obj._fur, 'pinkFOO' );
+    t.is( obj.__hair, 'greenFOO' );
+    t.is( obj.__fur, 'pinkFOO' );
 
     t.end();
 });
@@ -152,28 +152,30 @@ test('basic', function (t) {
         },
         methods: {
             fullName: function () {
-                return this.firstName() + ' ' + this.lastName();
+                return this.firstName + ' ' + this.lastName;
             }
         },
         around: {
             fullName: function (original) {
                 log.push('around-FullName');
                 var name = original();
-                if (this.gender() === 'm') {
+                if (this.gender === 'm') {
                     name = 'Mr. ' + name;
                 }
                 else {
-                    name = (this.married() ? 'Mrs. ' : 'Ms. ') + name;
+                    name = (this.married ? 'Mrs. ' : 'Ms. ') + name;
                 }
                 return name;
             }
         },
         before: {
-            gender: function () { log.push('before-gender') },
+            _getGender: function () { log.push('before-gender') },
+            _setGender: function () { log.push('before-gender') },
             fullName: function () { log.push('before-fullName') }
         },
         after: {
-            gender: function () { log.push('after-gender') },
+            _getGender: function () { log.push('after-gender') },
+            _setGender: function () { log.push('after-gender') },
             fullName: function () { log.push('after-fullName') }
         }
     });
@@ -181,12 +183,12 @@ test('basic', function (t) {
     var obj = {};
     person.install( obj );
 
-    obj.firstName('Jill');
-    obj.lastName('Smith');
-    obj.married(true);
+    obj.firstName = 'Jill';
+    obj.lastName = 'Smith';
+    obj.married = true;
     t.isDeeply( log, [], 'log is empty' );
 
-    obj.gender('f');
+    obj.gender = 'f';
     t.isDeeply( log, ['before-gender', 'after-gender'], 'logged before and after' );
     log = [];
 
@@ -206,37 +208,39 @@ test('function-args', function (t) {
         this.attribute( 'married', { type:o.booleanType, writer:true } );
 
         this.method( 'fullName', function () {
-            return this.firstName() + ' ' + this.lastName();
+            return this.firstName + ' ' + this.lastName;
         });
 
         this.around( 'fullName', function (original) {
             log.push('around-FullName');
             var name = original();
-            if (this.gender() === 'm') {
+            if (this.gender === 'm') {
                 name = 'Mr. ' + name;
             }
             else {
-                name = (this.married() ? 'Mrs. ' : 'Ms. ') + name;
+                name = (this.married ? 'Mrs. ' : 'Ms. ') + name;
             }
             return name;
         });
 
-        this.before( 'gender', function(){ log.push('before-gender') } );
+        this.before( '_getGender', function(){ log.push('before-gender') } );
+        this.before( '_setGender', function(){ log.push('before-gender') } );
         this.before( 'fullName', function(){ log.push('before-fullName') } );
 
-        this.after( 'gender', function(){ log.push('after-gender') } );
+        this.after( '_getGender', function(){ log.push('after-gender') } );
+        this.after( '_setGender', function(){ log.push('after-gender') } );
         this.after( 'fullName', function(){ log.push('after-fullName') } );
     });
 
     var obj = {};
     person.install( obj );
 
-    obj.firstName('Jill');
-    obj.lastName('Smith');
-    obj.married(true);
+    obj.firstName = 'Jill';
+    obj.lastName = 'Smith';
+    obj.married = true;
     t.isDeeply( log, [], 'log is empty' );
 
-    obj.gender('f');
+    obj.gender = 'f';
     t.isDeeply( log, ['before-gender', 'after-gender'], 'logged before and after' );
     log = [];
 

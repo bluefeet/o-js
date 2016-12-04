@@ -12,11 +12,11 @@ test('basic', function (t) {
     });
 
     var p = new Person({ foo:'abc', bar:123 });
-    p.foo('def');
-    p.bar(456);
+    p.foo = 'def';
+    p.bar = 456;
 
-    t.is( p.foo(), 'def', 'writing to rw attribute did happen' );
-    t.is( p.bar(), 123, 'writing to default attribute did not happen' );
+    t.is( p.foo, 'def', 'writing to rw attribute did happen' );
+    t.is( p.bar, 123, 'writing to default attribute did not happen' );
 
     t.end();
 });

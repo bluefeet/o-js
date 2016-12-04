@@ -8,15 +8,15 @@ test('type', function (t) {
     var thing1 = new Thing1({});
     var thing2 = new Thing2({});
 
-    t.is( Thing1.type().check(thing1), true, 'type passed' );
-    t.is( Thing1.type().check(thing2), false, 'type failed' );
+    t.is( Thing1.type.check(thing1), true, 'type passed' );
+    t.is( Thing1.type.check(thing2), false, 'type failed' );
 
     var Obj = new o.Class({
-        attributes: { one: {type:Thing1.type(), coerce:true} }
+        attributes: { one: {type:Thing1.type, coerce:true} }
     });
     var obj = new Obj({ one:{} });
 
-    t.is( obj.one().constructor, Thing1, 'coerce worked' );
+    t.is( obj.one.constructor, Thing1, 'coerce worked' );
 
     t.end();
 });
@@ -31,17 +31,17 @@ test('basic', function (t) {
         },
         methods: {
             fullName: function () {
-                return this.firstName() + ' ' + this.lastName();
+                return this.firstName + ' ' + this.lastName;
             }
         },
         around: {
             fullName: function (original) {
                 var name = original();
-                if (this.gender() === 'm') {
+                if (this.gender === 'm') {
                     name = 'Mr. ' + name;
                 }
                 else {
-                    name = (this.married() ? 'Mrs. ' : 'Ms. ') + name;
+                    name = (this.married ? 'Mrs. ' : 'Ms. ') + name;
                 }
                 return name;
             }
@@ -79,8 +79,8 @@ test('traits', function (t) {
         classAttr: 'bar'
     });
 
-    t.is( obj.traitAttr(), 'foo', 'ok' );
-    t.is( obj.classAttr(), 'bar', 'ok' );
+    t.is( obj.traitAttr, 'foo', 'ok' );
+    t.is( obj.classAttr, 'bar', 'ok' );
 
     t.end();
 });

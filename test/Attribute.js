@@ -16,7 +16,7 @@ test('traits', function (t) {
     });
 
     t.is( attr.foo(), 'FOO', 'method from trait' );
-    t.is( attr.bar(), 'BAR', 'attribute from trait' );
+    t.is( attr.bar, 'BAR', 'attribute from trait' );
 
     t.end();
 });
@@ -44,7 +44,7 @@ test('argKey', function (t) {
 
 test('valueKey', function (t) {
     var attr1 = new o.Attribute({ key:'foo' });
-    t.is( attr1.valueKey, '_foo', 'valueKey defaults to _key' );
+    t.is( attr1.valueKey, '__foo', 'valueKey defaults to _key' );
 
     var attr2 = new o.Attribute({ key:'foo', valueKey:'bar' });
     t.is( attr2.valueKey, 'bar', 'valueKey is settable' );
@@ -78,15 +78,15 @@ test('builder', function (t) {
     });
 
     var obj = {
-        buildFooKey: function () { return 'fooTest' },
+        _buildFooKey: function () { return 'fooTest' },
         buildBAR: function () { return 'barTest' }
     };
 
     attr1.install( obj );
     attr2.install( obj );
 
-    t.is( obj.fooKey(), 'fooTest', 'true builder worked' );
-    t.is( obj.barKey(), 'barTest', 'named builder worked' );
+    t.is( obj.fooKey, 'fooTest', 'true builder worked' );
+    t.is( obj.barKey, 'barTest', 'named builder worked' );
 
     t.end();
 });
@@ -104,7 +104,7 @@ test('basic', function (t) {
         key: 'name',
         type: o.nonEmptyStringType,
         required: true,
-        writer: '_setName',
+        writer: '_name',
         predicate: true
     });
 
@@ -114,7 +114,8 @@ test('basic', function (t) {
         devoid: function(){ return [] },
         proxies: {
             enqueue: 'unshift',
-            dequeue: 'pop'
+            dequeue: 'pop',
+            foo: 'bar'
         }
     });
 
@@ -122,22 +123,22 @@ test('basic', function (t) {
     ageAttr.install( obj );
     nameAttr.install( obj );
     queueAttr.install( obj );
+    t.equal( obj.age, 18, 'devoid was applied' );
 
-    t.equal( obj.age(), 18, 'devoid was applied' );
-    obj.age( 32 );
-    t.equal( obj.age(), 32, 'age was set' );
+    obj.age = 32;
+    t.equal( obj.age, 32, 'age was set' );
 
     obj.clearAge();
-    t.equal( obj.age(), 18, 'devoid was re-applied after clear' );
+    t.equal( obj.age, 18, 'devoid was re-applied after clear' );
 
     t.equal( obj.hasAge, undefined, 'no predicate was created' );
 
-    t.equal( obj.hasName(), false, 'predicate was created' );
+    t.equal( obj.hasName, false, 'predicate was created' );
     t.throws( function(){ obj.name() }, 'throws when required' );
-    obj._setName('Foo');
-    t.equal( obj.name(), 'Foo', 'name was set' );
-    obj.name('Bar');
-    t.equal( obj.name(), 'Foo', 'name was set by reader' );
+    obj._name = 'Foo';
+    t.equal( obj.name, 'Foo', 'name was set' );
+    obj.name = 'Bar';
+    t.equal( obj.name, 'Foo', 'name was set by reader' );
     t.equal( obj.clearName, undefined, 'no clearer was created' );
 
     obj.enqueue('a');
@@ -147,6 +148,11 @@ test('basic', function (t) {
     t.equal( obj.dequeue(), 'b', 'second queued proxy value dequeued' );
     t.equal( obj.dequeue(), 'c', 'third queued proxy value dequeued' );
     t.equal( obj.dequeue(), undefined, 'queue proxy is empty' );
+
+    obj.foo = 'blah';
+    t.is( obj.queue.bar, 'blah', 'proxied property set worked' );
+    obj.queue.bar = 'bleep';
+    t.is( obj.foo, 'bleep', 'proxied property get worked' );
 
     t.end();
 });

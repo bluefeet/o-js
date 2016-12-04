@@ -11,10 +11,10 @@ test('basic', function (t) {
     });
 
     var p = new Person({ foo:'abc' });
-    p._setFoo('def');
-    p.foo('ghi');
+    p._foo = 'def';
+    p.foo = 'ghi';
 
-    t.is( p.foo(), 'def', 'writing to rwp attribute did happen' );
+    t.is( p.foo, 'def', 'writing to rwp attribute did happen' );
 
     t.end();
 });

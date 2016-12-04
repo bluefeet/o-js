@@ -10,7 +10,7 @@ test('basic', function (t) {
     trait = o.traitType.coerce({ attributes:{foo:{}} });
     t.ok( trait instanceof o.Trait, 'coercion worked' );
     var obj = trait.install({}, { foo: 'hi!' });
-    t.is( obj.foo(), 'hi!', 'coerced trait works' );
+    t.is( obj.foo, 'hi!', 'coerced trait works' );
 
     t.end();
 });
