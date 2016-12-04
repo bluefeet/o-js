@@ -57,17 +57,17 @@ test('type', function (t) {
     var parentType = parentTrait.type;
 
     t.is( parentType.check({}), false, 'parent type failed on empty object' );
-    t.is( parentType.check({ parentAttribute:function(){}, parentMethod:function(){} }), true, 'parent type passed object');
+    t.is( parentType.check({ parentAttribute:10, parentMethod:function(){} }), true, 'parent type passed object');
 
     var good = {
-        parentAttribute: function(){},
+        parentAttribute: 10,
         parentMethod: function(){},
-        attribute: function(){},
+        attribute: 'Foo',
         method: function(){}
     };
     t.is( type.check(good), true, 'type passed' );
 
-    var bad1 = o.merge({}, good, {attribute:null});
+    var bad1 = o.merge({}, good, {parentAttribute:'abc'});
     t.is( type.check(bad1), false, 'type failed' );
 
     var bad2 = o.merge({}, good, {method:null});

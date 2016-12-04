@@ -264,7 +264,7 @@ var o_TypeValidationError = o.TypeValidationError = (function(){
 var o_Type = o.Type = (function(){
     "use strict";
 
-    var o_Type = o_construct(
+    var O_Type = o_construct(
         function (args) {
             args = args || {};
             if (typeof args === 'function') args = { validate: args };
@@ -276,15 +276,15 @@ var o_Type = o.Type = (function(){
         },
         {
             check: function (val) {
-                if (o_Type.validationDisabled) return true;
+                if (O_Type.validationDisabled) return true;
                 if (this._parent) { if (!this._parent.check(val)) return false; }
                 if (!this._validateMethod) return true;
                 if (!this._validateMethod( val )) return false;
                 return true;
             },
             validate: function (val) {
-                if (o_Type.validationDisabled) return;
-                if (this._parent) { this._parent.validate(val) }
+                if (O_Type.validationDisabled) return;
+                if (this._parent) { this._parent.validate(val); }
                 if (!this._validateMethod) return true;
                 if (!this._validateMethod( val )) throw new o_TypeValidationError( this, val );
             },
@@ -300,7 +300,7 @@ var o_Type = o.Type = (function(){
             },
             subtype: function (args) {
                 if (typeof args === 'function') { args = { validate: args }; }
-                return new o_Type(
+                return new O_Type(
                     o_merge( {parent:this}, args )
                 );
             },
@@ -311,13 +311,13 @@ var o_Type = o.Type = (function(){
         }
     );
 
-    Object.defineProperties( o_Type.prototype, {
+    Object.defineProperties( O_Type.prototype, {
         name: { get:function(){ return this._name; } }
     });
 
-    o_Type.validationDisabled = false;
+    O_Type.validationDisabled = false;
 
-    return o_Type;
+    return O_Type;
 })();
 
 // o.TypeOfType
@@ -996,6 +996,8 @@ var o_positiveIntType = o.positiveIntType = (function(){
 var o_Attribute = o.Attribute = (function(){
     "use strict";
 
+    var key; // Used by several for loops.
+
     var booleanOrIdentifierType = new o_AnyType([
         o_booleanType,
         o_identifierType
@@ -1199,11 +1201,11 @@ var o_Attribute = o.Attribute = (function(){
 
     var attrWriters = {};
     var attrReaders = {};
-    for (var key in attrArgs) {
+    for (key in attrArgs) {
         attrWriters[key] = o_writer( '_' + key, attrArgs[key] );
         attrReaders[key] = o_reader( '_' + key, o_merge( { writer: attrWriters[key] }, attrArgs[key] ) );
     }
-    for (var key in attrAttrs) {
+    for (key in attrAttrs) {
         attrReaders[key] = o_reader( '_' + key, o_merge( { writer: attrWriters[key] }, attrAttrs[key] ) );
     }
 
@@ -1257,18 +1259,20 @@ var o_Attribute = o.Attribute = (function(){
             install: function (obj, value) {
                 var props = {};
 
-                if (this.reader) obj[this.getMethodName] = this.getMethod;
-                if (this.writer) obj[this.setMethodName] = this.setMethod;
+                if (this.valueKey !== this.key) {
+                    if (this.reader) obj[this.getMethodName] = this.getMethod;
+                    if (this.writer) obj[this.setMethodName] = this.setMethod;
 
-                if (this.writer && this.writer === this.reader) {
-                    props[this.writer] = {
-                        get: this.propGetMethod,
-                        set: this.propSetMethod
-                    };
-                }
-                else {
-                    if (this.reader) props[this.reader] = { get:this.propGetMethod };
-                    if (this.writer) props[this.writer] = { set:this.propSetMethod };
+                    if (this.writer && this.writer === this.reader) {
+                        props[this.writer] = {
+                            get: this.propGetMethod,
+                            set: this.propSetMethod
+                        };
+                    }
+                    else {
+                        if (this.reader) props[this.reader] = { get:this.propGetMethod };
+                        if (this.writer) props[this.writer] = { set:this.propSetMethod };
+                    }
                 }
 
                 if (this.predicate) {
@@ -1298,7 +1302,7 @@ var o_Attribute = o.Attribute = (function(){
     );
 
     var attrProps = {};
-    for (var key in attrReaders) {
+    for (key in attrReaders) {
         attrProps[key] = { get:attrReaders[key] };
     }
     Object.defineProperties( o_Attribute.prototype, attrProps );
@@ -1438,9 +1442,12 @@ var o_Trait = o.Trait = (function(){
                 var attributes = this.attributes;
                 for (name in attributes) {
                     var attribute = attributes[name];
-                    if (attribute.reader) duck[attribute.reader] = o_functionType;
-                    if (attribute.writer) duck[attribute.writer] = o_functionType;
-                    if (attribute.predicate) duck[attribute.predicate] = o_functionType;
+                    var type = attribute.type || (attribute.required ? o_definedType : undefined);
+
+                    if (type && attribute.reader) duck[attribute.reader] = type;
+                    if (type && attribute.writer) duck[attribute.writer] = type;
+
+                    if (attribute.predicate) duck[attribute.predicate] = o_booleanType;
                     if (attribute.clearer) duck[attribute.clearer] = o_functionType;
                 }
 
@@ -1583,21 +1590,11 @@ var o_liteAttributeTrait = o.liteAttributeTrait = (function(){
     "use strict";
 
     return new o_Trait({
-        methods: {
-            valueKey: function () { return this.key(); },
-            reader: function () { return false; },
-            writer: function () { return false; }
-        }
-    });
-})();
-
-// o.liteClassTrait
-var o_liteClassTrait = o.liteClassTrait = (function(){
-    "use strict";
-
-    return new o_Trait({
-        methods: {
-            attributesAre: function () { return o_liteAttributeTrait; }
+        attributes: {
+            valueKey: {
+                type: o_identifierType,
+                devoid: function () { return this.key; }
+            }
         }
     });
 })();
@@ -1669,6 +1666,24 @@ var o_classTrait = o.classTrait = (function(){
         methods: {
             _buildType: function () {
                 return new o_InstanceOfType( this );
+            }
+        }
+    });
+})();
+
+// o.liteClassTrait
+var o_liteClassTrait = o.liteClassTrait = (function(){
+    "use strict";
+
+    return new o_Trait({
+        attributes: {
+            attributesAre: {
+                type: o_traitType,
+                devoid: 'lite',
+                filter: function (val) {
+                    if (o_traitType.check(val)) return val;
+                    return o[val + 'AttributeTrait'];
+                }
             }
         }
     });
