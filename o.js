@@ -244,14 +244,14 @@ var o_augment = o.augment = function (parent, constructor, proto) {
     return child;
 };
 
-// o.TypeError
-var o_TypeError = o.TypeError = (function(){
+// o.TypeValidationError
+var o_TypeValidationError = o.TypeValidationError = (function(){
     "use strict";
 
     return o_augment(
         Error,
         function (parent, type, value) {
-            this.name = 'TypeError';
+            this.name = 'o.TypeValidationError';
             this.message = type.message( value );
             this.stack = (new Error(this.message)).stack;
             this.type = type;
@@ -286,7 +286,7 @@ var o_Type = o.Type = (function(){
                 if (o_Type.validationDisabled) return;
                 if (this._parent) { this._parent.validate(val) }
                 if (!this._validateMethod) return true;
-                if (!this._validateMethod( val )) throw new o_TypeError( this, val );
+                if (!this._validateMethod( val )) throw new o_TypeValidationError( this, val );
             },
             coerce: function (val) {
                 val = this.coerceOnly( val );

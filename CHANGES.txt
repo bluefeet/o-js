@@ -42,7 +42,7 @@ DEVELOPMENT VERSION
    customized.
 
  Types:
- - Types now throw a custom o.TypeError object when validation fails.
+ - Types now throw a custom o.TypeValidationError object when validation fails.
  - Errors thrown when validation fails now include much more information about
    what failed and why it failed.
  - Added the new o.TupleType and o.LazyType types.
