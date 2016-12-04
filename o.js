@@ -140,13 +140,10 @@ var o_around = o.around = function (original, func) {
     "use strict";
 
     return function () {
-        var self = this;
         var args = Array.prototype.slice.call(arguments);
-        var wrapper = function () {
-            return original.apply( self, arguments );
-        };
+        var wrapper = original.bind( this );
         args.unshift( wrapper );
-        return func.apply( self, args );
+        return func.apply( this, args );
     };
 };
 
