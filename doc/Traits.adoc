@@ -242,6 +242,11 @@ Calls the specified function after calling the underlying method.
 
 === type
 
+    <type> = <trait>.type;
+
+Returns a `o.DuckType` which is keyed to look for objects which appear to have this
+trait.
+
 == Methods
 
 === install

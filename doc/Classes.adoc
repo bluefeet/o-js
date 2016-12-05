@@ -14,7 +14,8 @@
 = Classes
 
 *link:#synopsis[Synopsis]* +
-*link:#description[Description]*
+*link:#description[Description]* +
+*link:#attributes[Attributes]*
 
 == Synopsis
 
@@ -55,4 +56,29 @@ Constructors created by `o.Class` have an internal-only trait assigned to them c
     var frodo = Person.type.coerce({ firstName:'Frodo', lastName:'Baggins', age:33 });
     Person.type.check( frodo ); // true
 ```
+
+== Attributes
+
+All classes get the following attributes.
+
+=== type
+
+    <type> = <class>.type;
+
+Returns an `o.InstanceOfType` set to the class.
+
+Note that duck types can provide a lot more flexibility, so instead of using this
+you may want to use the trait's type, as in:
+
+```js
+var class = new o.Class({});
+var instanceOfType = class.type;
+var duckType = class.trait.type; // <- this one
+```
+
+=== trait
+
+    <trait> = <class>.trait;
+
+Returns the trait which the class uses to construct new objects.
 

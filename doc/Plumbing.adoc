@@ -21,7 +21,7 @@
 
 === construct
 
-    <constructor> = o.construct( <constructor>, <prototype> );
+    <constructor> = o.construct( <constructor>, <prototype> )
 
 ```js
 var Person = o.construct(
@@ -65,7 +65,7 @@ construction logic is maintained in the inheriting constructor.
 
 === merge
 
-    <object1> = o.merge( <object1>, <object2> [...] );
+    <object1> = o.merge( <object1>, <object2> [...] )
 
 ```js
 var merged = o.merge({a:1,b:1}, {b:2,c:2}, {c:3,d:3});
@@ -77,7 +77,7 @@ the list the object is, the higher its precedence is.  Returns the first object.
 
 === clone
 
-    <newObject> = o.clone( <object> );
+    <newObject> = o.clone( <object> )
 
 ```js
 var obj1 = {foo:'bar'};
@@ -90,7 +90,7 @@ and prototype.
 
 === has
 
-    <boolean> = o.has( <object>, <key> );
+    <boolean> = o.has( <object>, <key> )
 
 ```js
 var obj = {foo:'bar'};
@@ -101,7 +101,7 @@ This is just shorthand for calling `hasOwnProperty`.
 
 === local
 
-    o.local( <object>, <property>, <function> );
+    o.local( <object>, <property>, <function> )
 
 ```js
 var obj = { foo: 32 };
@@ -125,7 +125,7 @@ rethrown.
 
 === ucFirst
 
-    <string> = o.ucFirst( <string> );
+    <string> = o.ucFirst( <string> )
 
 ```js
 o.ucFirst( 'foo' ); // Foo
@@ -136,7 +136,7 @@ new string.
 
 === prependIdentifier
 
-    <string> = o.prependIdentifier( <prependString>, <identifierString> );
+    <string> = o.prependIdentifier( <prependString>, <identifierString> )
 
 ```js
 o.prependIdentifier('set', 'foo'); // setFoo
@@ -157,7 +157,7 @@ private.
 
 === before
 
-    <newFunction> = o.before( <origFunction>, <beforeFunction> );
+    <newFunction> = o.before( <origFunction>, <beforeFunction> )
 
 ```js
 var main = function () { console.log('main') };
@@ -170,7 +170,7 @@ Creates a new function where the `beforeFunction` will be called before the `ori
 
 === after
 
-    <newFunction> = o.after( <origFunction>, <afterFunction> );
+    <newFunction> = o.after( <origFunction>, <afterFunction> )
 
 ```js
 var main = function () { console.log('main') };
@@ -183,7 +183,7 @@ Creates a new function where the `afterFunction` will be called after the `origF
 
 === around
 
-    <newFunction> = o.around( <origFunction>, <aroundFunction> );
+    <newFunction> = o.around( <origFunction>, <aroundFunction> )
 
 ```js
 var main = function (number) { console.log(number) };
@@ -199,7 +199,7 @@ argument, a function that will call the origFunction.
 
 === reader
 
-    <readerFunction> = o.reader( <propNameString>, <argsObject> );
+    <readerFunction> = o.reader( <propNameString>, <argsObject> )
 
 ```js
 var zReader = o.reader('z');
@@ -235,7 +235,7 @@ the link:Attributes.adoc[Attributes doc] for more information.
 
 === writer
 
-    <writerFunction> = o.writer( <propNameString>, <argsObject> );
+    <writerFunction> = o.writer( <propNameString>, <argsObject> )
 
 ```js
 var zWriter = o.writer('z');
@@ -269,7 +269,7 @@ the link:Attributes.adoc[Attributes doc] for more information.
 
 === predicate
 
-    <predicateFunction> = o.predicate( <propNameString> );
+    <predicateFunction> = o.predicate( <propNameString> )
 
 ```js
 var zPredicate = o.predicate('z');
@@ -283,7 +283,7 @@ Create a function which checks if the property is undefined.
 
 === clearer
 
-    <clearerFunction> = o.clearer( <propNameString> );
+    <clearerFunction> = o.clearer( <propNameString> )
 
 ```js
 var zClearer = o.clearer('z');

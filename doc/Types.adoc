@@ -133,7 +133,7 @@ This is the opposite of `o.AllType` in that value must not pass any of the types
 
 === NotType
 
-    <type> = new o.NotType( <type>, [<arguments>] );
+    <type> = new o.NotType( <type>, [<arguments>] )
 
 ```js
 var notNullType = new o.NotType( o.nullType );
@@ -283,7 +283,7 @@ Creates a type that checks that the values passes the `<RegExp>` pattern.
 
 === LazyType
 
-    <type> = new o.LazyType( <function>, [<arguments>] );
+    <type> = new o.LazyType( <function>, [<arguments>] )
 
 ```js
 var type = new o.LazyType(function(){
@@ -296,7 +296,7 @@ they are used.
 
 === Type
 
-    <type> = new o.Type( <arguments> );
+    <type> = new o.Type( <arguments> )
 
 The `o.Type` class is the base class for all type classes and objects.  More information
 about how to interact with this class can be found below at link:#arguments[Arguments]
@@ -337,6 +337,20 @@ The coerce function is used to coerce a value which would not normally pass the
 validation constraint.  This function should return the original, invalid, value
 if it cannot be coerced.
 
+=== name
+
+    [name: <string>]
+
+The name of the type.  This will be used when exceptions are thrown.
+
+=== message
+
+    [message: <function>]
+
+A function which will be used to generate a message when the value fails
+validation.  The function will be passed the value which failed validation,
+and is expected to return a string.
+
 === parent
 
     [parent: <parentTypeObject>]
@@ -357,3 +371,15 @@ if (type.check(val)) doSomething();
 
 Returns `true` if the passed value passes validation.  If the `parent` argument
 has been set then the parent's validation will also be checked.
+
+=== validate
+
+    <type>.validate( <value> )
+
+```js
+type.validate(val);
+```
+
+Throws an exception if the value fails validation.  Note that if the type has a parent
+its `validate()` method will be called first (and the parent's parent, etc).
+
