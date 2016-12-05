@@ -118,9 +118,7 @@ var o_writer = o.writer = function (key, def) {
             if (!(val instanceof def.augments)) throw new Error( val + ' failed validation.' );
         }
 
-        var original = this[key];
         this[key] = val;
-        return original;
     };
 };
 

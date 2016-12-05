@@ -4,8 +4,7 @@ var test = require('tap').test;
 test('basic', function (t) {
     var obj = { setX: o.writer('x') };
     t.equal( obj.x, undefined, 'property started as undefined' );
-    t.equal( obj.setX(2), undefined, 'original value is returned' );
-    t.equal( obj.setX(30), 2, 'original value is returned' );
+    obj.setX(30);
     t.equal( obj.x, 30, 'property was set' );
     t.end();
 });
