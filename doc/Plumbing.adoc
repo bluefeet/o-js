@@ -125,6 +125,34 @@ rethrown.
 
 === ucFirst
 
+    <string> = o.ucFirst( <string> );
+
+```js
+o.ucFirst( 'foo' ); // Foo
+```
+
+This function just uppercases the first character of the string and returns the
+new string.
+
+=== prependIdentifier
+
+    <string> = o.prependIdentifier( <prependString>, <identifierString> );
+
+```js
+o.prependIdentifier('set', 'foo'); // setFoo
+o.prependIdentifier('_set', 'foo'); // _setFoo
+o.prependIdentifier('_set', '_foo'); // _setFoo
+o.prependIdentifier('_', 'foo'); // _foo
+o.prependIdentifier('_', '_foo'); // _foo
+```
+
+This function prepends the passed string to the idenitfier using best-practices for
+identifier naming, specifically special attention is made to uppercasing the first
+character of the `identifierString` if `prependString` is non-empty and not equal to
+just `_`, as well as if either or both of the `prependString` and `identifierString`
+arguments are private (start with a `_`) then the returned identifier will also be
+private.
+
 == Function Modifiers
 
 === before
@@ -171,9 +199,98 @@ argument, a function that will call the origFunction.
 
 === reader
 
+    <readerFunction> = o.reader( <propNameString>, <argsObject> );
+
+```js
+var zReader = o.reader('z');
+var obj = {z:3};
+console.log( zReader.call(obj) ); // 3
+```
+
+Creates a function which will read the specified property key and apply various
+behaviors as part of that reading.
+
+The `argsObject` can have the following properties set:
+
+writer::
+    A function as produced by `o.writer`.  If none is specified one will be
+    automatically created.
+predicate::
+    A function as produced by `o.predicate`.  If none is specified one will
+    be automatically created.
+required::
+    A boolean.  If set to `true` then an exception will be thrown if the
+    property has not yet been set.
+devoid::
+    A function which is expected to return a value for the property if the
+    property is undefined.  The value returned will be written to the property
+    using the `writer`.
+builder::
+    The name of a function to call on `this` if the property is not yet set.
+    Works just like `devoid` except this is a function name rather than the
+    function itself.
+
+This function provides a lot of the moving parts behind `o.Attribute`, so go see
+the link:Attributes.adoc[Attributes doc] for more information.
+
 === writer
+
+    <writerFunction> = o.writer( <propNameString>, <argsObject> );
+
+```js
+var zWriter = o.writer('z');
+var obj = {};
+zWriter.call(obj, 4);
+console.log( obj.z ); // 4
+```
+
+Creates a function which will write a value to the specified property and apply
+various behaviors as part of that writing.
+
+The `argsObject` can have the following properties set:
+
+augments::
+    Set this to a constructor function and if a value is attempted to be written which
+    is either not an object or not a `instanceof` the constructor an exception will be
+    thrown.
+type::
+    Set this to either a string (which will be used in a `typeof` comparison), a function
+    (which will be passed the value and is expected to return `true` or `false`), or an
+    `o.Type` object.  If the type validation fails an exception will be thrown.
+filter::
+    Set this to a function which will be passed a value and is expected to return a filtered
+    value.  Filtering is done before type checking.
+coerce::
+    Set this to `true` to enable coercion as provided by an `o.Type` object set via the
+    `type` argument.  Coercion will be applied before type checking.
+
+This function provides a lot of the moving parts behind `o.Attribute`, so go see
+the link:Attributes.adoc[Attributes doc] for more information.
 
 === predicate
 
+    <predicateFunction> = o.predicate( <propNameString> );
+
+```js
+var zPredicate = o.predicate('z');
+var obj = {};
+console.log( zPredicate.call( obj ) ); // false
+obj.z = 123;
+console.log( zPredicate.call( obj ) ); // true
+```
+
+Create a function which checks if the property is undefined.
+
 === clearer
+
+    <clearerFunction> = o.clearer( <propNameString> );
+
+```js
+var zClearer = o.clearer('z');
+var obj = {z:567};
+zClearer.call( obj );
+console.log( obj.z ); // undefined
+```
+
+Creates a function which deletes the property.
 
