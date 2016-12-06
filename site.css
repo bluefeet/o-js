@@ -36,7 +36,7 @@ h1, .header-container h2 {
 
 @media (max-width: 767px) { /* xs breakpoint */
     .header-container .container {
-        height: 150px;
+        h-eight: 150px;
     }
 }
 
