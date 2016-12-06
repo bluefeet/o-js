@@ -1,4 +1,4 @@
-DEVELOPMENT VERSION
+0.2.0 : 2016-12-05
 
  BREAKING:
  - Attributes are now installed as properties instead of functions.  This means

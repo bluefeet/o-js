@@ -1,4 +1,4 @@
-// o.js : DEVELOPMENT VERSION : https://o-js.com : MIT License
+// o.js : 0.2.0 : https://o-js.com : MIT License
 
 (function() {
 'use strict';
