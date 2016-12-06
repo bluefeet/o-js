@@ -14,7 +14,13 @@ pre code {
 }
 
 .header-container {
-    background-color: #0b416b;
+    background-color: #0e2f53;
+    background-image: url("header-back.png");
+    background-size: 317px 250px;
+    background-position: center;
+}
+
+.header-container .container {
     background-image: url("header.png");
     background-size: 800px 250px;
     background-repeat: no-repeat;
@@ -26,15 +32,10 @@ h1, .header-container h2 {
     color: rgba(11, 65, 107, 0.0)
     opacity: 0.0;
     font-size: 0.1px;
-/*
-    color: #165B94;
-    font-size: 800%;
-*/
 }
 
 @media (max-width: 767px) { /* xs breakpoint */
-    .header-container {
-        b-ackground-size: 480px 150px;
+    .header-container .container {
         height: 150px;
     }
 }
