@@ -1,5 +1,8 @@
 DEVELOPMENT VERSION
 
+ Global:
+ - Added source map generation.
+
  Types:
  - Removed validation from coerce().
  - Removed coerceOnly().

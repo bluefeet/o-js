@@ -26,6 +26,7 @@ module.exports = function(grunt) {
         uglify: {
             options: {
                 banner: '// o.js : DEVELOPMENT VERSION : https://o-js.com : MIT License\n',
+                sourceMap: true
             },
             build: {
                 src: 'o.js',
