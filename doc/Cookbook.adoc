@@ -132,10 +132,10 @@ objects and the performance gain of disabling validation within a scope is worth
 
 == Lite Classes
 
-Classes in o.js can be a bit top-heavy for certain use cases due to every property
-being tucked behind a function call.  If you're willing to trade the benefits of the
-function call (validation, etc) for the speed of direct property access then you
-call apply the `lite` class trait:
+Classes in o.js can be a little top-heavy for certain use cases due to every property
+having custom setter and getter functions.  If you're willing to sacrifice the benefits
+of the function calls (validation, etc) for the speed of direct property access then
+you can apply the `lite` class trait:
 
 ```js
 var Person = new o.Class({
@@ -151,3 +151,14 @@ This trait will *only* apply to new attributes - any attributes applied by other
 will be setup in whatever way they were configured in their respective trait.
 
 Read more about this at the link:Traits.adoc#is[Traits doc].
+
+You can also apply this trait per-attribute:
+
+```js
+var Person = new o.Class({
+    attributes: {
+        foo: { is:'lite' }
+    }
+});
+```
+
