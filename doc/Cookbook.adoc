@@ -91,10 +91,9 @@ o.nonEmptyStringType.validate( value );
 // Do something with the valid value.
 ```
 
-And if you'd like to apply coercion you can do that too with `coerce()`.  Note
-that this will throw an exception if the coerced value does not pass the type's
-validation.  While not recommended, if you'd just like to coerce and bypass
-validation you can use the `coerceOnly()` function.
+And if you'd like to apply coercion you can do that too with `coerce()`.  It is
+recommended that your coercion function be relaxed and produce bad data if it is
+given bad data.  It is not the coercion function's job to validate.
 
 ```js
 var roundNum = o.numberType.subtype({
@@ -102,6 +101,7 @@ var roundNum = o.numberType.subtype({
 });
 var value = 2.5;
 value = roundNum.coerce( value ); // 3
+roundNum.validate( value ); // Make sure the coerced value is valid.
 ```
 
 == Disabling Validation

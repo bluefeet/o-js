@@ -28,7 +28,6 @@ test('coercion', function (t) {
     t.is( number.coerce('abc'), 0, 'string coerces to number' );
     t.is( number.coerce(null), 0, 'null coerces to number' );
     t.throws( function(){ number.validate('abc') }, 'validate does not coerce' );
-    t.throws( function(){ number.coerce({foo:32}) }, 'coerce can still throw' );
     t.end();
 });
 

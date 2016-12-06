@@ -1,4 +1,4 @@
-// o.js : 0.2.0 : https://o-js.com : MIT License
+// o.js : DEVELOPMENT VERSION : https://o-js.com : MIT License
 
 (function() {
 'use strict';
@@ -104,13 +104,9 @@ var o_writer = o.writer = function (key, def) {
             else if (def.type instanceof Function) {
                 if (!def.type( val )) throw new Error( val + ' failed validation.' );
             }
-            else if (def.type.coerce instanceof Function && def.type.validate instanceof Function) {
-                if (def.coerce) {
-                    val = def.type.coerce( val );
-                }
-                else {
-                    def.type.validate( val );
-                }
+            else {
+                if (def.coerce && def.type.coerce instanceof Function) val = def.type.coerce( val );
+                if (def.type.validate instanceof Function) def.type.validate( val );
             }
         }
 
@@ -283,12 +279,7 @@ var o_Type = o.Type = (function(){
                 if (!this._validateMethod( val )) throw new o_TypeValidationError( this, val );
             },
             coerce: function (val) {
-                val = this.coerceOnly( val );
-                this.validate( val );
-                return val;
-            },
-            coerceOnly: function (val) {
-                if (this._parent) val = this._parent.coerceOnly( val );
+                if (this._parent) val = this._parent.coerce( val );
                 if (this._coerceMethod) val = this._coerceMethod( val );
                 return val;
             },
