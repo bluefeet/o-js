@@ -101,186 +101,20 @@
 </div>
 </div>
 
-<div class="highlights-container">
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <h3>Powerful</h3>
-            <p>
-                If you like rich trait/mixin systems, expressive types,
-                and complex object attributes provided by other languages (such as
-                Perl, Python, and Ruby to name a few), but with a small
-                footprint, then o.js is for you.
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h3>Compatible</h3>
-            <p>
-                o.js is designed to extend JavaScript's native prototype system, not
-                replace it.  This means that o.js classes, traits, attributes,
-                types, and objects are automatically compatible with existing JavaScript
-                libraries.
-            </p>
-        </div>
-
-        <div class="col-md-4">
-            <h3>Flexible</h3>
-            <p>
-                o.js is built of components that
-                <a href="http://en.wikipedia.org/wiki/Unix_philosophy">do one thing
-                and do it well</a>, providing a rich library of utilities that build
-                upon each other.  Any layer of the o.js stack of components may be
-                used independently as needed.
-            </p>
-        </div>
-
-        <div class="clearfix visible-md"></div>
-
-        <div class="col-sm-4">
-            <h3>Download</h3>
-            <p><ul class="list-unstyled">
-                <li><a href="o-0.2.0.min.js">o.js Minified v0.2.0</a></li>
-                <li>18K, 4.6K Gzipped</li>
-                <li><a href="https://github.com/bluefeet/o-js/releases">Change Log</a></li>
-                <li><code>npm install o</code></li>
-                <li><code>bower install o</code></li>
-            </ul></p>
-        </div>
-        <div class="col-sm-4">
-            <h3>Resources</h3>
-            <p><ul class="list-unstyled">
-                <li><a href="https://github.com/bluefeet/o-js/blob/current/doc/Overview.adoc">Documentation</a></li>
-                <li><a href="https://gitter.im/bluefeet/o-js">Gitter Chat Room</a></li>
-                <li><a href="https://github.com/bluefeet/o-js">GitHub Repository</a></li>
-                <li><a href="https://github.com/bluefeet/o-js/issues">Issue Tracker</a></li>
-                <li><a href="https://travis-ci.org/bluefeet/o-js">Travis CI Builds</a></li>
-                <li>
-                    <a href="https://npmjs.org/package/o">npm</a>,
-                    <a href="http://bower.io/">Bower</a>
-                </li>
-                <li>
-                    <a href="https://twitter.com/ooojs">Twitter</a>,
-                    <a href="http://blog.o-js.com/">Blog</a>
-                </li>
-            </ul></p>
-        </div>
-        <div class="col-sm-4">
-            <h3>License</h3>
-            <p>
-                o.js may be freely distributed under the
-                <a href="https://raw.github.com/bluefeet/o-js/current/LICENSE.txt">MIT license</a>.
-            </p>
-        </div>
-    </div>
-</div>
-</div>
-
 <div class="examples-container">
-<div class="container">
+<div class="container" style="padding-top:150px; padding-bottom:150px">
 
-    <div class="row">
-    <div class="col-md-6">
-
-    <h2>Classes</h2>
-    <p>Define classes using <code>new o.Class(...)</code> which
-    creates a standard JavaScript function constructor.  A class
-    can have attributes, methods, method overrides, and a number of other
-    features.  A class, at its core (take a look at the 
-    <a href="https://raw.githubusercontent.com/bluefeet/o-js/current/lib/o-Class.js">source code</a>)
-    is a very simple wrapper around a trait.</p>
-<pre><code>var Person = new o.Class({
-    attributes: {
-        name: { type:o.nonEmptyStringType },
-        age: { type:o.integerType }
-    },
-    methods: {
-        log_name: function () {
-            console.log( this.name );
-        }
-    }
-});
-var baggins = new Person({
-    name: 'Bilbo',
-    age: 111
-});
-baggins.log_name();</code></pre>
-    <p>Read more in the
-    <a href="https://github.com/bluefeet/o-js/blob/current/doc/Classes.adoc">Classes</a>
-    documentation.</p>
-
-    </div><div class="col-md-6">
-
-    <h2>Traits</h2>
-    <p>Traits are created with <code>new o.Trait(...)</code> which creates
-    a new Trait object.  Traits can be included in classes or installed
-    directly onto existing objects.</p>
-<pre><code>var productTrait = new o.Trait({
-    attributes: {
-        price: { type:o.numberType }
-    }
-});
-var Sheet = new o.Class({
-    attributes: {
-        threadCount: { type:o.integerType }
-    },
-    traits: [ productTrait ]
-});
-var mySheet = new Sheet({
-    price: 24.95,
-    threadCount: 160
-});</code></pre>
-    <p>Read more in the
-    <a href="https://github.com/bluefeet/o-js/blob/current/doc/Traits.adoc">Traits</a>
-    documentation.</p>
-
-    </div>
-    <div class="clearfix visible-md visible-lg"></div>
-    <div class="col-md-6">
-
-    <h2>Attributes</h2>
-    <p>Attributes can be created directly via <code>new o.Attribute(...)</code>
-    and re-used, or indirectly in class and trait definitions.</p>
-<pre><code>var fullNameAttr = new o.Attribute({
-    type: o.nonEmptyStringType,
-    required: true
-});</code></pre>
-    <p>Read more in the
-    <a href="https://github.com/bluefeet/o-js/blob/current/doc/Attributes.adoc">Attributes</a>
-    documentation.</p>
-
-    </div><div class="col-md-6">
-
-    <h2>Types</h2>
-    <p>Type objects validate and coerce attribute arguments.  A library of pre-built
-    types are included and new types may be created via <code>new o.Type(...)</code>.</p>
-<pre><code>var ageType = new o.AllType([
-    o.integerType,
-    o.positiveType
-]);</code></pre>
-    <p>Read more in the
-    <a href="https://github.com/bluefeet/o-js/blob/current/doc/Types.adoc">Types</a>
-    documentation.</p>
-
-    </div>
-    </div>
-
-    <h2>Plumbing</h2>
-    <p>A rich array of plumbing functions exist which provide the moving
-    pieces that make classes, traits, attributes, and types work.
-    Plumbing functions include <code>o.construct()</code>, <code>o.augment()</code>,
-    <code>o.merge()</code>, <code>o.clone()</code>, <code>o.has()</code>,
-    <code>o.before()</code>, <code>o.after()</code>, <code>o.around()</code>,
-    etc.</p>
-    <p>Read more in the
-    <a href="https://github.com/bluefeet/o-js/blob/current/doc/Plumbing.adoc">Plumbing</a>
-    documentation.</p>
+    <center>
+    <h2>o.js is no longer maintained due to lack of use.</h2>
+    <h2>👋</h2>
+    <p>You can still find the source on <a href="https://github.com/bluefeet/o-js">GitHub</a>.</p>
+    </center>
 
 </div>
 </div>
 
 <div class="footer-container">
 <div class="container">
-    <p><img src="icon-180x180.png" width="90" height="90"><p>
     <p>Hosting and SSL provided by <a href="https://www.netlify.com/">Netlify</a>.</p>
     <p>&copy; <a href="http://bluefeet.net">Aran Deltac</a></p>
 </div>
